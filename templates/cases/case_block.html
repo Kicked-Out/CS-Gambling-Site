@@ -1,8 +1,8 @@
-<div class="case-block card">
-    <img class="case-img" src="{{case.image}}" />
-
-    <div class="card-body case-body">
-        <h3 class="card-title">{{case.name}}</h3>
-        <p class="card-text">{{case.weapon}}</p>
+<div class="case-block card m-2" style="width: 18rem;">
+    <img src="{{ case.image }}" class="card-img-top" alt="{{ case.name }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ case.name }}</h5>
+        <p class="card-text">{{ case.weapon }}</p>
+        <a href="#" class="btn btn-primary">View Case</a>
     </div>
 </div>
