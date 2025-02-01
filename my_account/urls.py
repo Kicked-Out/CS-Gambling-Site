@@ -4,4 +4,7 @@ from . import views
 
 urlpatterns = [
     path('oauth/', include('allauth.socialaccount.urls')),
+    path('accounts/profile/', views.profile, name='profile'),
+    path('accounts/logout/', views.user_logout, name='user_logout'),
+    path('accounts/add_funds/', views.add_funds, name='add_funds'),
 ]

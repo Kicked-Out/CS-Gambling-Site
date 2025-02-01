@@ -5,7 +5,7 @@ class Profile(AbstractUser):
     best_drop = models.CharField(max_length=255, blank=True, null=True)
     expensive_case = models.CharField(max_length=255, blank=True, null=True)
     cases_opened = models.IntegerField(default=0)
-    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    wallet_balance = models.FloatField(default=0.00)
 
 
     def __str__(self):

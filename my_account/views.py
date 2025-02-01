@@ -1,14 +1,11 @@
-import logging
-import requests
 from django.shortcuts import redirect, render
-from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from allauth.socialaccount.models import SocialAccount
-from .models import Profile
+from django.views.decorators.http import require_POST
 
 
-@login_required
+@login_required(login_url='/accounts/steam/login/?process=login')
 def profile(request):
 
     social_account = SocialAccount.objects.get(user=request.user)
@@ -16,13 +13,28 @@ def profile(request):
     avatar_url = extra_data["avatarfull"]
     user = extra_data['personaname']
 
-    # inventory_items = profile.inventoryitem_set.all() if profile else []
     context = {
         'user': user,
         'avatar': avatar_url,
         'profile': profile,
-        # 'inventory_items': inventory_items,
     }
     return render(request, 'profile/profile.html', context)
 
-    # <a href='/accounts/steam/login/?process=login' class="btn btn-secondary">Login with Steam</a>
+def user_logout(request):
+    logout(request)
+    return redirect('/')
+
+
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def add_funds(request):
+    if request.method == 'POST':
+        amount = int(request.POST.get('amount'))
+        request.user.wallet_balance += amount
+        request.user.save()
+        return redirect('profile')
+    return render(request, 'profile/add_funds.html')
+
