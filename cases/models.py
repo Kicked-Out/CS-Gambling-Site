@@ -5,7 +5,8 @@ from django.db.models import ForeignKey
 # Create your models here.
 class Case(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    # description = models.TextField()
+    price = models.DecimalField(decimal_places=3, max_digits=10)
 
 class Weapon(models.Model):
     name = models.CharField(max_length=100)
