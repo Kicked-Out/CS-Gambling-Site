@@ -21,4 +21,6 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('cases.urls')),
+    path('', include('my_account.urls')),
+    path('accounts/', include('allauth.urls')),
 ]

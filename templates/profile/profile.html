@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>{{ user }}</h1>
+        <div class="profile-avatar">
+            <img src="{{ avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
+        </div>
+        <div class="profile-info mt-4">
+            <div class="row">
+                <div class="col-md-6 text-end">
+                    <h4>Best Drop</h4>
+                    <p id="best-drop">N/A</p>
+                    <h4>Most Expensive Case</h4>
+                    <p id="expensive-case">N/A</p>
+                </div>
+                <div class="col-md-6 text-start">
+                    <h4>Cases Opened</h4>
+                    <p id="cases-opened">N/A</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h2>Inventory</h2>
+        <div id="inventory-list">
+            {% comment %} сюди домаємо список предметів і їх кількість {% endcomment %}
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h2>Wallet</h2>
+        <p id="wallet-balance">Balance: $0.00</p>
+    </div>
+</div>
+{% endblock %}

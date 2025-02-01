@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'my_account.Profile'
+
+AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.ModelBackend',
+        'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Application definition
 
@@ -37,6 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'my_account',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.steam',
+    'allauth.socialaccount.providers.openid',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'CSGamblingSite.urls'
@@ -63,10 +79,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'steam': {
+        'SCOPE': ['read_profile', 'read_client'],
+        'AUTH_PARAMS': {'access_token': ''},
+        'APP': {
+            'client_id': '76561198137800699',
+            'secret': 'CAC4814310DD3C235DECCAAF9715D26A',
+            'key': 'CAC4814310DD3C235DECCAAF9715D26A'
+        }
+    }
+}
 
 WSGI_APPLICATION = 'CSGamblingSite.wsgi.application'
 
@@ -126,3 +156,48 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# LOGIN_REDIRECT_URL = 'profile'
+# LOGOUT_REDIRECT_URL = 'login'
+
+# AUTHENTICATION_BACKENDS = [
+#     'social_core.backends.google.GoogleOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+#     'social_core.backends.steam.SteamOpenId',
+# ]
+
+# STEAM_API_KEY = 'CAC4814310DD3C235DECCAAF9715D26A'
+# SOCIAL_AUTH_STEAM_KEY = 'CAC4814310DD3C235DECCAAF9715D26A'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile/'
+# SOCIAL_AUTH_COMPLETE_URL_NAME = 'social:complete'
+# SOCIAL_AUTH_ASSOCIATE_BY_EMAIL = True
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',
+#     },
+# }
+
+
+# SOCIAL_AUTH_PIPELINE = (
+#     'social_core.pipeline.social_auth.social_details',
+#     'social_core.pipeline.social_auth.social_uid',
+#     'social_core.pipeline.social_auth.auth_allowed',
+#     'social_core.pipeline.social_auth.social_user',
+#     'social_core.pipeline.user.get_username',
+#     'social_core.pipeline.user.create_user',
+#     'social_core.pipeline.social_auth.associate_user',
+#     'social_core.pipeline.social_auth.load_extra_data',
+#     'social_core.pipeline.user.user_details',
+# )
+
+# SOCIAL_AUTH_STEAM_SECRET = '3521979da021067a43cd6eacec753c15f53c2a226f6c3c9a01eafe76fcd2fad7'
