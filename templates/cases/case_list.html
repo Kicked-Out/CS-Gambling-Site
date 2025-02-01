@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="d-flex flex-wrap justify-content-start">
+        {% for case in cases %}
+            {% include 'cases/case_block.html' %}
+        {% endfor %}
+    </div>
+{% endblock %}

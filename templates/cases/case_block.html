@@ -1,0 +1,13 @@
+<a href="{% url 'case_detail' case_name=case.name %}" class="case-block card m-2 text-decoration-none" style="width: 18rem; display: block;">
+    <img src="{{ case.image }}" class="card-img-top" alt="{{ case.name }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ case.name }}</h5>
+        <p class="card-text">
+            {% if case.price and case.price > 0 %}
+                ${{ case.price }}
+            {% else %}
+                Free
+            {% endif %}
+        </p>
+    </div>
+</a>
