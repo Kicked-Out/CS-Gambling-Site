@@ -1,3 +1,5 @@
+skins = document.getElementsByClassName("skin");
+
 url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json'
 url_uk = 'https://bymykel.github.io/CSGO-API/api/uk/skins.json'
 
@@ -10,7 +12,7 @@ function pushSkin(skinData) {
         rarityName: skinData.rarity.name,
         rarityColor: skinData.rarity.color,
         image: skinData.image,
-        wearRating: undefined,
+        wearRating: "Battle-Scarred",
         price: 0.00
     };
 
@@ -42,7 +44,7 @@ async function getAllSkinUkNames() {
 async function getSkinPrice(skin) {
     const apiKey = "4wYD32slQWBHfEphJL2JyqkCL0YX054";
     const wearRatings = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"]
-    const randomIndex = Math.floor(Math.random() * (wearRatings.length - 1));
+    const randomIndex = Math.floor(Math.random() * (wearRatings.length));
     const randomWear = wearRatings[randomIndex];
     const url = `https://market.csgo.com/api/v2/search-item-by-hash-name?key=${apiKey}&hash_name=${skin.name} (${randomWear})`;
     let data = undefined;
@@ -59,12 +61,27 @@ async function getSkinPrice(skin) {
     }));
 }
 
-function getSkinByName(skinName) {
+function getSkinByName(targetSkinName) {
     for (index in skinArr) {
-        if (skinArr[index].name === skinName) {
-            getSkinPrice(skinArr[index]);
-            console.log(skinArr[index]);
-            break;
+        sourceSkinName = skinArr[index].name;
+        if (sourceSkinName.includes(targetSkinName)) {
+            return skinArr[index];
+        }
+
+        if (targetSkinName.includes("Phase ")) {
+            targetSkinNameWithoutPhase = targetSkinName.slice(0, -8);
+
+            if (sourceSkinName.includes(targetSkinNameWithoutPhase)) {
+                return skinArr[index];
+            }
+        }
+
+        if (targetSkinName.includes("Sapphire")) {
+            targetSkinNameWithoutPhase = targetSkinName.slice(0, -9);
+
+            if (sourceSkinName.includes(targetSkinNameWithoutPhase)) {
+                return skinArr[index];
+            }
         }
     }
 }
@@ -72,7 +89,26 @@ function getSkinByName(skinName) {
 async function initialize() {
     await getAllSkins();
     await getAllSkinUkNames();
-    getSkinByName("AK-47 | Nightwish");
+
+    console.log(skinArr);
 }
 
-initialize();
+async function loadSkins() {
+    await initialize();
+    const skinElements = document.getElementsByClassName("skin");
+
+    for (let index = 0; index < skinElements.length; index++) {
+        const skinCard = skinElements[index].querySelector(".card-body");
+        const skinNameBlock = skinCard.querySelector(".card-title");
+        const skinName = skinNameBlock.textContent;
+        const skinImg = skinElements[index].querySelector(".skin-img");
+
+        const skin = getSkinByName(skinName);
+
+        if (skin) {
+            skinImg.src = skin.image;
+        }
+    }
+}
+
+loadSkins();

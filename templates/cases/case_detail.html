@@ -28,7 +28,21 @@
 
         <!-- Основний блок (пустий) -->
         <div class="mt-5">
-            <!-- Тут може бути додатковий контент -->
+            {% if case_skins != None %}
+                <div class="skins">
+                    {% for skin in case_skins.all %}
+                        <div class="skin card">
+                            <img alt="{{ skin.name }}" class="skin-img"/>
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ skin.name }}</h5>
+                                <p class="skin-odds text-secondary">{{ skin.odds }}%</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
+    <script src="/static/js/init_skins.js"></script>
 {% endblock %}
