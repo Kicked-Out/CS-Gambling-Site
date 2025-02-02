@@ -1,7 +1,12 @@
 from django.http import Http404
 from django.shortcuts import render
+<<<<<<< HEAD
+from allauth.socialaccount.models import SocialAccount
+from django.http import Http404
+=======
 from cases.models import Case, CaseSkin
 
+>>>>>>> 7f412a0fb8cfc7793a5a62b6a8d8adabbf2bc868
 
 def case_list(request):
     cases = Case.objects.all()
