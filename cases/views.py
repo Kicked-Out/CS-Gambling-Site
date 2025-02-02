@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from allauth.socialaccount.models import SocialAccount
+from django.http import Http404
 
 def case_list(request):
     cases = [

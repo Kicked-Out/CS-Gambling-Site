@@ -4,34 +4,39 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-12 text-center">
-        <h1>{{ user }}</h1>
-        <div class="profile-avatar">
-            <img src="{{ avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
-        </div>
-        <div class="profile-info mt-4">
-            <div class="row">
-                <div class="col-md-6 text-end">
-                    <h4>Best Drop</h4>
-                    <p id="best-drop">N/A</p>
-                    <h4>Most Expensive Case</h4>
-                    <p id="expensive-case">N/A</p>
-                </div>
-                <div class="col-md-6 text-start">
-                    <h4>Cases Opened</h4>
-                    <p id="cases-opened">N/A</p>
+<link rel="stylesheet" href={% static 'css/styles.css' %}>
+<div class="container mt-4">
+    <div class="profile_container row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1>{{ user_name }}</h1>
+            <div class="profile-avatar my-4">
+                <img src="{{ avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
+            </div>
+            <div class="profile-info">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Best Drop</h4>
+                        <p id="best-drop">N/A</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Most Expensive Case</h4>
+                        <p id="expensive-case">N/A</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Cases Opened</h4>
+                        <p id="cases-opened">N/A</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row mt-5">
-    <div class="col-md-12">
-        <h2>Inventory</h2>
-        <div id="inventory-list">
-            {% comment %} сюди домаємо список предметів і їх кількість {% endcomment %}
-            {% comment %} # <a href='/accounts/steam/login/?process=login' class="btn btn-secondary">Login with Steam</a> {% endcomment %}
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Inventory</h2>
+            <div id="inventory-list">
+                {% comment %} сюди додаємо список предметів і їх кількість {% endcomment %}
+                {% comment %} # <a href='/accounts/steam/login/?process=login' class="btn btn-secondary">Login with Steam</a> {% endcomment %}
+            </div>
         </div>
     </div>
 </div>
