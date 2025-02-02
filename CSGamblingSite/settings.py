@@ -45,12 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'my_account',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.steam',
     'allauth.socialaccount.providers.openid',
+=======
+    'cases',
+>>>>>>> 7f412a0fb8cfc7793a5a62b6a8d8adabbf2bc868
 ]
 
 MIDDLEWARE = [
