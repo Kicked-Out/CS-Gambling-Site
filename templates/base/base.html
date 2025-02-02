@@ -10,11 +10,13 @@
 </head>
 <body>
     {% include 'base/navigation.html' %}
+
     <main class="container my-4">
         {% block content %}
         {% endblock %}
     </main>
-    {% include 'base/footer.html' %}
+{#    {% include 'base/footer.html' %}#}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/db_initializer.js' %}"></script>
 </body>
 </html>
