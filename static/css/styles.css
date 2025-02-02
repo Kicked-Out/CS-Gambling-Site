@@ -1,0 +1,21 @@
+/* Прохання стерти тут усе, коли додаватимете власний дизайн. */
+.skins {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.skin {
+    margin: 8px;
+    width: 210px;
+    height: 190px;
+}
+
+.skin-img {
+    width: 96px;
+    height: 72px;
+    margin: 12px auto;
+}
+
+.skin-odds {
+}
