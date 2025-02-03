@@ -1,0 +1,81 @@
+.profile_container {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #0e3d6d, #3a77b3);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+
+/* .profile-avatar img {
+  border: 5px solid #fff;
+  margin-bottom: 20px;
+} */
+
+.profile-info h4 {
+  font-size: 1.25rem;
+  margin-bottom: 5px;
+}
+
+.profile-info p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#inventory-list {
+  background-color: #18be79;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  background-color: #004080;
+  padding: 10px;
+  text-align: center;
+  margin-top: 20px;
+  color: #fff;
+}
+/* Прохання стерти тут усе, коли додаватимете власний дизайн. */
+.skins {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.skin {
+  margin: 8px;
+  width: 210px;
+  height: 190px;
+}
+
+.skin-img {
+  width: 96px;
+  height: 72px;
+  margin: 12px auto;
+}
+
+h2 {
+  color: white;
+  padding-bottom: 10px !important;
+}
+
+.profile-skins {
+  display: flex;
+  align-items: center; /* Вирівнює елементи по вертикалі */
+  justify-content: space-between; /* Розділяє по краях */
+  padding: 0 15%;
+  margin-bottom: 10px;
+
+  & a:link,
+    a:visited,
+    a:hover,
+    a:active{
+      text-decoration: none;
+      color: white;
+  }
+}
+/* .skin-odds {
+} */

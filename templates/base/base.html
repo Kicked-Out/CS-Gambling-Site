@@ -1,26 +1,19 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block title %}SkinsHub{% endblock %}</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<<<<<<< HEAD
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-=======
-    <link href="/static/css/styles.css" rel="stylesheet"></link>
->>>>>>> 7f412a0fb8cfc7793a5a62b6a8d8adabbf2bc868
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="/static/css/base.css" rel="stylesheet">
+    <link rel="icon" type="jpg" href="#">
     <style>
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
         footer {
             background-color: #f8f9fa;
             padding: 10px;
@@ -30,75 +23,121 @@
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <!-- Header -->
-        <header>
-           <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">SkinsHub</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse d-flex" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Cases</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav d-flex justify-content-end">
-                            {% if user.is_authenticated %}
-                            <ul class="navbar-nav ms-auto">
-                                <li class="nav-item">
-                                    <span class="nav-link" id="wallet_balance">Balance: {{ user_profile.wallet_balance }}$</span>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#"><img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="30" height="30"></a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ user }}
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                        <li><a class="dropdown-item" href="/accounts/profile/">Profile</a></li>
-                                        <li><a class="dropdown-item" href="/accounts/add_funds/">Add Funds</a></li>
-                                        <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
-                                    </ul>
-                                </li>    
-                            </ul>
-                            {% else %}   
-                            <li><a class="dropdown-item" href='/accounts/steam/login/?process=login'>Login with Steam</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
+    <header class="p-3 bg-dark text-white">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="index.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                    <a class="navbar-brand" href="/"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
+                </a>
 
+                
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="prize.html" class="nav-link px-2 text-white">Призи</a></li>
+                    <li><a href="contracts.html" class="nav-link px-2 text-white">Контракти</a></li>
+                    <li><a href="case-battle.html" class="nav-link px-2 text-white">Case Battle</a></li>
+                    <li><a href="upgrade.html" class="nav-link px-2 text-white">Апгрейд</a></li>
+                </ul>
+                {% if user.is_authenticated %}
+                <button id="openDialog" class="balance">
+                    <img src="https://img.icons8.com/?size=28&id=bQshuxGETQol&format=png&color=000000" alt="wallet">
+                    <p class="mb-1" style="margin: 2px 5px !important;">{{ user_profile.wallet_balance }}$</p>
+                    <img src="https://img.icons8.com/?size=28&id=OYZAx0hLpfIm&format=png&color=000000" alt="plus">
+                </button>
+
+                <dialog id="depositDialog">
+                    <button id="closeDialog" style="color: white;">&times;</button>
+                    <p><strong>Select Payment Method</strong></p>
+                    <div class="pay-box">
+                        <div class="pay-methods">
+                            <button onclick="selectPayment('Visa')"><img src="https://images.steamcdn.io/shared/pay_methods/card_v2.svg?v=1" alt="Card"></button>
+                            <button onclick="selectPayment('SkinPay')"><img src="https://images.steamcdn.io/shared/pay_methods/skinpay_new.svg" alt="SkinPay"></button>
+                            <button onclick="selectPayment('SkinsBack')"><img src="https://images.steamcdn.io/shared/pay_methods/skinsback_new.svg" alt="SkinsBack"></button>
+                            <button onclick="selectPayment('Skinify')"><img src="https://images.steamcdn.io/shared/pay_methods/skinify_new.svg" alt="Skinify"></button>
+                            <button onclick="selectPayment('Google Pay')"><img src="https://images.steamcdn.io/shared/pay_methods/googlepay.svg?v=1" alt="Google"></button>
+                            <button onclick="selectPayment('Apple Pay')"><img src="https://images.steamcdn.io/shared/pay_methods/applepay.svg?v=1" alt="Apple"></button>
+                            <button onclick="selectPayment('Tether TRC20')"><img src="https://images.steamcdn.io/shared/pay_methods/tether_trc20_v3.svg" alt="TRC20"></button>
+                            <button onclick="selectPayment('Tether ERC20')"><img src="https://images.steamcdn.io/shared/pay_methods/tether_erc20_v3.svg?v=1" alt="ERC20"></button>
+                            <button onclick="selectPayment('Bitcoin')"><img src="https://images.steamcdn.io/shared/pay_methods/bitcoin.svg" alt="Btc"></button>
+                            <button onclick="selectPayment('Ethereum')"><img src="https://images.steamcdn.io/shared/pay_methods/ethereum.svg" alt="Eth"></button>
+                            <button onclick="selectPayment('Tron')"><img src="https://images.steamcdn.io/shared/pay_methods/tron.svg" alt="Trx"></button>
+                        </div>
+                        <div class="ver-hr"></div>
+                        <div class="pay">
+                            <div class="selected-pm">
+                                <p>Selected: <span id="selectedPm">Visa</span></p>
+                            </div>
+                            <p id="minPrice">Min deposit: 100₴</p>
+                            <p style="color: red;">Ex. Allert</p>
+                            <input type="text" placeholder="Promo Code">
+                            <input type="number" id="priceInput" placeholder="Enter Sum">
+                            <label class="accept">
+                                <input type="checkbox">
+                                <svg viewBox="0 0 64 64" height="18px" width="18px">
+                                    <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
+                                </svg>
+                                Accept terms
+                                <a href="#">Ти все одно заб'єш на це хуй.</a>
+                            </label>
+                            <button class="but-pay">Хуй</button>
+                        </div>
+                    </div>
+                </dialog>
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none"  id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <!-- <img src="https://img.icons8.com/?size=100&id=ckaioC1qqwCu&format=png&color=ffffff" alt="user-image" width="40" height="40" class="rounded-circle"> -->
+                        <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="/accounts/profile/">Profile</a></li>
+                        <li><a class="dropdown-item" href="/accounts/add_funds/">Add Money</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}   
+                    <div><a class="dropdown-item" href='/accounts/steam/login/?process=login'>Login with Steam</a></div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+
+<body>
+    <div class="wrapper">
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="part-1">
+            <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/case-icon-qualitycases.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">CS2 Cases</h2>
             {% block content %}
+
             <!-- Content will be inserted here -->
+
             {% endblock %}
         </div>
 
+        <!-- <div class="part-2">
+            ex.
+            <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/case-icon-qualitycases.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">Oth Cases</h2>
+            інші кейси
+        </div> -->
+        <!-- в кожному part має бути свій тип кейсів -->
+
         <!-- Footer -->
+        {% block footer %}
         <footer>
-            <p>&copy; 2023 My Case Site. All rights reserved.</p>
+            <div class="copyright">
+                <p>
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Всі права захищено | Цей сайт було створено by (TeamName)
+                </p>
+            </div>
         </footer>
+        {% endblock %}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<<<<<<< HEAD
     <script src="{% static 'js/add_founds.js' %}"></script>
-=======
     <script src="/static/js/db_initializer.js"></script>
->>>>>>> 7f412a0fb8cfc7793a5a62b6a8d8adabbf2bc868
+    <script src="{% static 'js/pay_dialog.js' %}"></script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-/* --- MAIN SECTION --- */
-
 .wrapper {
     width: 100%;
     position: absolute;
@@ -19,8 +17,8 @@
     background-color: #292f45;
 }
 
-.container2 {
-  /* background-color: #1f2335; */
+.container-2 {
+    /* background-color: #1f2335; */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -30,8 +28,8 @@
 }
 
 .box {
-  /* border: 1px solid #000000; */
-  /* background-color: brown; */
+    /* border: 1px solid #000000; */
+    /* background-color: brown; */
     border-radius: 12px;
     text-align: center;
     width: 200px;
@@ -46,9 +44,9 @@
     }
 
     & a:link,
-    a:visited,
-    a:hover,
-    a:active{
+        a:visited,
+        a:hover,
+        a:active{
         text-decoration: none;
         color: black;
     }
@@ -88,7 +86,7 @@
 /* .case-price {} */
 
 /* @media (max-width: 768px) {
-    .container2 {
+    .container-2 {
         flex-wrap: wrap;
         align-items: center;
     }
@@ -102,6 +100,8 @@
     inset: 0px 0px auto auto;
     margin: 0px; transform: translate3d(50px, 10px, 50px) data-popper-placement="bottom-end";
 } */
+
+
 
 
 /* --- FOOTER SECTION --- */
