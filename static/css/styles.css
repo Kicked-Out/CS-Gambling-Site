@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .profile_container {
     width: 100%;
     height: 100%;
@@ -37,7 +36,7 @@ footer {
     text-align: center;
     margin-top: 20px;
     color: #fff;
-=======
+}
 /* Прохання стерти тут усе, коли додаватимете власний дизайн. */
 .skins {
     display: flex;
@@ -56,7 +55,8 @@ footer {
     height: 72px;
     margin: 12px auto;
 }
-
-.skin-odds {
->>>>>>> 7f412a0fb8cfc7793a5a62b6a8d8adabbf2bc868
+.hidden{
+    display:none !important;
 }
+/* .skin-odds {
+} */
