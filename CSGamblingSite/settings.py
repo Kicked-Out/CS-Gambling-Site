@@ -27,6 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'my_account.Profile'
+
+AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.ModelBackend',
+        'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Application definition
 
@@ -37,6 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'my_account',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.steam',
+    'allauth.socialaccount.providers.openid',
+    'cases',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'CSGamblingSite.urls'
@@ -63,10 +79,23 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'my_account.context_processors.user_context',
             ],
         },
     },
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'steam': {
+        'SCOPE': ['read_profile', 'read_client'],
+        'AUTH_PARAMS': {'access_token': ''},
+        'APP': {
+            'client_id': '76561198137800699',
+            'secret': 'CAC4814310DD3C235DECCAAF9715D26A',
+            'key': 'CAC4814310DD3C235DECCAAF9715D26A'
+        }
+    }
+}
 
 WSGI_APPLICATION = 'CSGamblingSite.wsgi.application'
 
@@ -126,3 +155,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}

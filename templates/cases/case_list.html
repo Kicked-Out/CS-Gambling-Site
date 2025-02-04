@@ -1,9 +1,13 @@
 {% extends 'base/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-{% block content %}
-    <div class="d-flex flex-wrap justify-content-start">
-        {% for case in cases %}
-            {% include 'cases/case_block.html' %}
-        {% endfor %}
-    </div>
-{% endblock %}
+<div class="wrapper">
+    {% block content %}
+        <div class="container-2">
+            {% for case in cases %}
+                {% include 'cases/case_block.html' %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+</div>

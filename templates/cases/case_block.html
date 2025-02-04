@@ -1,8 +1,19 @@
-<div class="case-block card m-2" style="width: 18rem;">
-    <img src="{{ case.image }}" class="card-img-top" alt="{{ case.name }}">
-    <div class="card-body">
-        <h5 class="card-title">{{ case.name }}</h5>
-        <p class="card-text">{{ case.weapon }}</p>
-        <a href="#" class="btn btn-primary">View Case</a>
-    </div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+
+<div class="box">
+    <a href="{% url 'case_detail' case_name=case.name %}">
+        <img src="{{ case.image }}" class="card-img-top" alt="{{ case.name }}">
+        <p style="color: white;">{{ case.name }}</p>
+        <div class="case-price-block">
+            <p class="case-price">
+                {% if case.price and case.price > 0 %}
+                    ${{ case.price }}
+                {% else %}
+                    Free
+                {% endif %}
+            </p>
+        </div>
+    </a>
 </div>
