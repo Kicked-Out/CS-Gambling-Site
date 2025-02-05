@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/wins.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slots.css' %}">
     <link href="/static/css/base.css" rel="stylesheet">
     <link href="/static/css/win.css" rel="stylesheet">
     <link rel="icon" type="jpg" href="#">
@@ -80,7 +81,7 @@
                                 Accept terms
                                 <a href="#">Ти все одно заб'єш на це хуй.</a>
                             </label>
-                            <button class="but-pay">Хуй</button>
+                            <button class="but-pay">Pay</button>
                         </div>
                     </div>
                 </dialog>
@@ -119,28 +120,18 @@
 <body>
     <div class="wrapper">
         <!-- Main Content -->
-        <div class="part-1">
-            <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/case-icon-qualitycases.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">CS2 Cases</h2>
-            {% block content %}
+        {% block content %}
 
-            <!-- Content will be inserted here -->
+        <!-- Content will be inserted here -->
 
-            {% endblock %}
-        </div>
-
-        <!-- <div class="part-2">
-            ex.
-            <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/case-icon-qualitycases.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">Oth Cases</h2>
-            інші кейси
-        </div> -->
-        <!-- в кожному part має бути свій тип кейсів -->
+        {% endblock %}
 
         <!-- Footer -->
         {% block footer %}
         <footer>
             <div class="copyright">
                 <p>
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Всі права захищено | Цей сайт було створено by (TeamName)
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Всі права захищено | Цей сайт було створено by <a href="https://github.com/Kicked-Out/CS-Gambling-Site">Code Syndicate</a>
                 </p>
             </div>
         </footer>

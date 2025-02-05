@@ -74,7 +74,7 @@ body {
 }
 
 .balance {
-    background-color: rgb(255, 208, 0);
+    background-color: #FFD000;
     color: black;
     margin-right: 30px;
     border-radius: 15px;
@@ -233,6 +233,35 @@ input[type="number"] {
 
 /* --- END PAYMENT SECTION --- */
 
+.wrapper {
+    background-color: #292f45;
+
+    & h3 {
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding-bottom: 0;
+        padding: 20px 0px 10px;
+    }
+
+    & content h3 {
+        font-size: 10px !important;
+    }
+
+    & button {
+        background-color: transparent;
+        padding: 3px 10px;
+        border: none;
+    }
+
+    & a {
+        color: white;
+        text-decoration: none;
+        
+    }
+}
+
+/* --- FOOTER SECTION --- */
 footer {
     background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
     margin: 0 !important;
@@ -244,5 +273,18 @@ footer {
     & p {
         color: white;
         margin: 0;
+    }
+}
+
+.copyright {
+    & a:link,
+        a:visited,
+        a:hover,
+        a:active{
+            text-decoration: none;
+            color: white;
+    }
+    & a:hover {
+        color: #FFD000;
     }
 }
