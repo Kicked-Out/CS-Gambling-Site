@@ -3,6 +3,9 @@
 {% block title %}{{ case.name }}{% endblock %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/opencase.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slots.css' %}">
     <div class="container">
         <a href="/">Back</a>
         <!-- Назва кейсу -->
