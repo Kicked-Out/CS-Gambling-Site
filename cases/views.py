@@ -2,8 +2,12 @@ from django.http import Http404
 from django.shortcuts import render
 from allauth.socialaccount.models import SocialAccount
 from django.http import Http404
-from cases.models import Case, CaseSkin
+from cases.models import Case, CaseSkin,Skin
 
+
+# def win_skins(request):
+#     skins = Skin.objects.all()
+#     return render(request,'base/base.html',{'skins':skins})
 
 def case_list(request):
     cases = Case.objects.all()
