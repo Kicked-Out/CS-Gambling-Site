@@ -1,75 +1,97 @@
 {% extends 'base/base.html' %}
+<!-- {% block title %}{{ case.name }}{% endblock %} -->
 
-{% block title %}{{ case.name }}{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <a href="/">Back</a>
-        <!-- Назва кейсу -->
-        <h1 class="mt-4">{{ case.name }}</h1>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/opencase.css' %}">
+        <div class="content">
+            <h3>{{ case.name }}</h3>
+            <a href="/" >< Back</a>
+            <p>
+                {% if case.price and case.price > 0 %}
+                    Price: ${{ case.price }}
+                {% else %}
+                    Price: Free
+                {% endif %}
+            </p>
+        </div>
 
-        <!-- Ціна -->
-        <p class="mt-3">
-            {% if case.price and case.price > 0 %}
-                Price: ${{ case.price }}
-            {% else %}
-                Price: Free
-            {% endif %}
-        </p>
-
-        <!-- Блок для слоту (тільки картинки) -->
-       <!-- Обгортка для слоту зі стрілкою -->
-<div class="slot-wrapper">
-    <!-- Стрілочка-індикатор -->
-    <div class="slot-indicator">▼</div>
-    
-    <!-- Контейнер слоту -->
-    <div class="slot-container">
-        <div class="slot-reel">
-            <div class="slot-skins" id="slot-skins">
-                {% for skin in case_skins.all %}
-                    <div class="slot-skin skin">
-                        <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
-                        <div class="card-body">
-            <!--ДЛЯ DIZI hidden клас шоб зник текст можеш шось поробити -->                <h5 class="card-title hidden">{{ skin.name }}</h5>
-                            {% comment %} <p class="skin-odds text-secondary">{{ skin.odds }}%</p> {% endcomment %}
-                        </div>
+            <!-- Блок для слоту (тільки картинки) -->
+            <!-- Обгортка для слоту зі стрілкою -->
+        <div class="slot-wrapper">
+            <!-- Стрілочка-індикатор -->
+            <div class="slot-indicator">▼</div>
+            
+            <!-- Контейнер слоту slot-container > roulette -->
+            <div class="roulette">
+                <div class="slot-reel">
+                    <div class="slot-skins" id="slot-skins">
+                        {% for skin in case_skins.all %}
+                            <div class="slot-skin skin">
+                                <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
+                                <div class="card-body">
+                                    <!--ДЛЯ DIZI hidden клас шоб зник текст можеш шось поробити -->
+                                    <h5 class="card-title hidden">{{ skin.name }}</h5>
+                                    {% comment %} <p class="skin-odds text-secondary">{{ skin.odds }}%</p> {% endcomment %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-       
-        
-        <!-- Кнопка запуску слоту -->
-        <button id="spin-button" class="btn btn-primary mt-3">
-            Open for {% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}
-        </button>
-        
-        <script src="/static/js/spinning.js"></script>
-        
-        
 
-        <!-- Основний блок (з повною інформацією) -->
-        <div class="mt-5">
-            {% if case_skins != None %}
-                <div class="skins">
-                    {% for skin in case_skins.all %}
-                        <div class="skin card">
-                            <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
-                            <div class="card-body">
-                                <h5  class="card-title">{{ skin.name }}</h5>
-                                <p class="skin-odds text-secondary">{{ skin.odds }}%</p>
+            <!-- Кнопка запуску слоту -->
+            <!-- <button id="spin-button" class="btn btn-primary mt-3">
+                Open for {% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}
+            </button> -->
+            <div class="options">
+                <div class="count-case">
+                    <button class="bloom-button"><p>1</p></button>
+                    <button class="bloom-button"><p>2</p></button>
+                    <button class="bloom-button"><p>3</p></button>
+                </div>
+                <button class="fast-spin bloom-button"><img src="{% static 'img/electricity.png' %}" alt="FastSpin"></button>
+            </div>
+            <button id="spin-button" class="open bloom-button"><p>{% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}</p></button>
+            <h3 style="padding: 40px 0;">Вміст скриньки</h3>
+
+            <!-- Основний блок (з повною інформацією) -->
+            
+            <!-- <div class="mt-5">
+                {% if case_skins != None %}
+                    <div class="skins">
+                        {% for skin in case_skins.all %}
+                            <div class="skin card">
+                                <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
+                                <div class="card-body">
+                                    <h5  class="card-title">{{ skin.name }}</h5>
+                                    <p class="skin-odds text-secondary">{{ skin.odds }}%</p>
+                                </div>
                             </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div> -->
+            <div class="availability">
+                <div class="container2">
+                    {% for skin in case_skins.all %}
+                        <div class="box">
+                            <div class="info">
+                                <img src="https://img.icons8.com/?size=20&id=t4ujSfHW9WSb&format=png&color=ffffff" width="20px" alt="info">
+                                <p>{{ skin.odds }}%</p>
+                            </div>
+                            <img class="under-skin" style="margin: 0 30%;"  src="{% static 'img/bg_skin.svg' %}" width="40%" alt="bg">
+                            <img class="skin-img" style="margin-top: -100px;" src="{{ skin.image_url }}" width="60%" alt="{{ skin.name }}">
+                            <p>{{ skin.name }}</p>
+                            <div class="gradient"></div>
                         </div>
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
-    </div>
-    <script src="/static/js/init_skins.js"></script>
+            </div>
 
-
+        <script src="/static/js/init_skins.js"></script>
+        <script src="/static/js/spinning.js"></script>
 {% endblock %}
