@@ -2,12 +2,13 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-<div class="wrapper">
-    {% block content %}
+{% block content %}
+    <div class="part-1">
+        <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/case-icon-qualitycases.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">CS2 Cases</h2>
         <div class="container-2">
             {% for case in cases %}
                 {% include 'cases/case_block.html' %}
             {% endfor %}
         </div>
-    {% endblock %}
-</div>
+    </div>
+{% endblock %}
