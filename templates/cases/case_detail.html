@@ -5,6 +5,11 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/opencase.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slots.css' %}">
+    <div class="container">
+      
+        <!-- Назва кейсу -->
+        <h1 class="mt-4">{{ case.name }}</h1>
         <div class="content">
             <h3>{{ case.name }}</h3>
             <a href="/" >< Back</a>
