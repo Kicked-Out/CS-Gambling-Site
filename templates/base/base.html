@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/wins.css' %}">
     <link rel="stylesheet" href="{% static 'css/slots.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link href="/static/css/base.css" rel="stylesheet">
     <link href="/static/css/win.css" rel="stylesheet">
     <link rel="icon" type="jpg" href="#">
@@ -129,6 +130,16 @@
         <!-- Footer -->
         {% block footer %}
         <footer>
+            <div class="statistics">
+                <div class="statistic players"></div>
+                <div class="statistic online"></div>
+                <div class="statistic cases_opened"></div>
+                <div class="statistic year">since 2015</div>
+            </div>
+            
+            <script src="static/js/statistics.js"></script>
+            
+
             <div class="copyright">
                 <p>
                     Copyright &copy;<script>document.write(new Date().getFullYear());</script> Всі права захищено | Цей сайт було створено by <a href="https://github.com/Kicked-Out/CS-Gambling-Site">Code Syndicate</a>

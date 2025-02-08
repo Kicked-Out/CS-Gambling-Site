@@ -2,7 +2,7 @@
 .slot-wrapper {
     position: relative;
     margin: 20px auto;
-    width: 1000px; /* Ширина слоту стає 1000px */
+    width: 860px; /* Ширина слоту стає 1000px */
 }
 
 /* Стрілочка-індикатор */
@@ -17,7 +17,7 @@
 
 /* Контейнер слоту */
 .slot-container {
-    width: 1000px; /* Довший слот */
+ 
     height: 180px;
     overflow: hidden;
     position: relative;

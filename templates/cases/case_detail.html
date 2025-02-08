@@ -33,12 +33,13 @@
                 <div class="slot-reel">
                     <div class="slot-skins" id="slot-skins">
                         {% for skin in case_skins.all %}
-                            <div class="slot-skin skin">
+                        <div class="slot-skin skin" data-name="{{ skin.name }}" data-odds="{{ skin.odds }}">
+
                                 <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
                                 <div class="card-body">
                                     <!--ДЛЯ DIZI hidden клас шоб зник текст можеш шось поробити -->
                                     <h5 class="card-title hidden">{{ skin.name }}</h5>
-                                    {% comment %} <p class="skin-odds text-secondary">{{ skin.odds }}%</p> {% endcomment %}
+                                    <p class="skin-odds text-secondary">{{ skin.odds }}%</p>
                                 </div>
                             </div>
                         {% endfor %}
