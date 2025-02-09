@@ -89,8 +89,6 @@ function getSkinByName(targetSkinName) {
 async function initialize() {
     await getAllSkins();
     await getAllSkinUkNames();
-
-    console.log(skinArr);
 }
 
 async function loadSkins() {
@@ -98,16 +96,16 @@ async function loadSkins() {
     const skinElements = document.getElementsByClassName("skin");
 
     for (let index = 0; index < skinElements.length; index++) {
-        const skinCard = skinElements[index].querySelector(".card-body");
-        const skinNameBlock = skinCard.querySelector(".card-title");
-        const skinName = skinNameBlock.textContent;
         const skinImg = skinElements[index].querySelector(".skin-img");
+        const skinNameBlock = skinElements[index].querySelector(".skin-title");
+        const skinName = skinNameBlock.textContent;
 
-        const skin = getSkinByName(skinName);
+        const skin = getSkinByName(skinImg.alt);
 
         if (skin) {
             skinImg.src = skin.image;
         }
+
     }
 }
 
