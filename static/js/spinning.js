@@ -143,9 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
         skinDiv.setAttribute("data-odds", skinData.odds);
         skinDiv.innerHTML = `
             <img src="${skinData.image_url}" alt="${skinData.name}" class="skin-img"/>
-            <div class="card-body">
-                <h5 class="card-title hidden">${skinData.name}</h5>
-                <p class="skin-odds text-secondary">${skinData.odds}%</p>
+                <p class="skin-title hidden">${skinData.name}</p>
             </div>
         `;
         return skinDiv;

@@ -89,8 +89,6 @@ function getSkinByName(targetSkinName) {
 async function initialize() {
     await getAllSkins();
     await getAllSkinUkNames();
-
-    console.log(skinArr);
 }
 
 async function loadSkins() {
@@ -99,8 +97,7 @@ async function loadSkins() {
 
     for (let index = 0; index < skinElements.length; index++) {
         const skinImg = skinElements[index].querySelector(".skin-img");
-        const skinCard = skinElements[index].querySelector(".card-body");
-        const skinNameBlock = skinCard.querySelector(".card-title");
+        const skinNameBlock = skinElements[index].querySelector(".skin-title");
         const skinName = skinNameBlock.textContent;
 
         const skin = getSkinByName(skinImg.alt);
