@@ -1,0 +1,47 @@
+.container-wins {
+    margin: 0 50px;
+    width: 100%;
+    overflow: hidden; /* Дозволяє горизонтальну прокрутку */
+    padding: 10px;
+    background-color: #f0f0f0; /* Колір фону */
+}
+
+.wins-reel {
+    display: flex; /* Розташовує елементи в один ряд */
+    flex-wrap: nowrap; /* Забороняє перенесення на новий ряд */
+    gap: 20px; /* Відступ між елементами */
+    margin: 0 50px;
+    width: 80%;
+}
+
+.skin-item {
+    flex: 0 0 auto; /* Фіксований розмір, не змінюється */
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Обрізає зайве */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.skin-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skin-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    padding: 2px;
+}

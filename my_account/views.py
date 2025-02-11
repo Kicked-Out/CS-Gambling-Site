@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from allauth.socialaccount.models import SocialAccount
@@ -42,3 +42,12 @@ def add_funds(request):
         return redirect('profile')
     else:
         return render(request, 'profile/add_funds.html', {'user_profile': user_profile, 'avatar': avatar_url})
+    
+
+@login_required
+def cases_opened(request):
+    user_profile = Profile.objects.get(username=request.user.username)
+    cases_opened = user_profile.cases_opened
+    user_profile.cases_opened += 1
+    user_profile.save()
+    return HttpResponse(request, cases_opened)

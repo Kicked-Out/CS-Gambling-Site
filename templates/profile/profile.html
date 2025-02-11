@@ -16,15 +16,15 @@
                 <div class="row">
                     <div class="col-md-4">
                         <h4>Best Drop</h4>
-                        <p id="best-drop">N/A</p>
+                        <p id="best-drop">{{ user_profile.best_drop }}</p>
                     </div>
                     <div class="col-md-4">
                         <h4>Most Expensive Case</h4>
-                        <p id="expensive-case">N/A</p>
+                        <p id="expensive-case">{{ user_profile.expensive_case }}</p>
                     </div>
                     <div class="col-md-4">
                         <h4>Cases Opened</h4>
-                        <p id="cases-opened">N/A</p>
+                        <p id="cases-opened">{{ user_profile.cases_opened }}</p>
                     </div>
                 </div>
             </div>
@@ -38,9 +38,16 @@
                 <a href="">Available (count)</a>
                 <a href="">Selled (count)</a>
             </div>
-            <div id="inventory-list">
-                {% comment %} сюди додаємо список предметів і їх кількість {% endcomment %}
-                {% comment %} # <a href='/accounts/steam/login/?process=login' class="btn btn-secondary">Login with Steam</a> {% endcomment %}
+            <div id="inventory-list" class="d-flex flex-wrap">
+                {% for item in inventory_items %}
+                    <div class="skin card m-2">
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.item_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.item_name }}</h5>
+                            <p class="card-text">Value: ${{ item.item_value }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
