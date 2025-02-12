@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/upgrader.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col">
+                    <div class="item-block">
+                    </div>
+                    <p class="item-text">
+                        Select an item you want to upgrade
+                    </p>
+                </div>
+
+                <div class="col">
+                    <div class="upgrade-block">
+                            <h1 class="chance">0.000 %</h1>
+                            <p class="chance-type">RISKY CHANCE</p>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="item-block">
+                    </div>
+                    <p class="item-text">
+                        Select an item you want to obtain
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col" style="margin-top: 50px">
+                    <button class="open bloom-button">
+                        <p>Clear All</p>
+                    </button>
+                </div>
+
+                <div class="col" style="margin-top: 50px">
+                    <button class="open bloom-button">
+                        <p>Upgrade</p>
+                    </button>
+                </div>
+
+                <div class="col" style="margin-top: 40px">
+                    <!-- Це умовно, для розробки -->
+                    <div class="btn-group" style="margin-top: 0px">
+                        <button class="open bloom-button">
+                            <p>1.5x</p></button>
+                        <button class="open bloom-button">
+                            <p>2x</p></button>
+                        <button class="open bloom-button">
+                            <p>5x</p>
+                        </button>
+                        <button class="open bloom-button">
+                            <p>10x</p>
+                        </button>
+                        <button class="open bloom-button">
+                            <p>20x</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="inventory-block">
+                        Inventory
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="inventory-block">
+                        Upgrade Items
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

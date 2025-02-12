@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <img src="${skinData.image_url}" alt="${skinData.name}" class="skin-img"/>
         <p class="skin-title hidden">${skinData.name}</p>
       `;
+
       return skinDiv;
     }
   
@@ -122,6 +123,11 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Виграшний скін для користувача:", winningSkinElement.getAttribute("data-name"));
       // Для візуального ефекту підсвічуємо його (наприклад, додаємо клас .winning)
       winningSkinElement.classList.add("winning");
+
+      const wonSkin = getSkinByName(winningSkinElement.getAttribute("data-name"));
+      await getSkinPrice(wonSkin);
+
+      console.log(wonSkin)
     }
   
     // ----------------------- Обробка натискання на кнопку спіну -----------------------

@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link href="/static/css/base.css" rel="stylesheet">
     <link rel="icon" type="jpg" href="#">
+
+    <!-- [CLEAN CODE] Now, write styles in any HTML here -->
+    {% block styles %}{% endblock %}
+
+    <!-- ??? -->
     <style>
         footer {
             background-color: #f8f9fa;
@@ -36,7 +41,7 @@
                     <li><a href="prize.html" class="nav-link px-2 text-white">Призи</a></li>
                     <li><a href="contracts.html" class="nav-link px-2 text-white">Контракти</a></li>
                     <li><a href="case-battle.html" class="nav-link px-2 text-white">Case Battle</a></li>
-                    <li><a href="upgrade.html" class="nav-link px-2 text-white">Апгрейд</a></li>
+                    <li><a href="/upgrade/" class="nav-link px-2 text-white">Апгрейд</a></li>
                 </ul>
 
                 {% if user.is_authenticated %}
@@ -144,5 +149,8 @@
     <script src="{% static 'js/pay_dialog.js' %}"></script>
     <script src="{% static 'js/wins.js' %}"></script>
     <script src="{% static 'js/statistics.js' %}"></script>
+
+    <!-- [CLEAN CODE] Now, write scripts in any HTML here -->
+    {% block scripts %}{% endblock %}
 </body>
 </html>
