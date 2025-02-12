@@ -28,6 +28,22 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center" style="width: 100%;">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex mb-3 align-items-center">
+                        <label style="width: 150px">
+                            <a style="color: black" href="https://steamcommunity.com/profiles/{{uid}}/tradeoffers/privacy">Trade URL:</a>
+                        </label>
+                        {% if profile.trade_url %}
+                            <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" value="{{ profile.trade_url }}">
+                        {% else %}
+                            <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url">
+                        {% endif %}
+                        <button class="btn btn-primary" style="margin-left: 10px; background: linear-gradient(to right, #00b09b, #96c93d)">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row mt-5">
@@ -39,7 +55,7 @@
                 <a href="">Selled (count)</a>
             </div>
             <div id="inventory-list" class="d-flex flex-wrap">
-                {% for item in inventory_items %}
+                {% for item in inventory_items.all %}
                     <div class="skin card m-2">
                         <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.item_name }}">
                         <div class="card-body">

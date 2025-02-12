@@ -122,12 +122,32 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Виграшний скін для користувача:", winningSkinElement.getAttribute("data-name"));
       // Для візуального ефекту підсвічуємо його (наприклад, додаємо клас .winning)
       winningSkinElement.classList.add("winning");
+
+
+      const wonSkin = getSkinByName(winningSkinElement.getAttribute("data-name"));
+      await getSkinPrice(wonSkin)
+      
+      
+      console.log("Виграшний скін для користувача:", wonSkin);
+      const case_name = document.getElementById("case_name").textContent;
+      wonSkin.case_name = case_name;
+      
+      await fetch("/accounts/open_case/", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify(wonSkin)
+      }).then(res => {
+        console.log("Request complete! response:", res);
+      });
+
     }
   
     // ----------------------- Обробка натискання на кнопку спіну -----------------------
     async function startSpin() {
+
       if (isSpinning) return;
       isSpinning = true;
+
 
       fetch('/accounts/cases_opened/')
       .then(response => response.json())

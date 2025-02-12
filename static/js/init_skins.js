@@ -48,17 +48,28 @@ async function getSkinPrice(skin) {
     const randomWear = wearRatings[randomIndex];
     const url = `https://market.csgo.com/api/v2/search-item-by-hash-name?key=${apiKey}&hash_name=${skin.name} (${randomWear})`;
     let data = undefined;
+    let price = 0;
 
-    fetch(url)
-        .then(response => response.json().then(data => ({
-            data: data,
-            status: response.status
-        }))
-        .then(res => {
-            data = res.data.data[0];
-            skin.price = data.price / 1000;
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log("API response:", result);
+
+        if (response.ok && result.data && result.data.length > 0) {
+            const data = result.data[0];
+            const price = data.price / 1000;
+            console.log("Retrieved price:", price);
+            skin.price = price; // Оновлюємо ціну у виграшному скіні
             skin.wearRating = randomWear;
-    }));
+            return price;
+        } else {
+            console.error("Error fetching skin price or no data returned.");
+            return 0;
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+        return 0;
+    }
 }
 
 function getSkinByName(targetSkinName) {
