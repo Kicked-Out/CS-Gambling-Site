@@ -1,4 +1,4 @@
-const url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
+let url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
 const skinsCount = 12; // Фіксована кількість елементів
 
 async function fetchSkins() {

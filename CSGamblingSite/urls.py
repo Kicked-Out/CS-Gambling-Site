@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('cases.urls')),
     path('', include('my_account.urls')),
     path('accounts/', include('allauth.urls')),
+    path('upgrade/', include('upgrader.urls')),
 ]
