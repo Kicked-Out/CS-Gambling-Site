@@ -1,10 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     // ----------------------- Налаштування -----------------------
     const spinButton = document.getElementById("spin-button");
     const skinsContainer = document.getElementById("slot-skins");
     const skinWidth = 155; // ширина одного скіна (150px + 5px gap)
-    const visibleSkinsCount = 6; // кількість скінів, що видно одночасно
-    const totalSkins = 70; // загальна кількість елементів у масиві
+    const visibleSkinsCount = 8; // кількість скінів, що видно одночасно
+    const totalSkins = 72; // загальна кількість елементів у масиві
     const winningIndex = 67; // у цьому індексі масиву буде примусово встановлено виграшний скін
     // Після завершення спіну виграшний скін має опинитися у цьому слоті,
     // і цей же слот буде показаний користувачу як виграшний (третій зліва, індекс 2)
@@ -13,36 +13,84 @@ document.addEventListener("DOMContentLoaded", function () {
     let isSpinning = false;
     let skinsQueue = []; // поточний масив скінів
     let nextIndex = visibleSkinsCount; // індекс наступного елемента для додавання
-  
+
+    let casePrice = parseFloat(spinButton.getAttribute('data-price'));
+    let userBalance = parseFloat("{{ user_profile.wallet_balance }}");
+    const isAuthenticated = spinButton.getAttribute('data-authenticated') === "True";
+
+    function getUSerBalance() {
+      fetch('/accounts/get_balance/')
+        .then(response => response.json())
+        .then(data => {
+          userBalance = data.wallet_balance;
+          updateButtonState();
+        });
+    }
+
+    function updateButtonState() {
+      if (!isAuthenticated || userBalance < casePrice) {
+          spinButton.disabled = true;
+          spinButton.classList.add("disabled");
+      } else {
+          spinButton.disabled = false;
+          spinButton.classList.remove("disabled");
+      }
+  }
+
+  getUSerBalance();
+
     // ----------------------- Джерело даних -----------------------
     // Припускаємо, що на сторінці вже є елементи .slot-skin (серверний рендер)
     let allSkins = Array.from(document.querySelectorAll(".slot-skin")).map(skin => ({
       name: skin.getAttribute("data-name"),
-      odds: parseFloat(skin.getAttribute("data-odds")),
-      image_url: skin.querySelector("img").getAttribute("src")
+      odds: parseFloat(skin.getAttribute("data-odds"))
     }));
-  
+
     // Функція повертає топ‑5 скінів за найбільшим значенням odds
     function getTopOddsSkins() {
       return [...allSkins].sort((a, b) => b.odds - a.odds).slice(0, 5);
     }
   
     // ----------------------- Створення DOM-елемента скіна -----------------------
-    function createSkinElement(skinData) {
+    async function createSkinElement(skinData) {
       const skinDiv = document.createElement("div");
-      skinDiv.classList.add("slot-skin", "skin");
+      skinDiv.classList.add("slot-skin");
       skinDiv.setAttribute("data-name", skinData.name);
       skinDiv.setAttribute("data-odds", skinData.odds);
+      
+      const skin = await getSkinByName(skinData.name);
+
+      // Список гексів. Є не всі PNG. ПАНЕ DIZI ЗРОБІТЬ ІЩЕ, АЛЕ ВЖЕ НЕ В .ПЕЕСДЕ, а в .ПЕЕНҐЕ)
+      // Немає: pink, orange
+      const hexagons = {
+        'Consumer': '/static/img/gray.png',
+        'Industrial': '/static/img/blue-g.png',
+        'Mil': '/static/img/gray.png',
+        'Restricted': '/static/img/volet.png',
+        'Classified': '/static/img/pink.png',
+        'Covert': '/static/img/red.png',
+        'Contraband': '/static/img/orange.png',
+        'Extraordinary': '/static/img/yellow.png',
+      }
+
+      console.log(skin.rarityName);
+      // Беремо зображення за ключем
+      // Як знав, що треба буде зберігати rarityName))). skin.rarityName, у даному випадку, це ключ. Тобто рідкість.
+      const hexagon = hexagons[skin.rarityName];
+      
+      skinDiv.style.borderColor = skin.rarityColor;
       skinDiv.innerHTML = `
-        <img src="${skinData.image_url}" alt="${skinData.name}" class="skin-img"/>
+        <img src="${skin.image}" alt="${skinData.name}" class="skin-img"/>
+        <img src="${hexagon}" alt="${skinData.name}" class="hexagone-img"/>
         <p class="skin-title hidden">${skinData.name}</p>
       `;
       return skinDiv;
-    }
+  }
+    
   
     // ----------------------- Генерація нового масиву скінів -----------------------
-    // Якщо передані currentVisibleSkins (6 скіни із попереднього спіну), вони використовуються як перші 6 елементів.
-    // Решту позицій (до 70) заповнюємо випадковими скінами,
+    // Якщо передані currentVisibleSkins (8 скіни із попереднього спіну), вони використовуються як перші 8 елементів.
+    // Решту позицій (до 72) заповнюємо випадковими скінами,
     // а на позицію winningIndex примусово вставляємо один із топ‑5 скінів.
     function generateNewQueue(currentVisibleSkins) {
       let newQueue = [];
@@ -63,10 +111,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     // ----------------------- Відображення початкових скінів -----------------------
-    function displayInitialSkins(queue) {
+    async function displayInitialSkins(queue) {
       skinsContainer.innerHTML = "";
       for (let i = 0; i < visibleSkinsCount; i++) {
-        skinsContainer.appendChild(createSkinElement(queue[i]));
+        skinsContainer.appendChild(await createSkinElement(queue[i]));
       }
     }
   
@@ -112,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         skinsContainer.style.transform = "translateX(0px)";
         // Додаємо наступний скін із масиву (якщо він є)
         if (nextIndex < totalSkins) {
-          skinsContainer.appendChild(createSkinElement(skinsQueue[nextIndex]));
+          skinsContainer.appendChild(await createSkinElement(skinsQueue[nextIndex]));
           nextIndex++;
         }
       }
@@ -123,30 +171,37 @@ document.addEventListener("DOMContentLoaded", function () {
       // Для візуального ефекту підсвічуємо його (наприклад, додаємо клас .winning)
       winningSkinElement.classList.add("winning");
 
+      const wonSkin = await getSkinByName(winningSkinElement.getAttribute("data-name"));
+      await getSkinPrice(wonSkin);
 
-      const wonSkin = getSkinByName(winningSkinElement.getAttribute("data-name"));
-      await getSkinPrice(wonSkin)
-      
-      
-      console.log("Виграшний скін для користувача:", wonSkin);
       const case_name = document.getElementById("case_name").textContent;
       wonSkin.case_name = case_name;
-      
+      wonSkin.case_price = casePrice;
       await fetch("/accounts/open_case/", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify(wonSkin)
+          method: "POST",
+          headers: {'Content-Type': 'application/json'}, 
+          body: JSON.stringify(wonSkin)
       }).then(res => {
-        console.log("Request complete! response:", res);
+          console.log("Запит завершено! Відповідь:", res);
       });
 
     }
   
     // ----------------------- Обробка натискання на кнопку спіну -----------------------
     async function startSpin() {
+      console.log("case opening", casePrice);
+
+      if(userBalance < casePrice) {
+        alert('Not enough money');
+        isSpinning = false;
+        return;
+    }
 
       if (isSpinning) return;
       isSpinning = true;
+
+      userBalance -= casePrice;
+      updateButtonState();
 
 
       fetch('/accounts/cases_opened/')
@@ -170,20 +225,33 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // Якщо контейнер містить не 6 елементів, перерендеримо його
       if (skinsContainer.children.length !== visibleSkinsCount) {
-        displayInitialSkins(skinsQueue);
+        await displayInitialSkins(skinsQueue);
       }
   
       // Запускаємо анімацію спіну
+      await initialize();
       await spinAnimation();
+
+      fetch('/account/update_balance/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify({amount: -casePrice})
+      }).then(res => res.json())
+        .then(data => {
+          userBalance = data.wallet_balance;
+          updateButtonState();
+        });
   
       isSpinning = false;
+
+      getUSerBalance();
     }
   
     // ----------------------- Ініціалізація -----------------------
     // При завантаженні сторінки, якщо сервером уже згенеровано перші скіни – використовуємо їх,
     // або генеруємо новий масив і відображаємо перші 6 скінів.
     skinsQueue = generateNewQueue();
-    displayInitialSkins(skinsQueue);
+    await displayInitialSkins(skinsQueue);
   
     spinButton.addEventListener("click", startSpin);
   });

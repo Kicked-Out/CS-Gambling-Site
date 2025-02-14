@@ -9,4 +9,6 @@ urlpatterns = [
     path('accounts/add_funds/', views.add_funds, name='add_funds'),
     path('accounts/cases_opened/', views.cases_opened, name='cases_opened'),
     path('accounts/open_case/', views.open_case, name='open_case'),
+    path('accounts/withdraw/', views.withdraw, name='withdraw'),
+    path('accounts/update_balance/', views.update_balance, name='update_balance'),
 ]

@@ -11,8 +11,9 @@
   background-size: cover;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 10px 18px #e38716;
+  box-shadow: 0 10px 18px rgba(227, 135, 22, 0);
   color: #000000;
+  animation: shadowPulse_2 5s infinite alternate;
 }
 
 .profile-info h4 {
@@ -26,7 +27,7 @@
 }
 
 #inventory-list {
-  background-color: #18be79;
+  background: linear-gradient(to right, #0b0b18 0%, #353c57 100%) !important;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 30px;
@@ -77,5 +78,111 @@ h2 {
     a:active{
       text-decoration: none;
       color: white;
+  }
+}
+
+.modal-content {
+  background-color: #222;
+  color: white;
+  border-radius: 10px;
+  border: 2px solid #ff4500;
+}
+
+.modal-header {
+  background-color: #ff4500;
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+.modal-footer {
+  background-color: #333;
+  border-top: 2px solid white;
+}
+
+.modal-body {
+  font-size: 1.1rem;
+  padding: 20px;
+}
+
+.modal .btn-secondary {
+  background-color: #555;
+  border: none;
+}
+
+.modal .btn-danger {
+  background: linear-gradient(to right, #ff4500, #ff6600);
+  border: none;
+  color: white;
+}
+
+#inventory-list {
+  background: linear-gradient(to right, #0b0b18 0%, #353c57 100%) !important;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  animation: shadowPulse 5s infinite alternate;
+}
+
+#inventory-list::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(#1c191c, #402fb5, #1c191c, #cf30aa, #1c191c);
+  padding: 5px;
+  background-clip: padding-box;
+  z-index: -1;
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  25% {
+    box-shadow: 0 10px 18px #402fb5;
+  }
+  50% {
+    box-shadow: 0 10px 18px #1c191c;
+  }
+  75% {
+    box-shadow: 0 10px 18px #cf30aa;
+  }
+  100% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+
+@keyframes shadowPulse_2 {
+  0% {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+  25% {
+    box-shadow: 0 10px 18px #e6da33;
+  }
+  50% {
+    box-shadow: 0 10px 18px #848f25;
+  }
+  75% {
+    box-shadow: 0 10px 18px #88bb29;
+  }
+  100% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 }

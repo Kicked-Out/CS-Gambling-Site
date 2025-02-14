@@ -9,7 +9,7 @@
         <!-- Назва кейсу -->
         <div class="content">
             <h3 id="case_name">{{ case.name }}</h3>
-            <a href="/" >< Back</a>
+            <a href="/">< Back</a>
             <p>
                 {% if case.price and case.price > 0 %}
                     Price: ${{ case.price }}
@@ -48,7 +48,10 @@
             </div>
             <button class="fast-spin bloom-button"><img src="{% static 'img/electricity.png' %}" alt="FastSpin"></button>
         </div>
-        <button id="spin-button" class="open bloom-button"><p>{% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}</p></button>
+        <button id="spin-button" class="open bloom-button" data-price="{{ case.price }}" data-authenticated="{{ user.is_authenticated }}" data-balance="{{ user_profile.wallet_balance }}" {% if not user.is_authenticated or user_profile.wallet_balance < case.price %}disabled{% endif %}>
+            <p>{% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}</p>
+        </button>
+        
         <h3 style="padding: 40px 0;">Вміст скриньки</h3>
 
         <!-- Основний блок (з повною інформацією) -->
