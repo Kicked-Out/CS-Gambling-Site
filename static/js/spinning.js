@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         <img src="${hexagon}" alt="${skinData.name}" class="hexagone-img"/>
         <p class="skin-title hidden">${skinData.name}</p>
       `;
+
       return skinDiv;
   }
     
