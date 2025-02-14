@@ -1,5 +1,5 @@
-let url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
-const skinsCount = 12; // Фіксована кількість елементів
+const url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
+const skinsCount = 40; // Фіксована кількість елементів
 
 async function fetchSkins() {
     try {
@@ -19,6 +19,7 @@ function getRandomSkins(skins, count) {
 function createSkinElement(skin) {
     const skinItem = document.createElement('div');
     skinItem.classList.add('skin-item');
+    skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
 
     const skinImage = document.createElement('img');
     skinImage.src = skin.image;
