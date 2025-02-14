@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Add Funds{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href={% static 'css/adm-pnl.css' %}>
+    <h2>Add Funds</h2>
+    <button id="openDialog">
+        <p>Add Funds-</p>
+    </button>
+
+    <dialog id="fundsDialog">
+        <button id="closeDialog" style="color: white;">&times;</button>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class="my-4 text-center">Add Funds</h2>
+                    <form action="{% url 'add_funds' %}" method="post" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" min="0" placeholder="Enter amount" oninput="removeMinusSign()">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Funds</button>
+                        {% if error %}
+                        <div class="alert alert-danger mt-3">{{ error }}</div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="{% static 'js/add_founds.js' %}"></script>
+{% endblock %}
