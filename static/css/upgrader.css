@@ -1,4 +1,8 @@
-.item-block {
+.row {
+    margin-bottom: 20px;
+}
+
+.upgrade-item-block {
     height: 280px;
     background-image: url("/static/img/select_item_bg6.png");
     background-size: contain;
@@ -6,13 +10,9 @@
     background-position: center;
 }
 
-.item-text {
-    color: white;
-    text-align: center;
-}
-
 .upgrade-block {
-    height: 100%;
+    height: 310px;
+    margin-bottom: 16px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -20,6 +20,126 @@
     vertical-align: middle;
     align-items: center;
     color: white;
+}
+
+/* Circle */
+.circle-block {
+    position: absolute;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 300px;
+    height: 300px;
+
+}
+
+.circle svg {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    transform: rotate(190deg);
+}
+
+.circle svg circle {
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-width: 20;
+    stroke: #1f2335;
+    transform: translate(10px, 10px);
+}
+
+.circle svg circle:nth-child(2)
+{
+    stroke: #5E5DF0;
+    stroke-dasharray: 556; /* 877 == 100 заповнення (НЕ СТИРАТИ ЦЕЙ КОМЕНТАР, ЯКЩО НЕ ПЛАНУЄТЬСЯ ЗМІНА РОЗМІРУ!!!) */
+}
+
+/* Chance */
+.loader {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 25px 25px 75px rgba(0,0,0,0.55);
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loader::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    background: transparent;
+    border: 1px dashed#444;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
+    inset 5px 5px 35px rgba(0,0,0,0.25);
+}
+
+.loader::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px dashed#444;
+    box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
+    inset 5px 5px 35px rgba(0,0,0,0.25);
+}
+
+.loader span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transform-origin: top left;
+    box-shadow: 0 0 0 0 #5E5DF0;
+    border-top: 2px solid #5656dc;
+    transform: rotate(0deg);
+    animation: rotate 2.5s ease-out infinite, trace 2.5s ease-in infinite;
+    animation-fill-mode: both;
+}
+
+@keyframes trace {
+    7% {
+        box-shadow: -50px -150px 60px -100px #5E5DF0;
+    }
+
+    80% {
+        box-shadow: -50px -150px 60px -100px #5E5DF0;
+    }
+
+    100% {
+        box-shadow: 0 0 0 -100px #5E5DF0;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(960deg);
+    }
+}
+
+/* Chance text */
+.chance-block {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
 }
 
 .chance {
@@ -30,13 +150,56 @@
 .chance-type {
     font-size: 14px;
     color: lightgray;
+    text-transform: uppercase;
 }
 
-.inventory-block {
-    height: 512px;
+/* Inventory/Upgrade Blocks */
+
+.block-title {
+    padding: 20px;
+    font-size: 20px;
     color: white;
     text-align: center;
+    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
 }
+
+.item-text {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.items-block {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 512px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    background-color: #1f2335;
+}
+
+.empty-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+.empty-inventory-title {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.empty-inventory-desc {
+    font-size: 14px;
+    color: lightgray;
+}
+
+/* Button */
 
 .bloom-button {
     background: #5E5DF0 !important;
@@ -68,12 +231,35 @@
     border-radius: 15px;
     display: flex;
     margin: 0 auto;
-    margin-top: -50px;
     height: 50px;
 
     & p {
         color: white;
         padding: 0;
         margin: auto 10px;
+    }
+}
+
+.options {
+    display: flex;
+    align-items: center; /* Вирівнює елементи по вертикалі */
+    justify-content: center; /* Розділяє по краях */
+}
+
+.count-odds {
+    & button:first-child {
+        margin-left: 0;
+    }
+    & button {
+        border-radius: 15px;
+        padding: 0;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+
+        & p {
+            color: white;
+            margin: auto;
+        }
     }
 }

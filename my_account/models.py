@@ -12,7 +12,7 @@ class Profile(AbstractUser):
         return self.username
 
 class InventoryItem(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inventory')
     item_name = models.CharField(max_length=255)
     item_value = models.DecimalField(max_digits=10, decimal_places=2)
 
