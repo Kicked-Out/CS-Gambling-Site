@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.steam',
     'allauth.socialaccount.providers.openid',
     'cases',
+    'admins_panel',
+    'upgrader',
 ]
 
 MIDDLEWARE = [

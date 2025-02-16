@@ -26,6 +26,7 @@ async function getAllSkins() {
     for (const key in json) {
         pushSkin(json[key]);
     }
+    return skinArr;
 }
 
 function pushSkinUkName(skinIndex, UkSkinData) {

@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('my_account.urls')),
     path('accounts/', include('allauth.urls')),
     path('upgrade/', include('upgrader.urls')),
+    path('admins/', include('admins_panel.urls')),
 ]
