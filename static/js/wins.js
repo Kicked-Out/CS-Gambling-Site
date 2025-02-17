@@ -1,9 +1,9 @@
-const url = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
+const skinUrl = 'https://bymykel.github.io/CSGO-API/api/en/skins.json';
 const skinsCount = 40; // Фіксована кількість елементів
 
 async function fetchSkins() {
     try {
-        const response = await fetch(url);
+        const response = await fetch(skinUrl);
         return await response.json();
     } catch (error) {
         console.error('Помилка при отриманні даних:', error);
@@ -19,9 +19,31 @@ function getRandomSkins(skins, count) {
 function createSkinElement(skin) {
     const skinItem = document.createElement('div');
     skinItem.classList.add('skin-item');
-    skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
+    // skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
+
+    // --------- Пропозиція (концепт) нового стилю ---------
+    // Список гексів. Є не всі PNG. ПАНЕ DIZI ЗРОБІТЬ ІЩЕ, АЛЕ ВЖЕ НЕ В .ПЕЕСДЕ, а в .ПЕЕНҐЕ)
+    // Немає: pink, orange
+    const hexagons = {
+        'Consumer Grade': '/static/img/grey.png',
+        'Industrial': '/static/img/skyblue.png',
+        'Mil-Spec Grade': '/static/img/blue.png',
+        'Restricted': '/static/img/violet.png',
+        'Classified': '/static/img/pink.png',
+        'Covert': '/static/img/red.png',
+        'Contraband': '/static/img/orange.png',
+        'Extraordinary': '/static/img/yellow.png',
+    }
+
+    // Беремо зображення за ключем
+    const hexagon = hexagons[skin.rarity.name];
+
+    skinItem.style.setProperty('--skin-color', skin.rarity.color);
+    skinItem.style.backgroundImage = `url('${hexagon}')`;
+    // -------------------------------------------------------------------------------------------
 
     const skinImage = document.createElement('img');
+    skinImage.classList.add('skin-img');
     skinImage.src = skin.image;
     skinImage.alt = skin.name;
 

@@ -168,14 +168,45 @@
     font-size: 20px;
 }
 
+.skin-wear {
+    color: gray;
+}
+
+.skin-price {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 1px solid #f5c900;
+    border-radius: 17px;
+    width: auto;
+    max-width: 100%;
+    padding: 4px 20px 3px 20px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2ch;
+    background-image: linear-gradient(to right, rgba(245, 201, 0, 0) 0%, rgba(255, 209, 3, 0.3) 100%);
+    scale: 80% !important;
+}
+
+.item-block {
+    position: relative;
+    width: 148px;
+    height: 159px;
+    background-color: #303750;
+}
+
 .items-block {
     display: flex;
-    flex-wrap: wrap;
     min-height: 512px;
     margin-bottom: 20px;
     padding: 10px;
-    color: white;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    align-content: flex-start;
     text-align: center;
+    color: white;
     background-color: #1f2335;
 }
 

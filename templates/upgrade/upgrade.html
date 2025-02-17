@@ -83,26 +83,13 @@
 
                     <div class="items-block">
                         {% if user.is_authenticated %}
-                            {% if inventory_items is None %}
-                                <div class="empty-block">
-                                    <h5 class="empty-inventory-title">You have no available items yet</h5>
-                                    <p class="empty-inventory-desc">Open cases and upgrade an item</p>
-                                    <a class="open bloom-button" href="/">Open Cases</a>
-                                </div>
+                            {% if inventory_items %}
+                                {% include 'upgrade/item_list.html' with items=inventory_items type="inventory" %}
                             {% else %}
-                                {% for item in inventory_items %}
-                                    <div class="item-block">
-                                        <img src="{{ item.image_url }}" class="skin-img"/>
-                                        <p class="skin-title hidden">{{ item.item_name }}</p>
-                                    </div>
-                                {% endfor %}
+                                {% include 'upgrade/empty_inventory.html' %}
                             {% endif %}
                         {% else %}
-                            <div class="empty-block">
-                                <h5 class="empty-inventory-title">Authorization required</h5>
-                                <p class="empty-inventory-desc">To use the upgrade, log in to your account</p>
-                                <a class="open bloom-button" href="/accounts/steam/login/?process=login">Login with Steam</a>
-                            </div>
+                            {% include 'upgrade/authorization_required.html' %}
                         {% endif %}
                     </div>
                 </div>
@@ -113,6 +100,15 @@
                     </div>
 
                     <div class="items-block">
+                        {% if user.is_authenticated %}
+                            {% if upgrade_items %}
+                                {% include 'upgrade/item_list.html' with items=upgrade_items type="upgrade" %}
+                            {% else %}
+                                {% include 'upgrade/empty_upgrades.html' %}
+                            {% endif %}
+                        {% else %}
+                            {% include 'upgrade/authorization_required.html' %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -121,4 +117,6 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/init_skins.js' %}"></script>
+    <script src="{% static 'js/upgrader.js' %}"></script>
 {% endblock %}
