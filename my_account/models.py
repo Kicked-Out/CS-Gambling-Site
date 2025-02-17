@@ -9,9 +9,10 @@ class Profile(AbstractUser):
     expensive_case = models.CharField(max_length=255, blank=True, null=True)
     expensive_case_image = models.CharField(max_length=255, blank=True, null=True)
     cases_opened = models.IntegerField(default=0)
-    wallet_balance = models.FloatField(default=0.00)
+    wallet_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     uid = models.CharField(max_length=255, blank=True, null=True)
     trade_url = models.CharField(max_length=255, blank=True, null=True)
+    is_banned = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
