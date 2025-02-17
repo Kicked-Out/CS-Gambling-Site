@@ -8,9 +8,9 @@
 <div class="container mt-4">
     <div class="profile_container row justify-content-center">
         <div class="col-md-8 text-center">
-            <h1>{{ user_name }}</h1>
+            <h1>{{ user_profile.username }}</h1>
             <div class="profile-avatar my-4">
-                <img src="{{ avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
+                <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
             </div>
             {% comment %} інформація про користувача {% endcomment %}
             <div class="profile-info">
@@ -42,7 +42,7 @@
                     {% csrf_token %}
                     <div class="d-flex mb-3 align-items-center">
                         <label style="width: 150px">
-                            <a style="color: black" href="https://steamcommunity.com/profiles/{{uid}}/tradeoffers/privacy">Trade URL:</a>
+                            <a style="color: black" href="https://steamcommunity.com/profiles/{{user_profile.uid}}/tradeoffers/privacy">Trade URL:</a>
                         </label>
                         {% if profile.trade_url %}
                             <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" value="{{ profile.trade_url }}">
@@ -61,7 +61,7 @@
             <div class="profile-skins">
                 {% comment %} адд ітем для супер користувача {% endcomment %}
                 {% if user.is_superuser %}
-                <a href="{% url 'add_item_to_inventory' %}?inventory={{ user.uid }}">Add item</a>
+                <a href="{% url 'add_item_to_inventory' %}?inventory={{ user_profile.uid }}">Add item</a>
                 {% endif %}                                                 
                 {% comment %} список всіх товарів у інвентарі {% endcomment %}
                 <a href="">All inventory (count)</a>
@@ -77,7 +77,7 @@
                             <p class="card-text">Value: ${{ item.item_value }}</p>
                             <button class="btn btn-danger withdraw-button" data-item-id="{{ item.id }}" data-item-name="{{ item.item_name }}" style="background-color: purple; margin: 5px;">Withdraw</button>
                             {% if user.is_superuser %}
-                            <a href="{% url 'remove_item_from_inventory' item.id %}" class="btn btn-danger" style="background-color: red;">Delete item</a>
+                            <a href="{% url 'remove_item_from_inventory' user_profile.uid item.id %}" class="btn btn-danger" style="background-color: red;">Delete item</a>
                             {% endif %}
                         </div>
                     </div>
