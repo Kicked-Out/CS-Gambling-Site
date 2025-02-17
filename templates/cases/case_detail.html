@@ -51,7 +51,7 @@
         <button id="spin-button" class="open bloom-button" data-price="{{ case.price }}" data-authenticated="{{ user.is_authenticated }}" data-balance="{{ user_profile.wallet_balance }}" {% if not user.is_authenticated or user_profile.wallet_balance < case.price %}disabled{% endif %}>
             <p>{% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}</p>
         </button>
-        
+        <a href="{% url 'add_item_to_inventory' %}?case_name={{ case.name }}" class="add-skins">Add item</a>
         <h3 style="padding: 40px 0;">Вміст скриньки</h3>
 
         <!-- Основний блок (з повною інформацією) -->

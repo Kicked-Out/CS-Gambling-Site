@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Add Skins{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/adm-pnl.css' %}">
+<h2>Add Skins</h2>
+<div class="container">
+    <a href="/admins/admin_panel/">< Back</a>
+    <div class="justify-content-center">
+        <div>
+            <h2 class="my-4 text-center">Add Skins</h2>
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Add item
+                </button>
+                <ul class="dropdown-menu" style="background-color: black;">
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Pistols</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Desert Eagle')">Desert Eagle</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Dual Berettas')">Dual Berettas</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Five-SeveN')">Five-SeveN</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Glock-18')">Glock-18</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Tec-9')">Tec-9</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('P2000')">P2000</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('P250')">P250</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('USP-S')">USP-S</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('CZ75-Auto')">CZ75-Auto</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('R8 Revolver')">R8 Revolver</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Rifles</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('AK-47')">AK-47</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('AUG')">AUG</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('FAMAS')">FAMAS</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Galil AR')">Galil AR</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('M4A4')">M4A4</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('SG 553')">SG 553</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('M4A1-S')">M4A1-S</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Sniper Rifles</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('AWP')">AWP</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('G3SG1')">G3SG1</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('SSG 08')">SSG 08</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('SCAR-20')">SCAR-20</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Mashine guns</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('M249')">M249</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('MAC-10')">MAC-10</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('P90')">P90</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('MP5-SD')">MP5-SD</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('PP-Bizon')">PP-Bizon</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Negev')">Negev</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('MP7')">MP7</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('MP9')">MP9</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('UMP-45')">UMP-45</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Shutguns</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('XM1014')">XM1014</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('MAG-7')">MAG-7</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Sawed-Off')">Sawed-Off</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Nova')">Nova</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#" onclick="skinFilter('Zeus x27')">Zeus x27</a></li>
+                    <li class="dropdown-submenu" >
+                        <a class="dropdown-item submenu-toggle" href="#">Shutguns</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Bayonet')">Bayonet</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Classic Knife')">Classic Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Flip Knife')">Flip Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Gut Knife')">Gut Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Karambit')">Karambit</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('M9 Bayonet')">M9 Bayonet</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Huntsman ')">Huntsman </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Falchion Knife')">Falchion Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Bowie Knife')">Bowie Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Butterfly Knife')">Butterfly Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Shadow Daggers')">Shadow Daggers</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Paracord Knife')">Paracord Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Survival Knife')">Survival Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Ursus Knife')">Ursus Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Navaja Knife')">Navaja Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Nomad Knife')">Nomad Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Stiletto Knife')">Stiletto Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Talon Knife')">Talon Knife</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Skeleton Knife')">Skeleton Knife</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item submenu-toggle" href="#">Shutguns</a>
+                        <ul class="dropdown-menu" style="background-color: black;">
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Broken Fang Gloves')">Broken Fang Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Bloodhound Gloves')">Bloodhound Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Sport Gloves')">Sport Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Driver Gloves')">Driver Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Hand Wraps')">Hand Wraps</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Moto Gloves')">Moto Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Specialist Gloves')">Specialist Gloves</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="skinFilter('Hydra Gloves')">Hydra Gloves</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="skins-list" class="d-flex flex-wrap justify-content-center"></div>
+            <button type="submit" class="btn btn-primary m-1" style="background-color: blue;" onclick="addItems()">Add Skin</button>
+        </div>
+    </div>  
+</div>
+<script src="{% static 'js/init_skins.js' %}"></script>
+<script src="{% static 'js/add_cases.js' %}"></script>
+    
+{% endblock %}
