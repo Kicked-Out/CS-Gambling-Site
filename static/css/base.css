@@ -1,6 +1,16 @@
 body {
-    background-color: black;
+    background-color: #1f2334;
     font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+}
+
+/* --- MAIN STYLES --- */
+p {
+    color: black;
+}
+
+.btnw {
+    background-color: #FFD000;
+    border-color: #FFD000;
 }
 
 /* --- HEADER SECTION --- */
@@ -81,9 +91,19 @@ body {
     transform: scaleX(1);
 }
 
+.btn-login {
+    display:inline;
+    border-radius: 13px;
+    padding: 1px 10px;
+
+    & p {
+        display:inline;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+}
+
 .balance {
-    background-color: #FFD000;
-    color: black;
     margin-right: 30px;
     border-radius: 15px;
     text-align: center;
@@ -95,18 +115,12 @@ body {
     word-wrap: break-word;
 }
 
-.bg-dark {
-    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
+.rounded-circle {
+    border: solid 2px #FFD000;
 }
 
-.sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-radius: 0;
+.bg-dark {
+    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
 }
 /* --- PAYMENT SECTION --- */
 
@@ -182,6 +196,7 @@ dialog {
 }
 
 
+
 /* --- CHECKBOX SECTION ---  */
 label {
     color: white;
@@ -229,10 +244,11 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+    appearance: none;
     -moz-appearance: textfield;
 }
 
-.but-pay {
+.btn-pay {
     width: 100%;
     margin: 50px 0 0;
     padding: 10px;
@@ -244,11 +260,12 @@ input[type="number"] {
     transition: 0.3s;
 }
 
-.but-pay:hover {
+.btn-pay:hover {
     background: #0056b3;
 }
-
 /* --- END PAYMENT SECTION --- */
+
+
 
 .wrapper {
     background-color: #292f45;
@@ -278,26 +295,48 @@ input[type="number"] {
     }
 }
 
+
 /* --- FOOTER SECTION --- */
 footer {
-    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
+    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%);
     margin: 0 !important;
-    padding: 30px 0 !important;
-    padding: 10px;
+    padding: 30px 0 0 !important;
     text-align: center;
     margin-top: 20px;
     font-size: 20px;
 }
 
+.stat {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding: 0 20%;
+    margin-bottom: 50px;
+
+    & span {
+        display: block;
+        font-size: 14px;
+        color: rgb(95, 95, 95);
+    }
+}
+
+.stat-block {
+    background-color: #FFD000;
+    width: 200px;
+    height: 60px;
+    /* border: solid 2px blue; */
+    border-radius: 10px;
+}
+
 .copyright {
+    background-color: #19172d;
+    padding: 30px 0;
 
     & p {
         color: white;
         margin: 0;
     }
-}
 
-.copyright {
     & a:link,
         a:visited,
         a:hover,
@@ -305,7 +344,40 @@ footer {
             text-decoration: none;
             color: white;
     }
+
     & a:hover {
         color: #FFD000;
     }
+}
+
+
+
+
+/* --- STICKY --- */
+.stpo {
+    margin: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    overflow: visible;
+}
+
+.stpo2 {
+    position: fixed;
+    top: 0;
+    width: 99%;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 0;
 }

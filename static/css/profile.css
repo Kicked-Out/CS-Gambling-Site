@@ -13,18 +13,79 @@
   border-radius: 10px;
   box-shadow: 0 10px 18px rgba(227, 135, 22, 0);
   color: #000000;
-  animation: shadowPulse_2 5s infinite alternate;
+  /* animation: shadowPulse_2 5s infinite alternate; */
+  align-items: center;
+  display:grid;
 }
 
-.profile-info h4 {
-  font-size: 1.25rem;
-  margin-bottom: 5px;
+
+.profile-info {
+  display: inline-flex;
+  margin-left: 280px;
+
+  & h4 {
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+  }
+
+  & p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 
-.profile-info p {
-  font-size: 1rem;
-  font-weight: bold;
+.user-prof {
+  transition: all 0.5s ease-in-out;
 }
+
+.short-info {
+  transform: translateX(100%);
+}
+
+.full-info {
+  /* background-color: #ff6600 !important; */
+  /* border-radius: 10px; */
+  width: 590px;
+  /* height: 200px; */
+  /* margin: 15px 0 30px; */
+  /* margin-left: 300px; */
+  /* transform: translateX(30%); */
+  position: relative;
+  display: flex;
+  opacity: 0;
+}
+
+.card-stat {
+  border-radius: 10px;
+  background-color: #FFD000;
+  /* border: 5px solid #FFD000; */
+  /* border-image: linear-gradient(to right, yellow, orange) 1; */
+  text-align: center;
+  box-shadow: 0 0 10px black;
+  /* flex: 0 0 auto; */
+  width: 70%;
+  margin: 20px;
+}
+
+.moved {
+  transform: translateX(-160%);
+}
+
+.displayed {
+  /* display: flex; */
+  opacity: 1;
+}
+
+.btn-outline-warning {
+  border: 2px solid #FFD000 !important;
+  /* width: 200px; */
+  height: 45px !important;
+  padding-top: 8px !important;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+
 
 #inventory-list {
   background: linear-gradient(to right, #0b0b18 0%, #353c57 100%) !important;
@@ -32,14 +93,6 @@
   padding: 20px;
   margin-bottom: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-footer {
-  background-color: #004080;
-  padding: 10px;
-  text-align: center;
-  margin-top: 20px;
-  color: #fff;
 }
 
 .skins {
@@ -141,7 +194,7 @@ h2 {
   animation: spin 10s linear infinite;
 }
 
-@keyframes spin {
+/* @keyframes spin {
   0% {
       transform: rotate(0deg);
   }
@@ -185,4 +238,4 @@ h2 {
   100% {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-}
+} */
