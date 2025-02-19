@@ -1,13 +1,15 @@
-<div class="item-block skin">
     {% if type == "inventory" %}
-        <p class="skin-price">{{ item.value }}$</p>
-        <img src="{{ item.image_url }}" alt="{{ item.item_name }}" class="skin-img"/>
-        <p class="skin-title">{{ item.item_name }}</p>
-        <p class="skin-wear">Factory New</p>
+        <div class="inventory-item item-block skin">
+            <p class="skin-price">{{ item.value }}$</p>
+            <img src="{{ item.image_url }}" alt="{{ item.item_name }}" class="skin-img"/>
+            <p class="skin-title">{{ item.item_name }}</p>
+            <p class="skin-wear">Factory New</p>
+        </div>
     {% elif type == "upgrade" %}
-        <p class="skin-price">{{ item.upgrade_item.price }}$</p>
-        <img class="skin-img" alt="{{ item.upgrade_item.name }}"/>
-        <p class="skin-title">{{ item.upgrade_item.name }}</p>
-        <p class="skin-wear">{{ item.wear_rating.name }}</p>
+        <div class="upgrade-item item-block skin">
+            <p class="skin-price">{{ item.upgrade_item.price }}$</p>
+            <img class="skin-img" alt="{{ item.upgrade_item.name }}"/>
+            <p class="skin-title">{{ item.upgrade_item.name }}</p>
+            <p class="skin-wear">{{ item.wear_rating.name }}</p>
+        </div>
     {% endif %}
-</div>

@@ -5,39 +5,39 @@ document.addEventListener("DOMContentLoaded", async function () {
     const skinWidth = 155; // ширина одного скіна (150px + 5px gap)
     const visibleSkinsCount = 8; // кількість скінів, що видно одночасно
     const totalSkins = 72; // загальна кількість елементів у масиві
-    const winningIndex = 68; // у цьому індексі масиву буде примусово встановлено виграшний скін
+    const winningIndex = 67; // у цьому індексі масиву буде примусово встановлено виграшний скін
     // Після завершення спіну виграшний скін має опинитися у цьому слоті,
     // і цей же слот буде показаний користувачу як виграшний (третій зліва, індекс 2)
-    const desiredVisibleIndex = 2;
+    const desiredVisibleIndex = 3
 
     let isSpinning = false;
     let skinsQueue = []; // поточний масив скінів
     let nextIndex = visibleSkinsCount; // індекс наступного елемента для додавання
 
-    let casePrice = parseFloat(spinButton.getAttribute('data-price'));
-    let userBalance = parseFloat("{{ user_profile.wallet_balance }}");
-    const isAuthenticated = spinButton.getAttribute('data-authenticated') === "True";
-
-    function getUSerBalance() {
-      fetch('/accounts/get_balance/')
-        .then(response => response.json())
-        .then(data => {
-          userBalance = data.wallet_balance;
-          updateButtonState();
-        });
-    }
-
-    function updateButtonState() {
-      if (!isAuthenticated || userBalance < casePrice) {
-          spinButton.disabled = true;
-          spinButton.classList.add("disabled");
-      } else {
-          spinButton.disabled = false;
-          spinButton.classList.remove("disabled");
-      }
-  }
-
-  getUSerBalance();
+  //   let casePrice = parseFloat(spinButton.getAttribute('data-price'));
+  //   let userBalance = parseFloat("{{ user_profile.wallet_balance }}");
+  //   const isAuthenticated = spinButton.getAttribute('data-authenticated') === "True";
+  //
+  //   function getUSerBalance() {
+  //     fetch('/accounts/get_balance/')
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         userBalance = data.wallet_balance;
+  //         updateButtonState();
+  //       });
+  //   }
+  //
+  //   function updateButtonState() {
+  //     if (!isAuthenticated || userBalance < casePrice) {
+  //         spinButton.disabled = true;
+  //         spinButton.classList.add("disabled");
+  //     } else {
+  //         spinButton.disabled = false;
+  //         spinButton.classList.remove("disabled");
+  //     }
+  // }
+  //
+  // getUSerBalance();
 
     // ----------------------- Джерело даних -----------------------
     // Припускаємо, що на сторінці вже є елементи .slot-skin (серверний рендер)
@@ -189,19 +189,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ----------------------- Обробка натискання на кнопку спіну -----------------------
     async function startSpin() {
-      console.log("case opening", casePrice);
-
-      if(userBalance < casePrice) {
-        alert('Not enough money');
-        isSpinning = false;
-        return;
-    }
+    //   console.log("case opening", casePrice);
+    //
+    //   if(userBalance < casePrice) {
+    //       alert('Not enough money');
+    //       isSpinning = false;
+    //       return;
+    //   }
 
       if (isSpinning) return;
       isSpinning = true;
 
-      userBalance -= casePrice;
-      updateButtonState();
+      // userBalance -= casePrice;
+      // updateButtonState();
 
 
       fetch('/accounts/cases_opened/')
@@ -232,19 +232,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       await initialize();
       await spinAnimation();
 
-      fetch('/account/update_balance/', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({amount: -casePrice})
-      }).then(res => res.json())
-        .then(data => {
-          userBalance = data.wallet_balance;
-          updateButtonState();
-        });
+      // fetch('/account/update_balance/', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify({amount: -casePrice})
+      // }).then(res => res.json())
+      //   .then(data => {
+      //     userBalance = data.wallet_balance;
+      //     updateButtonState();
+      //   });
 
       isSpinning = false;
 
-      getUSerBalance();
+      // getUSerBalance();
     }
 
     // ----------------------- Ініціалізація -----------------------

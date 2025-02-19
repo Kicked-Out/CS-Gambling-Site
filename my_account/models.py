@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 
+from upgrader.models import WearRating
+
+
 class Profile(AbstractUser):
     avatar = models.CharField(max_length=255, blank=True, null=True)
     best_drop = models.CharField(max_length=255, blank=True, null=True)
@@ -19,8 +22,8 @@ class Profile(AbstractUser):
 
 class InventoryItem(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inventory')
-    item_name = models.CharField(max_length=255)
-    item_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image_url = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):

@@ -19,7 +19,7 @@ function getRandomSkins(skins, count) {
 function createSkinElement(skin) {
     const skinItem = document.createElement('div');
     skinItem.classList.add('skin-item');
-    // skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
+    skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
 
     // --------- Пропозиція (концепт) нового стилю ---------
     // Список гексів. Є не всі PNG. ПАНЕ DIZI ЗРОБІТЬ ІЩЕ, АЛЕ ВЖЕ НЕ В .ПЕЕСДЕ, а в .ПЕЕНҐЕ)
@@ -39,7 +39,7 @@ function createSkinElement(skin) {
     const hexagon = hexagons[skin.rarity.name];
 
     skinItem.style.setProperty('--skin-color', skin.rarity.color);
-    skinItem.style.backgroundImage = `url('${hexagon}')`;
+    // skinItem.style.backgroundImage = `url('${hexagon}')`;
     // -------------------------------------------------------------------------------------------
 
     const skinImage = document.createElement('img');

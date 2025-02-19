@@ -89,8 +89,8 @@ def open_case(request):
 
         new_item = InventoryItem.objects.create(
             profile=user_profile, 
-            item_name=item_name, 
-            item_value=item_value, 
+            name=item_name,
+            price=item_value,
             image_url=item_image
             )
 

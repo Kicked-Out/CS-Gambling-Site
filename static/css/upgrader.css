@@ -3,8 +3,9 @@
 }
 
 .upgrade-item-block {
+    max-width: 356px;
     height: 280px;
-    background-image: url("/static/img/select_item_bg6.png");
+    /*background-image: url("/static/img/select_item_bg6.png");*/
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -41,22 +42,25 @@
     position: relative;
     width: 300px;
     height: 300px;
-    transform: rotate(190deg);
+    transform: rotate(-91deg);
 }
 
 .circle svg circle {
     width: 100%;
     height: 100%;
     fill: transparent;
+    stroke-linecap: butt;
     stroke-width: 20;
     stroke: #1f2335;
+    border-radius: 0 !important;
     transform: translate(10px, 10px);
 }
 
 .circle svg circle:nth-child(2)
 {
     stroke: #5E5DF0;
-    stroke-dasharray: 556; /* 877 == 100 заповнення (НЕ СТИРАТИ ЦЕЙ КОМЕНТАР, ЯКЩО НЕ ПЛАНУЄТЬСЯ ЗМІНА РОЗМІРУ!!!) */
+    stroke-dasharray: 880; /* 877 == 100 заповнення (НЕ СТИРАТИ ЦЕЙ КОМЕНТАР, ЯКЩО НЕ ПЛАНУЄТЬСЯ ЗМІНА РОЗМІРУ!!!) */
+    stroke-dashoffset: 880;
 }
 
 /* Chance */
@@ -105,9 +109,9 @@
     background: transparent;
     transform-origin: top left;
     box-shadow: 0 0 0 0 #5E5DF0;
-    border-top: 5px solid #5656dc;
+    border-top: 1px solid #5656dc;
     transform: rotate(270deg);
-    animation: rotate 5s ease-out infinite, trace 5s ease-in infinite;
+    transition: all 2s ease 0s;
 }
 
 @keyframes trace {
@@ -130,7 +134,7 @@
     }
 
     100% {
-        transform: rotate(1939deg); /* 1800 це максимум. Краще не використовувати, якщо не збираємося збільшити кількість кіл */
+        transform: rotate(var(--rotate-end)); /* 1710 це мінімум. Максимум 2070. Це 4 кола + одне не повне. Краще не змінювати, якщо не збираємося збільшити кількість кіл */
     }
 }
 
@@ -168,7 +172,13 @@
     font-size: 20px;
 }
 
+.skin-title {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
 .skin-wear {
+    font-size: 12px;
     color: gray;
 }
 
@@ -198,7 +208,7 @@
 
 .items-block {
     display: flex;
-    min-height: 512px;
+    min-height: 671px;
     margin-bottom: 20px;
     padding: 10px;
     flex-wrap: wrap;
@@ -292,4 +302,35 @@
             margin: auto;
         }
     }
+}
+
+/* Pagination */
+.pag-col {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+
+    & button {
+        margin: 0 10px;
+    }
+}
+
+.pag-pages {
+    display: flex;
+}
+
+.pag-cur-page {
+    margin: auto 10px;
+    padding: 10px;
+    border: 2px solid #f5c900;
+    border-radius: 7px;
+    height: 100%;
+    color: white;
+    text-align: center;
+}
+
+/* Selected items */
+.selected-skin-img {
+    max-width: 356px;
 }

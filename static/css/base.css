@@ -1,6 +1,8 @@
 body {
     background-color: black;
-    font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+    font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji",
+        "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+        "Noto Sans", sans-serif;
 }
 
 /* --- HEADER SECTION --- */
@@ -20,10 +22,10 @@ body {
 
 .b-example-divider {
     height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid rgba(0, 0, 0, 0.15);
     border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1), inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
 }
 
 .form-control-dark {
@@ -35,11 +37,11 @@ body {
     color: #fff;
     background-color: var(--bs-dark);
     border-color: #fff;
-    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
 }
 
 .bi {
-    vertical-align: -.125em;
+    vertical-align: -0.125em;
     fill: currentColor;
 }
 
@@ -49,7 +51,7 @@ body {
 
 .dropdown-toggle {
     outline: 0;
-}  
+}
 
 .logo {
     width: 170px;
@@ -63,7 +65,7 @@ body {
 
 .nav-link::after,
 .nav-link::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     align-items: center;
@@ -82,7 +84,7 @@ body {
 }
 
 .balance {
-    background-color: #FFD000;
+    background-color: #ffd000;
     color: black;
     margin-right: 30px;
     border-radius: 15px;
@@ -118,7 +120,7 @@ dialog {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
 
-    & p{
+    & p {
         color: white;
     }
 }
@@ -181,7 +183,6 @@ dialog {
     border-radius: 5px;
 }
 
-
 /* --- CHECKBOX SECTION ---  */
 label {
     color: white;
@@ -220,8 +221,6 @@ label {
 }
 /* --- END CHECKBOX SECTION ---  */
 
-
-
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -229,6 +228,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+    appearance: textfield;
     -moz-appearance: textfield;
 }
 
@@ -274,7 +274,6 @@ input[type="number"] {
     & a {
         color: white;
         text-decoration: none;
-        
     }
 }
 
@@ -290,7 +289,6 @@ footer {
 }
 
 .copyright {
-
     & p {
         color: white;
         margin: 0;
@@ -299,13 +297,13 @@ footer {
 
 .copyright {
     & a:link,
-        a:visited,
-        a:hover,
-        a:active{
-            text-decoration: none;
-            color: white;
+    a:visited,
+    a:hover,
+    a:active {
+        text-decoration: none;
+        color: white;
     }
     & a:hover {
-        color: #FFD000;
+        color: #ffd000;
     }
 }

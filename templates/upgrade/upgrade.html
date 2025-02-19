@@ -10,7 +10,7 @@
         <div class="content">
             <div class="row">
                 <div class="col">
-                    <div class="upgrade-item-block">
+                    <div id="selected-inventory-items" class="upgrade-item-block">
                     </div>
                     <p class="item-text">
                         Select an item you want to upgrade
@@ -21,34 +21,34 @@
                     </button>
                 </div>
 
-                <div class="col">
+                <div id="upgrade-col" class="col">
                     <div class="upgrade-block">
                         <div class="circle-block">
                             <div class="circle">
                                 <svg>
                                     <circle cx="140" cy="140" r="140" stroke-linecap="round"></circle>
-                                    <circle cx="140" cy="140" r="140" stroke-linecap="round"></circle>
+                                    <circle id="chance-visual" cx="140" cy="140" r="140" stroke-linecap="round"></circle>
                                 </svg>
 
                                 <div class="loader">
-                                    <span></span>
+                                    <span id="indicator"></span>
                                 </div>
 
                                 <div class="chance-block">
-                                    <h1 id="chance" class="chance">63.57%</h1>
-                                    <p class="chance-type">HIGH CHANCE</p>
+                                    <h1 id="chance" class="chance">0.00%</h1>
+                                    <p id="chance-type" class="chance-type">Risky Chance</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button class="open bloom-button">
+                    <button id="upgrade-btn" class="open bloom-button">
                         <p>Upgrade</p>
                     </button>
                 </div>
 
                 <div class="col">
-                    <div class="upgrade-item-block">
+                    <div id="selected-upgrade-items" class="upgrade-item-block">
                     </div>
                     <p class="item-text">
                         Select an item you want to obtain
@@ -81,16 +81,26 @@
                         Inventory
                     </div>
 
-                    <div class="items-block">
+                    <div id="inventory-list" class="items-block">
                         {% if user.is_authenticated %}
-                            {% if inventory_items %}
-                                {% include 'upgrade/item_list.html' with items=inventory_items type="inventory" %}
-                            {% else %}
+                            {% if not inventory_items %}
                                 {% include 'upgrade/empty_inventory.html' %}
                             {% endif %}
                         {% else %}
                             {% include 'upgrade/authorization_required.html' %}
                         {% endif %}
+                    </div>
+
+                    <div class="col pag-col">
+                        <button id="inventory-prev-btn" class="open bloom-button">
+                            <p id="pag-inventory-prev"><i class="bi bi-chevron-double-left"></i></p>
+                        </button>
+
+                        <p id="inventory-cur-page" class="pag-cur-page">0</p>
+
+                        <button id="inventory-next-btn" class="open bloom-button">
+                            <p id="pag-inventory-next"><i class="bi bi-chevron-double-right"></i></p>
+                        </button>
                     </div>
                 </div>
 
@@ -99,16 +109,26 @@
                         Upgrade Items
                     </div>
 
-                    <div class="items-block">
+                    <div id="upgrade-list" class="items-block">
                         {% if user.is_authenticated %}
-                            {% if upgrade_items %}
-                                {% include 'upgrade/item_list.html' with items=upgrade_items type="upgrade" %}
-                            {% else %}
+                            {% if not upgrade_items %}
                                 {% include 'upgrade/empty_upgrades.html' %}
                             {% endif %}
                         {% else %}
                             {% include 'upgrade/authorization_required.html' %}
                         {% endif %}
+                    </div>
+
+                    <div class="col pag-col">
+                        <button id="upgrade-prev-btn" class="open bloom-button">
+                            <p id="pag-upgrade-prev"><i class="bi bi-chevron-double-left"></i></p>
+                        </button>
+
+                        <p id="upgrade-cur-page" class="pag-cur-page">0</p>
+
+                        <button id="upgrade-next-btn" class="open bloom-button">
+                            <p id="pag-upgrade-next"><i class="bi bi-chevron-double-right"></i></p>
+                        </button>
                     </div>
                 </div>
             </div>
