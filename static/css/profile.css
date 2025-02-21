@@ -18,6 +18,24 @@
   display:grid;
 }
 
+.btn-primary {
+  background-color: #FFD000;
+  border-color: #FFD000;
+  color: #000000;
+  transition: all 0.15s ease-out;
+
+  &:hover {
+    background-color: #eec306 !important;
+    border-color: #eec306 !important;
+    color: #000000;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    color: #000000 !important;
+  }
+}
+
 
 .profile-info {
   display: inline-flex;
@@ -53,6 +71,7 @@
   position: relative;
   display: flex;
   opacity: 0;
+  transition: all 0.5s ease-in-out;
 }
 
 .card-stat {
@@ -76,13 +95,49 @@
   opacity: 1;
 }
 
-.btn-outline-warning {
-  border: 2px solid #FFD000 !important;
-  /* width: 200px; */
-  height: 45px !important;
+
+.btn-full-info {
+  margin: 0 auto 17px;
+  height: 40px !important;
   padding-top: 8px !important;
   padding-bottom: 5px;
-  margin-bottom: 10px;
+  width: 200px;
+}
+
+.form-control {
+  height: 40px;
+}
+
+.btn-saveTURL {
+  opacity: 0.5;
+  margin-left: 10px;
+  width: 100px;
+  height: 40px;
+}
+
+button:disabled {
+  background-color: #d4c065 !important;
+  border-color: #d4c065 !important;
+  color: #242424 !important;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background-color: #28a745;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  width: 200px;
+  z-index: 1001;
+}
+.notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 
@@ -103,8 +158,14 @@
 
 .skin {
   margin: 8px;
-  width: 210px;
-  height: 190px;
+  /* width: 210px;
+  height: 190px; */
+  width: 240px;
+  height: 380px;
+  padding: 10px;
+  border: 5px solid;
+  border-color: red;
+  border-radius: 10px;
 }
 
 .skin-img {
@@ -114,7 +175,6 @@
 }
 
 h2 {
-  color: white;
   padding-bottom: 10px !important;
 }
 

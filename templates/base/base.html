@@ -36,7 +36,7 @@
                 </ul>
 
                     {% if user.is_authenticated %}
-                        <button id="openDialog" class="balance btnw">
+                        <button id="openDialog" class="btn btn-primary balance">
                             <img src="https://img.icons8.com/?size=28&id=bQshuxGETQol&format=png&color=000000" alt="wallet">
                             <p class="mb-1" style="margin: 2px 5px !important;">{{ user_profile.wallet_balance }}$</p>
                             <img src="https://img.icons8.com/?size=28&id=OYZAx0hLpfIm&format=png&color=000000" alt="plus">
@@ -98,7 +98,7 @@
                             </ul>
                         </div>
                     {% else %}   
-                        <button class="btnw btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
+                        <button class="bttn btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
                             <img src="https://img.icons8.com/?size=40&id=zNqjI8XKkCv0&format=png&color=000000" alt="Steam">
                             <p>Login</p>
                             <!-- <a href='/accounts/steam/login/?process=login'>Login</a> -->

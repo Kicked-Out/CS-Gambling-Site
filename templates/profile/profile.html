@@ -43,9 +43,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-outline-warning" onclick="showInfo()">
-            <p>View full information</p>
-        </button>
+        <button class="btn btn-primary btn-full-info" onclick="showInfo()">View Full Information</button>
 
 
         <div class="text-center" style="width: 100%;">
@@ -58,9 +56,10 @@
                     {% if profile.trade_url %}
                         <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" value="{{ profile.trade_url }}">
                     {% else %}
-                        <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url">
+                        <input id="tradeOfferInput" type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" oninput="validateInput()">
                     {% endif %}
-                    <button class="btn btn-primary" style="margin-left: 10px; background: linear-gradient(to right, #00b09b, #96c93d)">Save</button>
+                    <button id="confirmButton" type="button" class="btn btn-primary btn-saveTURL" disabled onclick="saveLink()">Save</button>
+                    <div id="notification" class="notification"><img src="" alt="">Link Saved</div>
                 </div>
             </form>
         </div>
@@ -82,7 +81,7 @@
             </div>
             <div id="inventory-list" class="d-flex flex-wrap justify-content-center">
                 {% for item in inventory_items.all %}
-                    <div class="skin card m-1" style="width: 240px; height: 380px; padding-bottom: 10px; border: 5px solid; border-image: linear-gradient(to right, red, blue) 1; border-radius: 5px;">
+                    <div class="skin card m-1">
                         <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.item_name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.item_name }}</h5>
