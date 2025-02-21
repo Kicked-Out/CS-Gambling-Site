@@ -108,11 +108,10 @@ def add_item_to_case_view(request, case_name, item_name):
     return HttpResponse(200)
 
 @user_passes_test(lambda u: u.is_superuser)
-def remove_item_from_inventory(request, item_id):
-    user_id = request.user.id
-    user_profile = Profile.objects.get(id=user_id)
+def remove_item_from_inventory(request, user_id, item_id):
+    user_profile = Profile.objects.get(uid=user_id)
     InventoryItem.objects.filter(profile=user_profile, id=item_id).delete()
-    return redirect('/accounts/profile/')
+    return redirect(f'/accounts/profile/{user_profile.uid}')
 
 
 @user_passes_test(lambda u: u.is_superuser)

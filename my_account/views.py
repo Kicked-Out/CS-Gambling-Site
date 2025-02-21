@@ -1,13 +1,13 @@
-from django.shortcuts import redirect, render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from allauth.socialaccount.models import SocialAccount
-from .models import Profile, InventoryItem, WithdrawRequest
+from .models import Profile, InventoryItem, WithdrawRequest, Friendship, Notification
 from cases.models import Case
 import json
 from .forms import WithdrawRequestForm
-import decimal
+from django.db import IntegrityError
 from decimal import Decimal
 
 #===============================Profile page====================================
@@ -17,32 +17,20 @@ def is_user_logged_in(request):
 
 @login_required(login_url='/accounts/steam/login/?process=login')
 def profile(request, uid):
-    social_account = SocialAccount.objects.get(user=request.user)
-    extra_data = social_account.extra_data
-    avatar_url = extra_data["avatarfull"]
-    user = extra_data['personaname']
-    u_id = extra_data['steamid']
+    user_profile = Profile.objects.get(uid=uid)
 
     if request.method == 'POST':
-        user_profile = Profile.objects.get(username=request.user.username)
         user_profile.trade_url = request.POST['trade_url']
-        user_profile.save()
     
-    user_profile = Profile.objects.get(username=request.user.username)
-    user_profile.avatar = avatar_url
-    user_profile.uid = u_id
     user_profile.save()
 
     inventory_items = InventoryItem.objects.filter(profile=user_profile)
     cases = Case.objects.all()
 
     context = {
-        'user_name': user,
-        'avatar': avatar_url,
-        'profile': user_profile,
+        'user_profile': user_profile,
         'inventory_items': inventory_items,
         'cases': cases,
-        'uid': u_id,
     }
     return render(request, f'profile/profile.html', context)
 
@@ -50,7 +38,13 @@ def profile(request, uid):
 def redirect_to_profile(request):
     social_account = SocialAccount.objects.get(user=request.user)
     extra_data = social_account.extra_data
+    avatar_url = extra_data["avatarfull"]
     u_id = extra_data['steamid']
+    user_profile = Profile.objects.get(username=request.user.username)
+    user_profile.avatar = avatar_url
+    user_profile.uid = u_id
+    user_profile.save()
+
     return redirect(f'/accounts/profile/{u_id}/')
 
 def user_logout(request):
@@ -89,8 +83,8 @@ def open_case(request):
 
         new_item = InventoryItem.objects.create(
             profile=user_profile, 
-            name=item_name,
-            price=item_value,
+            item_name=item_name, 
+            item_value=item_value, 
             image_url=item_image
             )
 
@@ -124,3 +118,82 @@ def withdraw(request):
     return render(request, 'profile/withdraw.html', {'form': form})
     
 
+@login_required
+def send_friend_request(request, to_user_id):
+    to_user = get_object_or_404(Profile, id=to_user_id)
+    Friendship.objects.create(from_user=request.user, to_user=to_user, is_accepted=False)
+    return redirect('profile', uid=to_user_id)
+
+
+@login_required
+def accept_friend_request(request, from_user_id):
+    from_user = get_object_or_404(Profile, id=from_user_id)
+    friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
+    friendship.is_accepted = True
+    friendship.save()
+    return redirect('profile', uid=from_user_id)
+
+@login_required
+def friend_list(request):
+    friends = request.user.friendships_from.all()
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        search_results = Profile.objects.filter(username__icontains=search_query).exclude(id=request.user.id)
+    else:
+        search_results = None
+
+    return render(request, 'profile/friend_list.html', {
+        'friends': friends,
+        'search_results': search_results,
+        'search_query': search_query,
+    })
+
+@login_required
+def add_friend(request, to_user_id):
+    to_user = get_object_or_404(Profile, id=to_user_id)
+    Friendship.objects.create(from_user=request.user, to_user=to_user, is_accepted=False)
+    return redirect('profile', uid=to_user_id)
+
+@login_required
+def remove_friend(request, from_user_id):
+    from_user = get_object_or_404(Profile, id=from_user_id)
+    friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
+    friendship.delete()
+    return redirect('profile', uid=from_user_id)
+
+@login_required
+def add_friend_request(request, to_user_id):
+    to_user = get_object_or_404(Profile, uid=to_user_id)
+    try:
+        friendship, created = Friendship.objects.get_or_create(
+            from_user=request.user,
+            to_user=to_user,
+            defaults={'is_accepted': False}
+        )
+        if created:
+            Notification.objects.create(profile=to_user, message=f"{request.user.username} has sent you a friend request.")
+    except IntegrityError:
+        return redirect('profile', uid=to_user.uid)
+    
+    return redirect('profile', uid=to_user.uid)
+
+@login_required
+def accept_friend_request(request, from_user_id):
+    from_user = get_object_or_404(Profile, id=from_user_id)
+    friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
+    friendship.is_accepted = True
+    friendship.save()
+    return redirect('/friend/')
+
+@login_required
+def notifications(request):
+    notifications = request.user.notifications.all()
+    return render(request, 'notifications.html', {'notifications': notifications})
+
+@login_required
+def mark_notification_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, profile=request.user)
+    notification.is_read = True
+    notification.save()
+    return redirect('/notifications/')
