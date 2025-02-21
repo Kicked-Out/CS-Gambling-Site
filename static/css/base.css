@@ -1,6 +1,38 @@
 body {
-    background-color: black;
+    background-color: #1f2334;
     font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+}
+
+/* --- MAIN STYLES --- */
+h2 {
+    color: #fff;
+}
+
+p {
+    color: #000000;
+}
+
+/* .bttn {
+    background-color: #ffd000;
+    border-color: #ffd000;
+} */
+
+.btn-primary {
+    background-color: #FFD000;
+    border-color: #FFD000;
+    color: #000000;
+    transition: all 0.15s ease-out;
+
+    &:hover {
+        background-color: #eec306 !important;
+        border-color: #eec306 !important;
+        color: #000000;
+    }
+
+    &:active {
+        transform: scale(0.95);
+        color: #000000 !important;
+    }
 }
 
 /* --- HEADER SECTION --- */
@@ -16,35 +48,6 @@ body {
     padding: 5px 50px 5px 50px;
     font-size: 20px;
     margin: 0;
-}
-
-.b-example-divider {
-    height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
-    border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-}
-
-.form-control-dark {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: var(--bs-gray);
-}
-.form-control-dark:focus {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: #fff;
-    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
-}
-
-.bi {
-    vertical-align: -.125em;
-    fill: currentColor;
-}
-
-.text-small {
-    font-size: 85%;
 }
 
 .dropdown-toggle {
@@ -81,32 +84,38 @@ body {
     transform: scaleX(1);
 }
 
+.btn-login {
+    display:inline;
+    border-radius: 13px;
+    padding: 1px 10px;
+
+    & p {
+        display:inline;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+}
+
 .balance {
-    background-color: #FFD000;
-    color: black;
     margin-right: 30px;
     border-radius: 15px;
     text-align: center;
     width: auto;
     max-width: 100%;
+    height: 40px;
     padding: 3px 10px 3px 10px;
     display: inline-flex;
     align-items: center;
     word-wrap: break-word;
+    font-size: 18px;
+}
+
+.rounded-circle {
+    border: solid 2px #ffd000;
 }
 
 .bg-dark {
     background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
-}
-
-.sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-radius: 0;
 }
 /* --- PAYMENT SECTION --- */
 
@@ -119,7 +128,7 @@ dialog {
     padding: 20px;
 
     & p{
-        color: white;
+        color: #fff;
     }
 }
 
@@ -182,9 +191,10 @@ dialog {
 }
 
 
+
 /* --- CHECKBOX SECTION ---  */
 label {
-    color: white;
+    color: #fff;
 
     & svg {
         margin-right: 2px;
@@ -205,7 +215,7 @@ label {
 
 .path {
     fill: none;
-    stroke: white;
+    stroke: #fff;
     stroke-width: 6;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -229,32 +239,34 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+    appearance: none;
     -moz-appearance: textfield;
 }
 
-.but-pay {
+.btn-pay {
     width: 100%;
     margin: 50px 0 0;
     padding: 10px;
     border: none;
     border-radius: 5px;
     background: #007bff;
-    color: white;
+    color: #fff;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.but-pay:hover {
+.btn-pay:hover {
     background: #0056b3;
 }
-
 /* --- END PAYMENT SECTION --- */
+
+
 
 .wrapper {
     background-color: #292f45;
 
     & h3 {
-        color: white;
+        color: #fff;
         text-align: center;
         margin: 0;
         padding-bottom: 0;
@@ -265,47 +277,96 @@ input[type="number"] {
         font-size: 10px !important;
     }
 
-    & button {
-        background-color: transparent;
-        padding: 3px 10px;
-        border: none;
-    }
-
     & a {
-        color: white;
+        color: #fff;
         text-decoration: none;
         
     }
 }
 
+
 /* --- FOOTER SECTION --- */
 footer {
-    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
+    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%);
     margin: 0 !important;
-    padding: 30px 0 !important;
-    padding: 10px;
+    padding: 30px 0 0 !important;
     text-align: center;
     margin-top: 20px;
     font-size: 20px;
 }
 
-.copyright {
+.stat {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding: 0 20%;
+    margin-bottom: 50px;
 
-    & p {
-        color: white;
-        margin: 0;
+    & span {
+        display: block;
+        font-size: 14px;
+        color: rgb(95, 95, 95);
     }
 }
 
+.stat-block {
+    background-color: #ffd000;
+    width: 200px;
+    height: 60px;
+    /* border: solid 2px blue; */
+    border-radius: 10px;
+}
+
 .copyright {
+    background-color: #19172d;
+    padding: 30px 0;
+
+    & p {
+        color: #fff;
+        margin: 0;
+    }
+
     & a:link,
         a:visited,
         a:hover,
         a:active{
             text-decoration: none;
-            color: white;
+            color: #fff;
     }
+
     & a:hover {
-        color: #FFD000;
+        color: #ffd000;
     }
+}
+
+
+
+
+/* --- STICKY --- */
+.stpo {
+    margin: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    overflow: visible;
+}
+
+.stpo2 {
+    position: fixed;
+    top: 0;
+    width: 99%;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 0;
 }

@@ -18,19 +18,10 @@
     <!-- [CLEAN CODE] Now, write styles in any HTML here -->
     {% block styles %}{% endblock %}
 
-    <!-- ??? -->
-    <style>
-        footer {
-            background-color: #f8f9fa;
-            padding: 10px;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
     <header class="p-3 bg-dark text-white">
-        <div class="main-header" id="myHeader">
+        <div class="main-header stpo" id="myHeader">
             <div class="container-fluid">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <a href="index.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
@@ -45,7 +36,7 @@
                 </ul>
 
                     {% if user.is_authenticated %}
-                        <button id="openDialog" class="balance">
+                        <button id="openDialog" class="btn btn-primary balance">
                             <img src="https://img.icons8.com/?size=28&id=bQshuxGETQol&format=png&color=000000" alt="wallet">
                             <p class="mb-1" style="margin: 2px 5px !important;">{{ user_profile.wallet_balance }}$</p>
                             <img src="https://img.icons8.com/?size=28&id=OYZAx0hLpfIm&format=png&color=000000" alt="plus">
@@ -85,14 +76,14 @@
                                         Accept terms
                                         <a href="#">Ти все одно заб'єш на це.</a>
                                     </label>
-                                    <button class="but-pay">Pay</button>
+                                    <button class="btn-pay">Pay</button>
                                 </div>
                             </div>
                         </dialog>
 
                         <div class="dropdown text-end">
                             <a href="#" class="d-block link-dark text-decoration-none"  id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                                <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="44" height="44">
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
@@ -100,22 +91,25 @@
                                 {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="/admins/admin_panel/">Admin</a></li>
                                 {% endif %}
+                                <li><a class="dropdown-item" href="/friends/">Friends</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
                             </ul>
                         </div>
                     {% else %}   
-                        <div>
-                            <a class="dropdown-item" href='/accounts/steam/login/?process=login'>Login with Steam</a>
-                        </div>
+                        <button class="bttn btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
+                            <img src="https://img.icons8.com/?size=40&id=zNqjI8XKkCv0&format=png&color=000000" alt="Steam">
+                            <p>Login</p>
+                            <!-- <a href='/accounts/steam/login/?process=login'>Login</a> -->
+                        </button>
                     {% endif %}
                 </div>
             </div>
         </div>
         <h5>Live Drops</h5>
         <header style="margin: 0">
-            <div class="container-wins" id="myHeader">
+            <div class="container-wins">
                 <!-- <div class="top-win">
                 </div> -->
                 <div class="wins-reel">
@@ -135,11 +129,28 @@
         <!-- Footer -->
         {% block footer %}
             <footer>
-                <div class="statistics">
+                <!-- <div class="statistics">
                     <div class="statistic players"></div>
                     <div class="statistic online"></div>
                     <div class="statistic cases_opened"></div>
                     <div class="statistic year">since 2015</div>
+                </div> -->
+
+                <div class="stat">
+                    <div class="stat-block"><span>Online</span> 2031</div>
+                    <div class="stat-block"><span>Users</span> 321324</div>
+                    <div class="stat-block"><span>Cases opened</span> 28071371283</div>
+                    <div class="stat-block"><span>Time</span> 144:59:23</div> <!-- Час який користувач провів відкриваючи кейси  ||  або це буде поточний час -->
+                </div>
+                <meter id="fuel" min="0" max="100" value="20">50/100</meter>
+
+                <div class="social">
+                    <a href="#"><img src="https://img.icons8.com/?size=40&id=4GQuK3fo74oi&format=png&color=FFD000" alt="Discord"></a>
+                    <a href="#"><img src="https://img.icons8.com/?size=40&id=vBPr6H1m4buw&format=png&color=FFD000" alt="Telegram"></a>
+                    <a href="#"><img src="https://img.icons8.com/?size=40&id=KDWXXYcBSEcJ&format=png&color=FF0000" alt="Instagram"></a>
+                    <a href="#"><img src="https://img.icons8.com/?size=40&id=aKlZySb1lsX8&format=png&color=FFD000" alt="TikTok"></a>
+                    <a href="#"><img src="https://img.icons8.com/?size=40&id=QyWWewzGuUfq&format=png&color=FFD000" alt="Our Team"></a>
+                    <a href="https://github.com/Kicked-Out/CS-Gambling-Site"><img src="https://img.icons8.com/?size=40&id=zehXPLJSAbBB&format=png&color=FFD000" alt="GitHub"></a>
                 </div>
 
                 <div class="copyright">

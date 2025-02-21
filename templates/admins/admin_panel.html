@@ -4,15 +4,15 @@
 {% block title %}Admin panel{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/adm-pnl.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin-panel.css' %}">
 <h2>Admin panel</h2>
 <div class="container">
     <a href="/">< Back</a>
-    <ul class="nav nav-tabs">
-        <li class="m-2"><a href="{% url 'user_list' %}">User list</a></li>
-        <li class="m-2"><a href="{% url "case_list_admin" %}">Case list</a></li>
-        <li class="m-2"><a href="{% url 'add_funds' %}">Add funds</a></li>
-        <li class="m-2"><a href="{% url 'add_cases' %}">Add cases</a></li>
+    <ul class="list">
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'user_list' %}" >User list</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'case_list_admin' %}" >Case list</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'add_funds' %}" >Add funds</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'add_cases' %}" >Add cases</a></li>
     </ul>
 </div>
 {% endblock %}

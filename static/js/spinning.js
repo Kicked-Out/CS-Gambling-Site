@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const winningIndex = 67; // у цьому індексі масиву буде примусово встановлено виграшний скін
     // Після завершення спіну виграшний скін має опинитися у цьому слоті,
     // і цей же слот буде показаний користувачу як виграшний (третій зліва, індекс 2)
-    const desiredVisibleIndex = 2; 
-  
+    const desiredVisibleIndex = 3;
+
     let isSpinning = false;
     let skinsQueue = []; // поточний масив скінів
     let nextIndex = visibleSkinsCount; // індекс наступного елемента для додавання
@@ -87,8 +87,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       return skinDiv;
   }
-    
-  
+
+
     // ----------------------- Генерація нового масиву скінів -----------------------
     // Якщо передані currentVisibleSkins (8 скіни із попереднього спіну), вони використовуються як перші 8 елементів.
     // Решту позицій (до 72) заповнюємо випадковими скінами,
