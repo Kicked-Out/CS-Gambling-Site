@@ -145,9 +145,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         `;
 
         itemPrices[item_type].push(item.price);
-        selected_items[item_type].push({
-            [item.name]: item.id
-        });
+        selected_items[item_type].push(item);
 
         selectedItem.addEventListener("click", () => {removeItem(selectedItem, item_type, item.price)});
 
@@ -272,14 +270,12 @@ document.addEventListener("DOMContentLoaded", async function() {
         addUpgradeBtn();
         clearItems();
 
-        const firstInventoryItem = selected_items["inventory"][0];
-        const inventoryItemId = Object.values(firstInventoryItem)[0];
-        const firstUpgradeItem = selected_items["upgrade"][0];
-        const upgradeItemId = Object.values(firstUpgradeItem)[0];
-        const upgradeItemName = Object.keys(firstUpgradeItem)[0]
-        const upgradeItemImage = await getItemImage(upgradeItemName);
+        const inventoryItem = selected_items["inventory"][0];
+        const upgradeItem = selected_items["upgrade"][0];
 
-        console.log(upgradeItemImage);
+        console.log(upgradeItem);
+
+        console.log(upgradeItem.id);
 
         fetch(`/upgrade/success/`, {
             method: "POST",
@@ -287,9 +283,10 @@ document.addEventListener("DOMContentLoaded", async function() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                inventory: inventoryItemId,
-                upgrade: upgradeItemId,
-                image_url: upgradeItemImage,
+                inventory_item_id: inventoryItem.id,
+                upgrade_item_id: upgradeItem.id,
+                upgrade_item_price: upgradeItem.price,
+                upgrade_item_image_url: upgradeItem.image_url
             })
         });
 

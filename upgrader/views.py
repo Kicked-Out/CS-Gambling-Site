@@ -1,8 +1,9 @@
-from django.http.response import JsonResponse
 from django.shortcuts import render
-
 from my_account.models import Profile, InventoryItem
 from .models import UpgradeItemsWearRatings
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -41,6 +42,9 @@ def get_upgrade_items(request, page):
             break
 
         item = upgrade_items[i]
+
+        print(item.id);
+
         item_json = {
             "id": item.id,
             "name": item.upgrade_item.name,
@@ -53,37 +57,33 @@ def get_upgrade_items(request, page):
 
     return JsonResponse(upgrade_list, safe=False)
 
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-@csrf_exempt  # Для простоти; у продакшн-версії використовуйте csrf-токени
+@csrf_exempt
 def success(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            inventory_item_id = data.get('inventory')
-            upgrade_item_id = data.get('upgrade')
-            image_url = data.get('image_url')  # використовується, якщо потрібно
+            inventory_item_id = data.get('inventory_item_id')
+            upgrade_item_id = data.get('upgrade_item_id')
+            price = data.get('upgrade_item_price')
+            image_url = data.get('upgrade_item_image_url')
 
-            # Отримуємо потрібні об'єкти
             inventory_item = InventoryItem.objects.get(id=inventory_item_id)
             upgrade_items_wear_ratings = UpgradeItemsWearRatings.objects.get(id=upgrade_item_id)
             upgrade_item = upgrade_items_wear_ratings.upgrade_item
+            print(upgrade_item.name)
 
-            # Видаляємо елемент з інвентарю
             inventory_item.delete()
 
-            # Створюємо новий елемент інвентарю на основі апгрейду
             InventoryItem.objects.create(
                 profile=request.user,
                 name=upgrade_item.name,
-                price=upgrade_item.price,
-                image_url=image_url  # або, якщо хочете, upgrade_item.image_url
+                price=price,
+                image_url=image_url
             )
 
             return JsonResponse({'success': True})
         except Exception as e:
+            print(e)
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
