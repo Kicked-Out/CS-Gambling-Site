@@ -3,8 +3,9 @@ window.addEventListener("scroll", function() {
     var headerOffset = header.offsetTop; // Відстань header від верху сторінки
 
     if (window.pageYOffset > headerOffset) {
-        header.classList.add("sticky");
-    } else {
-        header.classList.remove("sticky");
+        header.classList.add("stpo2");
     }
+    if (window.pageYOffset < 72) {
+        header.classList.remove("stpo2");
+    }   
 });

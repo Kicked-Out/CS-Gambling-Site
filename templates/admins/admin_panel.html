@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base/base.html' %}
 {% load static %}
 
@@ -15,4 +16,23 @@
         <li class="m-2"><a href="{% url 'add_cases' %}" style="background: linear-gradient(to right, rgba(97, 230, 190, 0.8), rgba(26, 128, 26, 0.6)); text-shadow: 0 0 30px rgba(97, 230, 190, 0.8), 0 0 50px rgba(62, 173, 62, 0.6), 0 0 70px rgba(42, 177, 87, 0.4); border-radius: 5px; width: 550px; height: 250px;" >Add cases</a></li>
     </ul>
 </div>
+=======
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Admin panel{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-panel.css' %}">
+<h2>Admin panel</h2>
+<div class="container">
+    <a href="/">< Back</a>
+    <ul class="list">
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'user_list' %}" >User list</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'case_list_admin' %}" >Case list</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'add_funds' %}" >Add funds</a></li>
+        <li class="btn btn-primary" style="width: 150px; height: 40px;"><a href="{% url 'add_cases' %}" >Add cases</a></li>
+    </ul>
+</div>
+>>>>>>> 587eeefc3f2ad2c4ea3190741cdaa5f9b6d795f9
 {% endblock %}

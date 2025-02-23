@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base/base.html' %}
 {% load static %}
 
@@ -116,3 +117,57 @@
     <p>No results found.</p>
 {% endif %}
 {% endblock %}
+=======
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Your Friends{% endblock %}
+{% block content %}
+    <h2 class="text-center">Your Friends</h2>
+
+    {% if friendships %}
+        <ul>
+            {% for friendship in friendships %}
+                <li>
+                    <a href="/accounts/profile/{{ friendship.to_user.uid }}/">{{ friendship.to_user.username }}</a>
+                    
+                    {% if friendship.is_accepted %}
+                        <span class="badge bg-success">Accepted</span>
+                    {% else %}
+                        <span class="badge bg-danger">Pending</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="color: red">You have no friends yet.</p>
+    {% endif %}
+        <h3 class="text-center">Find Friends</h3>
+        
+        <form method="GET" action="{% url 'friend_list' %}">
+            <input type="text" name="search" placeholder="Enter your friend's username">
+            <button class="btn btn-primary">Search</button>
+        </form>
+    {% if search_results %}
+        <h3 class="text-center">Search Results</h3>
+        <ul>
+            {% for profile in search_results %}
+                <li style="background-color: rgba(255, 255, 255, 0.5); border-radius: 5px; width: 450px;">
+                    <a href="/accounts/profile/{{ profile.uid }}/" style="background: linear-gradient(to right, rgba(17, 61, 119, 0.8), rgba(55, 96, 184, 0.6)); border-radius: 5px">{{ profile.username }}</a>
+                    {% if profile.friendships_to.from_user.username == user.username %}
+                        {% if profile.friendships_to.from_user.is_accepted %}
+                            <a href="" class="btn btn-danger"  style="background-color: red;">Remove Friend</a>
+                        {% else %}
+                            <a href="" class="btn btn-danger"  style="background-color: red;">Accept Friend Request</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'add_friend_request' profile.uid %}" class="btn btn-primary" style="background-color: blue;">Send Friend Request</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+{% endblock %}
+>>>>>>> 587eeefc3f2ad2c4ea3190741cdaa5f9b6d795f9
