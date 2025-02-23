@@ -57,3 +57,13 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.profile.username}: {self.message}"
+
+
+class Message(models.Model):
+    from_user = models.ForeignKey(Profile, related_name='sent_messages', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(Profile, related_name='received_messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.from_user.username} to {self.to_user.username} at {self.timestamp}"
