@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.db import models
 from my_account.models import Profile, InventoryItem
 
@@ -25,8 +24,4 @@ class SelectedItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} selected {self.item.item_name}"
-=======
-from django.db import models
-
-# Create your models here.
->>>>>>> 587eeefc3f2ad2c4ea3190741cdaa5f9b6d795f9
+    

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -114,8 +113,3 @@ def exchanger(request, to_user_id):
         "to_user_items_confirmed": exchange.to_user_items_confirmed,
     }
     return render(request, "profile/exchange.html", context)
-=======
-from django.shortcuts import render
-
-# Create your views here.
->>>>>>> 587eeefc3f2ad2c4ea3190741cdaa5f9b6d795f9
