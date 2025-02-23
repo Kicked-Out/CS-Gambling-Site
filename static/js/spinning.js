@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const winningIndex = 67; // у цьому індексі масиву буде примусово встановлено виграшний скін
     // Після завершення спіну виграшний скін має опинитися у цьому слоті,
     // і цей же слот буде показаний користувачу як виграшний (третій зліва, індекс 2)
-    const desiredVisibleIndex = 2; 
+    const desiredVisibleIndex = 2;
   
     let isSpinning = false;
     let skinsQueue = []; // поточний масив скінів

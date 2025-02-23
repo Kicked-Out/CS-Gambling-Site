@@ -2,51 +2,117 @@
 {% load static %}
 
 {% block title %}Your Friends{% endblock %}
-{% block content %}
-    <h2 class="text-center">Your Friends</h2>
 
-    {% if friendships %}
-        <ul>
-            {% for friendship in friendships %}
-                <li>
-                    <a href="/accounts/profile/{{ friendship.to_user.uid }}/">{{ friendship.to_user.username }}</a>
-                    
-                    {% if friendship.is_accepted %}
-                        <span class="badge bg-success">Accepted</span>
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/friend_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center">Your Friends</h2>
+{% if friends %}
+    <ul class="friends-list">
+        {% for friendship in friends %}
+            <li>
+                {% if friendship.from_user == request.user %}
+                    <div style="display: flex; align-items: center;">
+                        <a href="/accounts/profile/{{ friendship.to_user.uid }}/">
+                            <img src="{{ friendship.to_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                        </a>
+                        <a href="/accounts/profile/{{ friendship.to_user.uid }}/" style="margin-left: 10px;">{{ friendship.to_user.username }}</a>
+                    </div>
+                    <a href="{% url 'remove_friend' friendship.to_user.id %}" class="btn btn-danger">Remove Friend</a>
+                    <a href="{% url 'chat_view' friendship.to_user.uid %}" class="btn btn-primary">Chat</a>
+                    <a href="{% url 'exchanger' friendship.to_user.id %}" class="btn btn-primary">Exchange</a>
+                {% else %}
+                    <div style="display: flex; align-items: center;">
+                        <a href="/accounts/profile/{{ friendship.from_user.uid }}/">
+                            <img src="{{ friendship.from_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                        </a>
+                        <a href="/accounts/profile/{{ friendship.from_user.uid }}/" style="margin-left: 10px;">{{ friendship.from_user.username }}</a>
+                    </div>
+                    <a href="{% url 'remove_friend' friendship.from_user.id %}" class="btn btn-danger">Remove Friend</a>
+                    <a href="{% url 'chat_view' friendship.from_user.uid %}" class="btn btn-primary">Chat</a>
+                    <a href="{% url 'exchanger' friendship.from_user.id %}" class="btn btn-primary">Exchange</a>
+                {% endif %}
+                <span class="badge bg-success">Accepted</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p style="color: red">You have no friends yet.</p>
+{% endif %}
+
+<h3 class="text-center">Friend Requests</h3>
+{% if friend_requests %}
+    <ul class="requests-list">
+        {% for request in friend_requests %}
+            <li>
+                <div style="display: flex; align-items: center;">
+                    <a href="/accounts/profile/{{ request.from_user.uid }}/">
+                        <img src="{{ request.from_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                    </a>
+                    <a href="/accounts/profile/{{ request.from_user.uid }}/" style="margin-left: 10px;">{{ request.from_user.username }}</a>
+                </div>
+                <a href="{% url 'accept_friend_request' request.from_user.id %}" class="btn btn-success">Accept</a>
+                <a href="{% url 'reject_friend_request' request.from_user.id %}" class="btn btn-danger">Reject</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No friend requests.</p>
+{% endif %}
+
+<h3 class="text-center">Outgoing Friend Requests</h3>
+{% if outgoing_requests %}
+    <ul class="outgoing-requests-list">
+        {% for request in outgoing_requests %}
+            <li>
+                <div style="display: flex; align-items: center;">
+                    <a href="/accounts/profile/{{ request.to_user.uid }}/">
+                        <img src="{{ request.to_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                    </a>
+                    <a href="/accounts/profile/{{ request.to_user.uid }}/" style="margin-left: 10px;">{{ request.to_user.username }}</a>
+                </div>
+                <a href="{% url 'cancel_friend_request' request.to_user.id %}" class="btn btn-danger">Cancel Request</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No outgoing requests.</p>
+{% endif %}
+
+<h3 class="text-center">Find Friends</h3>
+<form method="GET" action="{% url 'friend_list' %}">
+    <input type="text" name="search" placeholder="Enter your friend's username">
+    <button class="btn btn-primary">Search</button>
+</form>
+
+{% if search_results %}
+    <h3 class="text-center">Search Results</h3>
+    <ul class="search-results-list">
+        {% for profile in search_results %}
+            <li>
+                <div style="display: flex; align-items: center;">
+                    <a href="/accounts/profile/{{ profile.uid }}/">
+                        <img src="{{ profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40">
+                    </a>
+                    <a href="/accounts/profile/{{ profile.uid }}/" style="margin-left: 10px;">{{ profile.username }}</a>
+                </div>
+                {% if profile.friendships_to.from_user.username == user.username %}
+                    {% if profile.friendships_to.from_user.is_accepted %}
+                        <a href="{% url 'remove_friend' profile.friendships_to.from_user.id %}" class="btn btn-danger">Remove Friend</a>
                     {% else %}
-                        <span class="badge bg-danger">Pending</span>
+                        <a href="{% url 'accept_friend_request' profile.friendships_to.from_user.id %}" class="btn btn-success">Accept Friend Request</a>
+                        <a href="{% url 'reject_friend_request' profile.friendships_to.from_user.id %}" class="btn btn-danger">Reject</a>
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p style="color: red">You have no friends yet.</p>
-    {% endif %}
-        <h3 class="text-center">Find Friends</h3>
-        
-        <form method="GET" action="{% url 'friend_list' %}">
-            <input type="text" name="search" placeholder="Enter your friend's username">
-            <button class="btn btn-primary">Search</button>
-        </form>
-    {% if search_results %}
-        <h3 class="text-center">Search Results</h3>
-        <ul>
-            {% for profile in search_results %}
-                <li style="background-color: rgba(255, 255, 255, 0.5); border-radius: 5px; width: 450px;">
-                    <a href="/accounts/profile/{{ profile.uid }}/" style="background: linear-gradient(to right, rgba(17, 61, 119, 0.8), rgba(55, 96, 184, 0.6)); border-radius: 5px">{{ profile.username }}</a>
-                    {% if profile.friendships_to.from_user.username == user.username %}
-                        {% if profile.friendships_to.from_user.is_accepted %}
-                            <a href="" class="btn btn-danger"  style="background-color: red;">Remove Friend</a>
-                        {% else %}
-                            <a href="" class="btn btn-danger"  style="background-color: red;">Accept Friend Request</a>
-                        {% endif %}
-                    {% else %}
-                        <a href="{% url 'add_friend_request' profile.uid %}" class="btn btn-primary" style="background-color: blue;">Send Friend Request</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found.</p>
-    {% endif %}
+                {% else %}
+                    <a href="{% url 'add_friend_request' profile.uid %}" class="btn btn-primary">Send Friend Request</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
 {% endblock %}

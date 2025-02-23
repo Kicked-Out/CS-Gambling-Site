@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from allauth.socialaccount.models import SocialAccount
-from .models import Profile, InventoryItem, WithdrawRequest, Friendship, Notification
+from .models import Profile, InventoryItem, WithdrawRequest, Friendship, Notification, Message
 from cases.models import Case
 import json
-from .forms import WithdrawRequestForm
+from .forms import WithdrawRequestForm, MessageForm
 from django.db import IntegrityError
 from decimal import Decimal
 
@@ -133,9 +134,15 @@ def accept_friend_request(request, from_user_id):
     friendship.save()
     return redirect('profile', uid=from_user_id)
 
+
 @login_required
 def friend_list(request):
-    friends = request.user.friendships_from.all()
+    friends_from = Friendship.objects.filter(from_user=request.user, is_accepted=True)
+    friends_to = Friendship.objects.filter(to_user=request.user, is_accepted=True)
+    all_friends = friends_from | friends_to
+    
+    friend_requests = Friendship.objects.filter(to_user=request.user, is_accepted=False)
+    outgoing_requests = Friendship.objects.filter(from_user=request.user, is_accepted=False)
     search_query = request.GET.get('search', '')
 
     if search_query:
@@ -144,10 +151,13 @@ def friend_list(request):
         search_results = None
 
     return render(request, 'profile/friend_list.html', {
-        'friends': friends,
+        'friends': all_friends,
+        'friend_requests': friend_requests,
+        'outgoing_requests': outgoing_requests,
         'search_results': search_results,
         'search_query': search_query,
     })
+
 
 @login_required
 def add_friend(request, to_user_id):
@@ -158,9 +168,15 @@ def add_friend(request, to_user_id):
 @login_required
 def remove_friend(request, from_user_id):
     from_user = get_object_or_404(Profile, id=from_user_id)
-    friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
-    friendship.delete()
-    return redirect('profile', uid=from_user_id)
+    friendship1 = Friendship.objects.filter(from_user=from_user, to_user=request.user).first()
+    friendship2 = Friendship.objects.filter(from_user=request.user, to_user=from_user).first()
+    
+    if friendship1:
+        friendship1.delete()
+    if friendship2:
+        friendship2.delete()
+    
+    return redirect('friend_list')
 
 @login_required
 def add_friend_request(request, to_user_id):
@@ -174,9 +190,9 @@ def add_friend_request(request, to_user_id):
         if created:
             Notification.objects.create(profile=to_user, message=f"{request.user.username} has sent you a friend request.")
     except IntegrityError:
-        return redirect('profile', uid=to_user.uid)
+        return redirect('friend_list')
     
-    return redirect('profile', uid=to_user.uid)
+    return redirect('friend_list')
 
 @login_required
 def accept_friend_request(request, from_user_id):
@@ -184,16 +200,68 @@ def accept_friend_request(request, from_user_id):
     friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
     friendship.is_accepted = True
     friendship.save()
-    return redirect('/friend/')
+    return redirect('friend_list')
+
 
 @login_required
-def notifications(request):
-    notifications = request.user.notifications.all()
-    return render(request, 'notifications.html', {'notifications': notifications})
+def base_view(request):
+    friend_requests_count = Friendship.objects.filter(to_user=request.user, is_accepted=False).count()
+    return render(request, 'base.html', {
+        'friend_requests_count': friend_requests_count,
+    })
 
 @login_required
-def mark_notification_read(request, notification_id):
-    notification = get_object_or_404(Notification, id=notification_id, profile=request.user)
-    notification.is_read = True
-    notification.save()
-    return redirect('/notifications/')
+def reject_friend_request(request, from_user_id):
+    from_user = get_object_or_404(Profile, id=from_user_id)
+    friendship = get_object_or_404(Friendship, from_user=from_user, to_user=request.user)
+    friendship.delete()
+    return redirect('friend_list')
+
+@login_required
+def cancel_friend_request(request, to_user_id):
+    to_user = get_object_or_404(Profile, id=to_user_id)
+    friendship = get_object_or_404(Friendship, from_user=request.user, to_user=to_user)
+    friendship.delete()
+    return redirect('friend_list')
+
+@login_required
+def chat_view(request, friend_uid):
+    friend_profile = get_object_or_404(Profile, uid=friend_uid)
+    user_profile = get_object_or_404(Profile, username=request.user.username)
+
+    messages = Message.objects.filter(
+        from_user__in=[user_profile, friend_profile],
+        to_user__in=[user_profile, friend_profile]
+    ).order_by('timestamp')
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.from_user = user_profile
+            message.to_user = friend_profile
+            message.save()
+            return redirect('chat_view', friend_uid=friend_uid)
+    else:
+        form = MessageForm()
+
+    return render(request, 'profile/chat.html', {
+        'friend_profile': friend_profile,
+        'user_profile': user_profile,
+        'messages': messages,
+        'form': form,
+    })
+
+@login_required
+def getChatMessages(request, friend_uid):
+    friend_profile = get_object_or_404(Profile, uid=friend_uid)
+    user_profile = request.user
+
+    messages = Message.objects.filter(
+        from_user__in=[user_profile, friend_profile],
+        to_user__in=[user_profile, friend_profile]
+    ).order_by('timestamp')
+
+    print(messages)
+
+    return JsonResponse({'messages': messages})
