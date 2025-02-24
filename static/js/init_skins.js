@@ -44,11 +44,16 @@ async function getSkinPrice(skin) {
         !skin.name.includes("Well-Worn") &&
         !skin.name.includes("Battle-Scarred")
     ) {
-        const wearRatings = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"];
-        const randomIndex = Math.floor(Math.random() * wearRatings.length);
-        randomWear = wearRatings[randomIndex];
+        if (skin.wear_rating === undefined) {
+            const wearRatings = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"];
+            const randomIndex = Math.floor(Math.random() * wearRatings.length);
+            randomWear = wearRatings[randomIndex];
 
-        body.skin_name = `${skin.name} (${randomWear})`;
+            body.skin_name = `${skin.name} (${randomWear})`;
+        } else {
+            body.skin_name = `${skin.name} (${skin.wear_rating})`;
+        }
+
     }
 
     try {

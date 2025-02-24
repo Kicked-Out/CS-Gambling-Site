@@ -1,22 +1,24 @@
 document.addEventListener("DOMContentLoaded", async function () {
     // ----------------------- Налаштування -----------------------
     const spinButton = document.getElementById("spin-button");
-    const skinsContainer = document.getElementById("slot-skins");
+    // Зверніть увагу: тепер ми працюємо з кожним барабаном окремо, тому не використовуємо глобальний skinsContainer.
     const skinWidth = 155; // ширина одного скіна (150px + 5px gap)
     const visibleSkinsCount = 8; // кількість скінів, що видно одночасно
     const totalSkins = 72; // загальна кількість елементів у масиві
-    const winningIndex = 67; // у цьому індексі масиву буде примусово встановлено виграшний скін
-    // Після завершення спіну виграшний скін має опинитися у цьому слоті,
-    // і цей же слот буде показаний користувачу як виграшний (третій зліва, індекс 2)
-    const desiredVisibleIndex = 3;
+    const winningIndex = 67; // позиція виграшного скіну у масиві
+    const desiredVisibleIndex = 2;  // позиція, де має зупинитись виграшний скін
 
     let isSpinning = false;
-    let skinsQueue = []; // поточний масив скінів
-    let nextIndex = visibleSkinsCount; // індекс наступного елемента для додавання
-
     let casePrice = parseFloat(spinButton.getAttribute('data-price'));
     let userBalance = parseFloat("{{ user_profile.wallet_balance }}");
     const isAuthenticated = spinButton.getAttribute('data-authenticated') === "True";
+
+    // Отримуємо всі скіни, що вже присутні в DOM (їх використовуємо для генерації початкової інформації)
+    let allSkins = Array.from(document.querySelectorAll(".slot-skin")).map(skin => ({
+      name: skin.getAttribute("data-name"),
+      odds: parseFloat(skin.getAttribute("data-odds")),
+      image_url: skin.querySelector("img").getAttribute("src")
+    }));
 
     function getUSerBalance() {
       fetch('/accounts/get_balance/')
@@ -35,33 +37,28 @@ document.addEventListener("DOMContentLoaded", async function () {
           spinButton.disabled = false;
           spinButton.classList.remove("disabled");
       }
-  }
+    }
 
-  getUSerBalance();
+    getUSerBalance();
 
-    // ----------------------- Джерело даних -----------------------
-    // Припускаємо, що на сторінці вже є елементи .slot-skin (серверний рендер)
-    let allSkins = Array.from(document.querySelectorAll(".slot-skin")).map(skin => ({
-      name: skin.getAttribute("data-name"),
-      odds: parseFloat(skin.getAttribute("data-odds"))
-    }));
+    // ----------------------- Функції для роботи з окремим барабаном -----------------------
 
     // Функція повертає топ‑5 скінів за найбільшим значенням odds
     function getTopOddsSkins() {
       return [...allSkins].sort((a, b) => b.odds - a.odds).slice(0, 5);
     }
-  
-    // ----------------------- Створення DOM-елемента скіна -----------------------
+
+    // Створює DOM-елемент скіна для барабана
     async function createSkinElement(skinData) {
       const skinDiv = document.createElement("div");
       skinDiv.classList.add("slot-skin");
       skinDiv.setAttribute("data-name", skinData.name);
       skinDiv.setAttribute("data-odds", skinData.odds);
-      
+
+      // Припускаємо, що функція getSkinByName визначена глобально і повертає дані про скін
       const skin = await getSkinByName(skinData.name);
 
-      // Список гексів. Є не всі PNG. ПАНЕ DIZI ЗРОБІТЬ ІЩЕ, АЛЕ ВЖЕ НЕ В .ПЕЕСДЕ, а в .ПЕЕНҐЕ)
-      // Немає: pink, orange
+      // Відповідність рідкості скіну зображенню (це приклад; налаштуйте за потребою)
       const hexagons = {
         'Consumer': '/static/img/gray.png',
         'Industrial': '/static/img/blue-g.png',
@@ -71,13 +68,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         'Covert': '/static/img/red.png',
         'Contraband': '/static/img/orange.png',
         'Extraordinary': '/static/img/yellow.png',
-      }
+      };
 
-      console.log(skin.rarityName);
-      // Беремо зображення за ключем
-      // Як знав, що треба буде зберігати rarityName))). skin.rarityName, у даному випадку, це ключ. Тобто рідкість.
       const hexagon = hexagons[skin.rarityName];
-      
+
       skinDiv.style.borderColor = skin.rarityColor;
       skinDiv.innerHTML = `
         <img src="${skin.image}" alt="${skinData.name}" class="skin-img"/>
@@ -86,13 +80,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       `;
 
       return skinDiv;
-  }
+    }
 
-
-    // ----------------------- Генерація нового масиву скінів -----------------------
-    // Якщо передані currentVisibleSkins (8 скіни із попереднього спіну), вони використовуються як перші 8 елементів.
-    // Решту позицій (до 72) заповнюємо випадковими скінами,
-    // а на позицію winningIndex примусово вставляємо один із топ‑5 скінів.
+    // Генерує нову чергу скінів для барабана.
+    // Якщо передані currentVisibleSkins (видимі скіни з попереднього спіну) — використовуємо їх як початок.
     function generateNewQueue(currentVisibleSkins) {
       let newQueue = [];
       if (currentVisibleSkins && currentVisibleSkins.length === visibleSkinsCount) {
@@ -110,19 +101,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       newQueue[winningIndex] = topOddsSkins[Math.floor(Math.random() * topOddsSkins.length)];
       return newQueue;
     }
-  
-    // ----------------------- Відображення початкових скінів -----------------------
-    async function displayInitialSkins(queue) {
-      skinsContainer.innerHTML = "";
+
+    // Відображає початкові скіни в контейнері конкретного барабана
+    async function displayInitialSkinsForReel(container, queue) {
+      container.innerHTML = "";
       for (let i = 0; i < visibleSkinsCount; i++) {
-        skinsContainer.appendChild(await createSkinElement(queue[i]));
+        container.appendChild(await createSkinElement(queue[i]));
       }
     }
-  
-    // ----------------------- Анімація одного зсуву -----------------------
-    // Функція анімує переміщення контейнера на ширину одного скіна із easing-ефектом (easeOutQuad)
-    // Повертає Promise, який резолвиться після завершення анімації.
-    function animateShift(duration) {
+
+    // ----------------------- Анімація для окремого барабана -----------------------
+
+    // Анімація зсуву контейнера (container – це елемент з класом .slot-skins)
+    function animateShiftForReel(container, duration) {
       return new Promise(resolve => {
         const startTime = performance.now();
         function step(now) {
@@ -130,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           let progress = Math.min(elapsed / duration, 1);
           let ease = progress * (2 - progress); // easeOutQuad
           let offset = -skinWidth * ease;
-          skinsContainer.style.transform = `translateX(${offset}px)`;
+          container.style.transform = `translateX(${offset}px)`;
           if (progress < 1) {
             requestAnimationFrame(step);
           } else {
@@ -140,36 +131,28 @@ document.addEventListener("DOMContentLoaded", async function () {
         requestAnimationFrame(step);
       });
     }
-  
-    // ----------------------- Анімація спіну -----------------------
-    // Виконуємо кілька зсувів, щоб після завершення виграшний скін із масиву (з позиції winningIndex)
-    // опинився у видимій частині за індексом desiredVisibleIndex.
-    async function spinAnimation() {
-      // Кількість зсувів: (winningIndex - desiredVisibleIndex).
-      // Наприклад, якщо winningIndex = 67, а desiredVisibleIndex = 2, то буде 65 зсувів.
+
+    // Функція анімації спіну для конкретного барабана
+    async function spinAnimationForReel(container, queue) {
       const totalShiftsNeeded = winningIndex - desiredVisibleIndex;
       const initialDuration = 50;  // швидкий початок
       const finalDuration = 300;   // уповільнення в кінці
-  
-      nextIndex = visibleSkinsCount; // скидаємо лічильник наступного елемента
-  
+
+      let nextIndex = visibleSkinsCount;
+
       for (let shift = 0; shift < totalShiftsNeeded; shift++) {
         let duration = initialDuration + (finalDuration - initialDuration) * (shift / (totalShiftsNeeded - 1));
-        await animateShift(duration);
-        // Після завершення анімації – видаляємо перший (лівий) елемент і скидаємо transform
-        skinsContainer.firstElementChild.remove();
-        skinsContainer.style.transform = "translateX(0px)";
-        // Додаємо наступний скін із масиву (якщо він є)
+        await animateShiftForReel(container, duration);
+        container.firstElementChild.remove();
+        container.style.transform = "translateX(0px)";
         if (nextIndex < totalSkins) {
-          skinsContainer.appendChild(await createSkinElement(skinsQueue[nextIndex]));
+          container.appendChild(await createSkinElement(queue[nextIndex]));
           nextIndex++;
         }
       }
-      // Після завершення спіну у видимій частині має бути виграшний скін за індексом desiredVisibleIndex.
-      const visibleSkins = skinsContainer.querySelectorAll(".slot-skin");
+      const visibleSkins = container.querySelectorAll(".slot-skin");
       const winningSkinElement = visibleSkins[desiredVisibleIndex];
       console.log("Виграшний скін для користувача:", winningSkinElement.getAttribute("data-name"));
-      // Для візуального ефекту підсвічуємо його (наприклад, додаємо клас .winning)
       winningSkinElement.classList.add("winning");
 
       const wonSkin = await getSkinByName(winningSkinElement.getAttribute("data-name"));
@@ -180,39 +163,21 @@ document.addEventListener("DOMContentLoaded", async function () {
       wonSkin.case_price = casePrice;
       await fetch("/accounts/open_case/", {
           method: "POST",
-          headers: {'Content-Type': 'application/json'}, 
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(wonSkin)
       }).then(res => {
           console.log("Запит завершено! Відповідь:", res);
       });
-
-    }
-  
-    // ----------------------- Обробка натискання на кнопку спіну -----------------------
-    async function startSpin() {
-      console.log("case opening", casePrice);
-
-      if(userBalance < casePrice) {
-        alert('Not enough money');
-        isSpinning = false;
-        return;
     }
 
-      if (isSpinning) return;
-      isSpinning = true;
+    // ----------------------- Спін одного барабана -----------------------
 
-      userBalance -= casePrice;
-      updateButtonState();
-
-
-      fetch('/accounts/cases_opened/')
-      .then(response => response.json())
-  
-      // Якщо це не перший спін, беремо поточні видимі скіни з контейнера
-      // для використання їх як перших 6 елементів нового масиву.
+    // Функція, що здійснює спін для конкретного барабана (елемент reel – це .slot-wrapper)
+    async function spinReel(reel) {
+      const container = reel.querySelector(".slot-skins");
       let currentVisibleSkins = [];
-      if (skinsContainer.children.length === visibleSkinsCount) {
-        Array.from(skinsContainer.children).forEach(child => {
+      if (container.children.length === visibleSkinsCount) {
+        Array.from(container.children).forEach(child => {
           currentVisibleSkins.push({
             name: child.getAttribute("data-name"),
             odds: parseFloat(child.getAttribute("data-odds")),
@@ -220,40 +185,46 @@ document.addEventListener("DOMContentLoaded", async function () {
           });
         });
       }
-  
-      // Генеруємо новий масив скінів із гарантованим виграшним скіном (на позиції winningIndex)
-      skinsQueue = generateNewQueue(currentVisibleSkins);
-  
-      // Якщо контейнер містить не 6 елементів, перерендеримо його
-      if (skinsContainer.children.length !== visibleSkinsCount) {
-        await displayInitialSkins(skinsQueue);
+      let queue = generateNewQueue(currentVisibleSkins);
+      if (container.children.length !== visibleSkinsCount) {
+        await displayInitialSkinsForReel(container, queue);
       }
-  
-      // Запускаємо анімацію спіну
-      await initialize();
-      await spinAnimation();
+      await spinAnimationForReel(container, queue);
+    }
+
+    // ----------------------- Спін для всіх барабанів -----------------------
+
+    // При натисканні на кнопку спін запускаємо спін для всіх згенерованих барабанів (реєлів)
+    async function startSpin() {
+      if (userBalance < casePrice) {
+        alert('Not enough money');
+        return;
+      }
+
+      if (isSpinning) return;
+      isSpinning = true;
+
+      userBalance -= casePrice;
+      updateButtonState();
+
+      // Отримуємо всі барабани (елементи .slot-wrapper у контейнері #reels-container)
+      const reels = document.querySelectorAll('#reels-container .slot-wrapper');
+      await Promise.all(Array.from(reels).map(reel => spinReel(reel)));
 
       fetch('/account/update_balance/', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'}, 
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({amount: -casePrice})
       }).then(res => res.json())
         .then(data => {
           userBalance = data.wallet_balance;
           updateButtonState();
         });
-  
-      isSpinning = false;
 
+      isSpinning = false;
       getUSerBalance();
     }
-  
-    // ----------------------- Ініціалізація -----------------------
-    // При завантаженні сторінки, якщо сервером уже згенеровано перші скіни – використовуємо їх,
-    // або генеруємо новий масив і відображаємо перші 6 скінів.
-    skinsQueue = generateNewQueue();
-    await displayInitialSkins(skinsQueue);
-  
+
+    // ----------------------- Обробка події -----------------------
     spinButton.addEventListener("click", startSpin);
-  });
-  
+});

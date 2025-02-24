@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container pt-5">
         <div class="content">
             <div class="row">
                 <div class="col">
@@ -81,10 +81,12 @@
                         Inventory
                     </div>
 
-                    <div id="inventory-list" class="items-block">
+                    <div class="items-block">
                         {% if user.is_authenticated %}
-                            {% if not inventory_items %}
+                            {% if inventory_items is none or inventory_items|length == 0 %}
                                 {% include 'upgrade/empty_inventory.html' %}
+                            {% else %}
+                                <div id="inventory-list" class="item-container"></div>
                             {% endif %}
                         {% else %}
                             {% include 'upgrade/authorization_required.html' %}
@@ -109,10 +111,12 @@
                         Upgrade Items
                     </div>
 
-                    <div id="upgrade-list" class="items-block">
+                    <div class="items-block">
                         {% if user.is_authenticated %}
-                            {% if not upgrade_items %}
+                            {% if upgrade_items is none or upgrade_items.count == 0 %}
                                 {% include 'upgrade/empty_upgrades.html' %}
+                            {% else %}
+                                <div id="upgrade-list" class="item-container"></div>
                             {% endif %}
                         {% else %}
                             {% include 'upgrade/authorization_required.html' %}

@@ -1,37 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function() {
-    let pages_counter = {
+    const pages_counter = {
         "inventory": 1,
         "upgrade": 1
     };
 
-    let max_pages = {
-        "inventory": 3,
-        "upgrade": 5,
-    }
-
-    async function updatePrices(items) {
-        // Set Prices to items
-        const pricePromises = Array.from(items).map(async (item) => {
-            item.price = await getSkinPrice(item);
-        });
-
-        await Promise.all(pricePromises);
-    }
-
-    async function getPageElements(item_type) {
-        let result = [];
-
-        await fetch(`/upgrade/get-${item_type}-items/${pages_counter[item_type]}`)
-            .then(response => response.json())
-            .then(data => {
-                result = data;
-            });
-
-        if (item_type === "upgrade") {
-            await updatePrices(result);
-        }
-
-        return result;
+    const max_pages = {
+        "inventory": 0,
+        "upgrade": 0,
     }
 
     const itemPrices = {
@@ -47,6 +22,88 @@ document.addEventListener("DOMContentLoaded", async function() {
     const selected_items = {
         "inventory": [],
         "upgrade": [],
+    }
+
+    const MAX_ELEMENTS_PER_PAGE = 16;
+
+    let stopUpdating = false;
+
+    async function updatePrices(items) {
+        stopUpdating = false;
+
+        const pricePromises = Array.from(items).map(async (item) => {
+            if (stopUpdating) return;
+
+            console.log(stopUpdating);
+
+            item.price = await getSkinPrice(item);
+        });
+
+        Promise.all(pricePromises);
+    }
+
+    async function updatePricesInElements(elements) {
+        stopUpdating = false;
+
+        const pricePromises = Array.from(elements).map(async (element) => {
+            if (stopUpdating) return;
+
+            const itemName = element.querySelector(".skin-title");
+            const itemWearRarity = element.querySelector(".skin-wear");
+            let itemFullName = itemName.innerText;
+
+            if (itemWearRarity.innerText != undefined) {
+                itemFullName += ` (${itemWearRarity.innerText})`;
+            }
+
+            const priceElement = element.querySelector(".skin-price");
+
+            const item = {
+                "name": itemFullName
+            }
+
+            priceElement.innerText = `${await getSkinPrice(item)}$`;
+        });
+
+        Promise.all(pricePromises);
+    }
+
+    async function getPageElements(item_type) {
+        let result = [];
+
+        if (pages_counter[item_type] > 0) {
+            await fetch(`/upgrade/get-${item_type}-items/${pages_counter[item_type]}`)
+                .then(response => response.json())
+                .then(data => {
+                    result = data;
+                });
+
+            if (item_type === "upgrade") {
+                await updatePrices(result);
+            }
+        }
+
+        return result;
+    }
+
+    function getFirstPages(item_type) {
+        if (max_pages[item_type] > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    async function getMaxPages(item_type) {
+        let result = 0;
+
+        await fetch(`/upgrade/get-${item_type}-pages/`)
+            .then(response => response.json())
+            .then(data => {
+                result = data;
+            });
+
+        return result;
     }
 
     function updateChance() {
@@ -118,12 +175,19 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     }
 
-    function removeItem(itemBlock, item_type, itemPrice) {
-        const nameBlock = itemBlock.querySelector(".selected-skin-title");
+    function removeItem(selectedItemBlock, item_type, item, itemBlock) {
+        const nameBlock = selectedItemBlock.querySelector(".selected-skin-title");
         const itemName = nameBlock.innerText;
 
-        itemBlock.remove();
-        const priceIndex = itemPrices[item_type].indexOf(itemPrice);
+        itemBlock.classList.remove("added");
+
+        if (itemBlock.addClickListener) {
+            itemBlock.addEventListener("click", itemBlock.addClickListener);
+            console.log("Listener Added!!!")
+        }
+
+        selectedItemBlock.remove();
+        const priceIndex = itemPrices[item_type].indexOf(item.price);
         itemPrices[item_type].splice(priceIndex, 1);
 
         const nameIndex = selected_items[item_type].indexOf(itemName);
@@ -134,9 +198,18 @@ document.addEventListener("DOMContentLoaded", async function() {
         updateItemsBlockBg(item_type);
     }
 
-    function addItem(item_type, item) {
+    function addItem(item_type, item, itemBlock) {
         const selectedItemsBlock = document.getElementById(`selected-${item_type}-items`);
         const selectedItem = document.createElement("div");
+
+        itemBlock.classList.add("added");
+
+        if (itemBlock.addClickListener) {
+            itemBlock.removeEventListener("click", itemBlock.addClickListener);
+        }
+
+        itemBlock.addClickListener = () => addItem(item_type, item, itemBlock);
+        itemBlock.removeEventListener("click", itemBlock.addClickListener);
 
         selectedItem.innerHTML = `
             <img class="selected-skin-img" src="${item.image_url}" alt="${item.name}"/>
@@ -147,7 +220,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         itemPrices[item_type].push(item.price);
         selected_items[item_type].push(item);
 
-        selectedItem.addEventListener("click", () => {removeItem(selectedItem, item_type, item.price)});
+        selectedItem.addEventListener("click", () => {removeItem(selectedItem, item_type, item, itemBlock)});
 
         selectedItemsBlock.append(selectedItem);
 
@@ -176,17 +249,23 @@ document.addEventListener("DOMContentLoaded", async function() {
                 <p class="skin-title">${item.name}</p>
                 <p class="skin-wear">${item.wear_rating}</p>
                 
-<!--                <div class="item-hover">-->
-<!--                    <div class="add-item-btn">-->
-<!--                        <i class="bi bi-plus-lg"></i>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="item-hover">
+                    <div class="add-item-btn">
+                        <i class="bi bi-plus-lg"></i>
+                    </div>
+                </div>
             `;
 
-            itemBlock.addEventListener("click", () => {addItem(item_type, item)})
+            itemBlock.addClickListener = () => addItem(item_type, item, itemBlock);
+            itemBlock.addEventListener("click", itemBlock.addClickListener)
 
             itemsBlock.append(itemBlock);
         }
+
+        if (item_type === "upgrade") {
+            await updatePricesInElements(itemsBlock.children);
+        }
+
     }
 
     async function getItemImage(item_name) {
@@ -197,7 +276,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     function clearPageElements(item_type) {
         const itemsBlock = document.getElementById(`${item_type}-list`);
-        itemsBlock.innerHTML = "";
+
+        if (itemsBlock) {
+            itemsBlock.innerHTML = "";
+        }
     }
 
     async function updatePageElements(item_type) {
@@ -211,6 +293,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function prev_page(item_type) {
         if (pages_counter[item_type] > 1) {
             pages_counter[item_type] -= 1
+            stopUpdating = true;
 
             await updatePageElements(item_type)
         }
@@ -219,6 +302,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     async function next_page(item_type) {
         if (pages_counter[item_type] < max_pages[item_type]) {
             pages_counter[item_type] += 1
+            stopUpdating = true;
 
             await updatePageElements(item_type)
         }
@@ -265,31 +349,49 @@ document.addEventListener("DOMContentLoaded", async function() {
         getItemBtn.remove();
     }
 
-    async function getItems() {
-        removeGetItemsBtn();
-        addUpgradeBtn();
-        clearItems();
-
-        const inventoryItem = selected_items["inventory"][0];
-        const upgradeItem = selected_items["upgrade"][0];
-
-        console.log(upgradeItem);
-
-        console.log(upgradeItem.id);
-
-        fetch(`/upgrade/success/`, {
+    async function addItemToInventory(item) {
+        await fetch(`/upgrade/success/give_item/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                inventory_item_id: inventoryItem.id,
-                upgrade_item_id: upgradeItem.id,
-                upgrade_item_price: upgradeItem.price,
-                upgrade_item_image_url: upgradeItem.image_url
+                upgrade_item_id: item.id,
+                upgrade_item_price: item.price,
+                upgrade_item_image_url: item.image_url
             })
         });
+    }
 
+    async function removeItemFromInventory(item) {
+        await fetch(`/upgrade/success/remove_item`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                inventory_item_id: item.id,
+            })
+        });
+    }
+
+    async function getItems() {
+        removeGetItemsBtn();
+        addUpgradeBtn();
+        clearItems();
+
+        const inventoryItems = selected_items["inventory"];
+        const upgradeItems = selected_items["upgrade"];
+
+        console.log(inventoryItems);
+
+        for (const inventoryItem of inventoryItems) {
+            await removeItemFromInventory(inventoryItem);
+        }
+
+        for (const upgradeItem of upgradeItems) {
+            await addItemToInventory(upgradeItem);
+        }
     }
 
     function addGetItemsBtn() {
@@ -374,6 +476,47 @@ document.addEventListener("DOMContentLoaded", async function() {
         addUpgradeBtn();
     }
 
+    function removeItemsFromInventoryVisually() {
+        const inventoryItemContainer = document.getElementById("inventory-list");
+        const elementsToRemove = inventoryItemContainer.getElementsByClassName("added");
+
+        for (const elementToRemove of elementsToRemove) {
+            elementToRemove.remove();
+        }
+    }
+
+    function addItemsToInventoryVisually() {
+        const inventoryItemContainer = document.getElementById("inventory-list");
+        const upgradeItemContainer = document.getElementById("upgrade-list");
+        const elementsToAdd = upgradeItemContainer.getElementsByClassName("added");
+
+        for (const elementToAdd of elementsToAdd) {
+            if (inventoryItemContainer.childElementCount < MAX_ELEMENTS_PER_PAGE) {
+                inventoryItemContainer.append(elementToAdd);
+            }
+        }
+    }
+
+    function unselectItemsFromItemListVisually(item_type) {
+        const itemContainer = document.getElementById(`${item_type}-list`);
+        const selectedItems = itemContainer.getElementsByClassName("added");
+
+        for (const selectedItem of selectedItems) {
+            selectedItem.classList.remove("added");
+        }
+    }
+
+    function unselectItemsFromItemListsVisually() {
+        unselectItemsFromItemListVisually("inventory");
+        unselectItemsFromItemListVisually("upgrade");
+    }
+
+    function updateInventoryVisually() {
+        removeItemsFromInventoryVisually();
+        addItemsToInventoryVisually();
+        unselectItemsFromItemListsVisually();
+    }
+
     function startSpin() {
         deleteUpgradeBtn();
 
@@ -425,7 +568,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
                 addTryAgainBtn();
             }
+
+            updateInventoryVisually();
         }, {once: true});
+
     }
 
     const inventory_prev_btn = document.getElementById("inventory-prev-btn");
@@ -444,6 +590,14 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Виконуємо ініціалізацію
     updateItemsBlockBg("inventory");
     updateItemsBlockBg("upgrade");
+
+    max_pages.inventory = await getMaxPages("inventory");
+    max_pages.upgrade = await getMaxPages("upgrade");
+    pages_counter.inventory = getFirstPages("inventory");
+    pages_counter.upgrade = getFirstPages("upgrade");
+
+    console.log(max_pages);
+
     await updatePageElements("inventory");
     await updatePageElements("upgrade");
 
