@@ -1,18 +1,19 @@
-.item-block {
+.row {
+    margin-bottom: 20px;
+}
+
+.upgrade-item-block {
+    max-width: 356px;
     height: 280px;
-    background-image: url("/static/img/select_item_bg6.png");
+    /*background-image: url("/static/img/select_item_bg6.png");*/
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.item-text {
-    color: white;
-    text-align: center;
-}
-
 .upgrade-block {
-    height: 100%;
+    height: 310px;
+    margin-bottom: 16px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -20,6 +21,128 @@
     vertical-align: middle;
     align-items: center;
     color: white;
+}
+
+/* Circle */
+.circle-block {
+    position: absolute;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 300px;
+    height: 300px;
+
+}
+
+.circle svg {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    transform: rotate(-91deg);
+}
+
+.circle svg circle {
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-linecap: butt;
+    stroke-width: 20;
+    stroke: #1f2335;
+    border-radius: 0 !important;
+    transform: translate(10px, 10px);
+}
+
+.circle svg circle:nth-child(2)
+{
+    stroke: #5E5DF0;
+    stroke-dasharray: 880; /* 877 == 100 заповнення (НЕ СТИРАТИ ЦЕЙ КОМЕНТАР, ЯКЩО НЕ ПЛАНУЄТЬСЯ ЗМІНА РОЗМІРУ!!!) */
+    stroke-dashoffset: 880;
+}
+
+/* Chance */
+.loader {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 25px 25px 75px rgba(0,0,0,0.55);
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.loader::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    background: transparent;
+    border: 1px dashed#444;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
+    inset 5px 5px 35px rgba(0,0,0,0.25);
+}
+
+.loader::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px dashed#444;
+    box-shadow: inset -5px -5px 25px rgba(0,0,0,0.25),
+    inset 5px 5px 35px rgba(0,0,0,0.25);
+}
+
+.loader span {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 2px);
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    transform-origin: top left;
+    box-shadow: 0 0 0 0 #5E5DF0;
+    border-top: 1px solid #5656dc;
+    transform: rotate(270deg);
+    transition: all 2s ease 0s;
+}
+
+@keyframes trace {
+    7% {
+        box-shadow: -50px -150px 60px -100px #5E5DF0;
+    }
+
+    80% {
+        box-shadow: -50px -150px 60px -100px #5857e6;
+    }
+
+    100% {
+        box-shadow: 0 0 0 -100px #5656dc;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(var(--rotate-end)); /* 1710 це мінімум. Максимум 2070. Це 4 кола + одне не повне. Краще не змінювати, якщо не збираємося збільшити кількість кіл */
+    }
+}
+
+/* Chance text */
+.chance-block {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
 }
 
 .chance {
@@ -30,13 +153,122 @@
 .chance-type {
     font-size: 14px;
     color: lightgray;
+    text-transform: uppercase;
 }
 
-.inventory-block {
-    height: 512px;
+/* Inventory/Upgrade Blocks */
+
+.block-title {
+    padding: 20px;
+    font-size: 20px;
     color: white;
     text-align: center;
+    background-image: linear-gradient(to right, #121325 0%, #211b4c 100%) !important;
 }
+
+.item-text {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.skin-title {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.skin-wear {
+    font-size: 12px;
+    color: gray;
+}
+
+.skin-price {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 1px solid #f5c900;
+    border-radius: 17px;
+    width: auto;
+    max-width: 100%;
+    padding: 4px 20px 3px 20px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2ch;
+    background-image: linear-gradient(to right, rgba(245, 201, 0, 0) 0%, rgba(255, 209, 3, 0.3) 100%);
+    scale: 80% !important;
+}
+
+.item-block {
+    position: relative;
+    width: 148px;
+    height: 159px;
+    background-color: #303750;
+}
+
+.item-block.added .item-hover {
+    &.item-hover {
+        opacity: 1;
+    }
+}
+
+.item-hover {
+    position: absolute;
+    top: 0;
+    width: 148px;
+    height: 159px;
+    background-color: rgba(58, 119, 52, 0.23);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.add-item-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+}
+
+.items-block {
+    min-height: 671px;
+    max-height: 671px;
+    height: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    background-color: #1f2335;
+}
+
+.item-container {
+    display: flex;
+    gap: 5px;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    color: white;
+}
+
+.empty-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+.empty-inventory-title {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+.empty-inventory-desc {
+    font-size: 14px;
+    color: lightgray;
+}
+
+/* Button */
 
 .bloom-button {
     background: #5E5DF0 !important;
@@ -68,7 +300,6 @@
     border-radius: 15px;
     display: flex;
     margin: 0 auto;
-    margin-top: -50px;
     height: 50px;
 
     & p {
@@ -76,4 +307,58 @@
         padding: 0;
         margin: auto 10px;
     }
+}
+
+.options {
+    display: flex;
+    align-items: center; /* Вирівнює елементи по вертикалі */
+    justify-content: center; /* Розділяє по краях */
+}
+
+.count-odds {
+    & button:first-child {
+        margin-left: 0;
+    }
+    & button {
+        border-radius: 15px;
+        padding: 0;
+        margin-left: 10px;
+        width: 50px;
+        height: 50px;
+
+        & p {
+            color: white;
+            margin: auto;
+        }
+    }
+}
+
+/* Pagination */
+.pag-col {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: center;
+
+    & button {
+        margin: 0 10px;
+    }
+}
+
+.pag-pages {
+    display: flex;
+}
+
+.pag-cur-page {
+    margin: auto 10px;
+    padding: 10px;
+    border-radius: 7px;
+    height: 100%;
+    color: white;
+    text-align: center;
+}
+
+/* Selected items */
+.selected-skin-img {
+    max-width: 356px;
 }

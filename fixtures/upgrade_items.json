@@ -1,0 +1,170 @@
+[
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 1,
+        "fields": {
+            "name": "Desert Eagle | Blaze",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 2,
+        "fields": {
+            "name": "AK-47 | Redline",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 3,
+        "fields": {
+            "name": "M4A4 | Asiimov",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 4,
+        "fields": {
+            "name": "AWP | Hyper Beast",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 5,
+        "fields": {
+            "name": "USP-S | Kill Confirmed",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 6,
+        "fields": {
+            "name": "Glock-18 | Fade",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 7,
+        "fields": {
+            "name": "P250 | Muertos",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 8,
+        "fields": {
+            "name": "FAMAS | Pulse",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 9,
+        "fields": {
+            "name": "Galil AR | Chatterbox",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 10,
+        "fields": {
+            "name": "Five-SeveN | Monkey Business",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 11,
+        "fields": {
+            "name": "Tec-9 | Fuel Injector",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 12,
+        "fields": {
+            "name": "MP9 | Rose Iron",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 13,
+        "fields": {
+            "name": "MAC-10 | Neon Rider",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 14,
+        "fields": {
+            "name": "SG 553 | Cyrex",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 15,
+        "fields": {
+            "name": "AUG | Akihabara Accept",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 16,
+        "fields": {
+            "name": "SCAR-20 | Bloodsport",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 17,
+        "fields": {
+            "name": "G3SG1 | The Executioner",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 18,
+        "fields": {
+            "name": "Nova | Hyper Beast",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 19,
+        "fields": {
+            "name": "XM1014 | Tranquility",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 20,
+        "fields": {
+            "name": "M249 | Nebula Crusader",
+            "price": 0.000
+        }
+    },
+    {
+        "model": "upgrader.upgradeitem",
+        "pk": 21,
+        "fields": {
+            "name": "Negev | Power Loader",
+            "price": 0.000
+        }
+    }
+]

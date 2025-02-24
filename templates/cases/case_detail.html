@@ -1,78 +1,166 @@
-{% extends 'base/base.html' %}
-<!-- {% block title %}{{ case.name }}{% endblock %} -->
+{% extends 'base/base.html' %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/opencase.css' %}" />
+<link rel="stylesheet" href="{% static 'css/slots.css' %}" />
+<style>
+    /* Стиль для активної кнопки */
+    .bloom-button.active {
+        background-color: #ffd700;
+        color: #000;
+    }
+</style>
+<div class="container">
+    <!-- Назва кейсу -->
+    <div class="content">
+        <h3 id="case_name">{{ case.name }}</h3>
+        <a href="/">< Back</a>
+        <p>{% if case.price and case.price > 0 %} Price: ${{ case.price }} {% else %} Price: Free {% endif %}</p>
+    </div>
 
-{% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/opencase.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slots.css' %}">
-    <div class="container">
-        <!-- Назва кейсу -->
-        <div class="content">
-            <h3 id="case_name">{{ case.name }}</h3>
-            <a href="/">< Back</a>
-            <p>
-                {% if case.price and case.price > 0 %}
-                    Price: ${{ case.price }}
-                {% else %}
-                    Price: Free
-                {% endif %}
-            </p>
-        </div>
+    <!-- Контейнер для динамічно згенерованих барабанів -->
+    <div id="reels-container"></div>
 
-        <!-- Блок для слоту (тільки картинки) -->
-        <!-- Обгортка для слоту зі стрілкою -->
+    <!-- Шаблон барабана (прихований) -->
+    <div id="reel-template" style="display: none">
         <div class="slot-wrapper">
             <!-- Стрілочка-індикатор -->
             <div class="slot-indicator">▼</div>
-
-            <!-- Контейнер слоту slot-container > roulette -->
+            <!-- Контейнер слоту -->
             <div class="roulette">
                 <div class="slot-reel">
-                    <div class="slot-skins" id="slot-skins">
+                    <div class="slot-skins">
                         {% for skin in case_skins.all %}
-                            <div class="slot-skin skin" data-name="{{ skin.name }}" data-odds="{{ skin.odds }}">
-                                <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img"/>
-                                <p class="skin-title hidden">{{ skin.name }}</p>
-                            </div>
+                        <div class="slot-skin skin" data-name="{{ skin.name }}" data-odds="{{ skin.odds }}">
+                            <img src="{{ skin.image_url }}" alt="{{ skin.name }}" class="skin-img" />
+                            <p class="skin-title hidden">{{ skin.name }}</p>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="options">
-            <div class="count-case">
-                <button class="bloom-button"><p>1</p></button>
-                <button class="bloom-button"><p>2</p></button>
-                <button class="bloom-button"><p>3</p></button>
-            </div>
-            <button class="fast-spin bloom-button"><img src="{% static 'img/electricity.png' %}" alt="FastSpin"></button>
-        </div>
-        <button id="spin-button" class="open bloom-button" data-price="{{ case.price }}" data-authenticated="{{ user.is_authenticated }}" data-balance="{{ user_profile.wallet_balance }}" {% if not user.is_authenticated or user_profile.wallet_balance < case.price %}disabled{% endif %}>
-            <p>{% if case.price and case.price > 0 %}${{ case.price }}{% else %}Free{% endif %}</p>
-        </button>
-        <a href="{% url 'add_item_to_inventory' %}?case_name={{ case.name }}" class="add-skins">Add item</a>
-        <h3 style="padding: 40px 0;">Вміст скриньки</h3>
-
-        <!-- Основний блок (з повною інформацією) -->
-        <div class="availability">
-            <div class="container2">
-                {% for skin in case_skins.all %}
-                    <div class="box skin">
-                        <div class="info">
-                            <img src="https://img.icons8.com/?size=20&id=t4ujSfHW9WSb&format=png&color=ffffff" width="20px" alt="info">
-                            <p>{{ skin.odds }}%</p>
-                        </div>
-                        <img class="under-skin" style="margin: 0 30%;"  src="{% static 'img/bg_skin.svg' %}" width="40%" alt="bg">
-                        <img class="skin-img" style="margin-top: -100px;" src="{{ skin.image_url }}" width="60%" alt="{{ skin.name }}">
-                        <p class="skin-title">{{ skin.name }}</p>
-                        <div class="gradient"></div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
     </div>
 
-    <script src="/static/js/init_skins.js"></script>
-    <script src="/static/js/spinning.js"></script>
+    <!-- Опції вибору кількості спінів -->
+    <div class="options">
+        <div class="count-case">
+            <button class="bloom-button"><p>1</p></button>
+            <button class="bloom-button"><p>2</p></button>
+            <button class="bloom-button"><p>3</p></button>
+            <button class="bloom-button"><p>5</p></button>
+            <button class="bloom-button"><p>10</p></button>
+        </div>
+        <button class="fast-spin bloom-button">
+            <img src="{% static 'img/electricity.png' %}" alt="FastSpin" />
+        </button>
+    </div>
+    <!-- Кнопка спіну -->
+    <button
+        id="spin-button"
+        class="open bloom-button"
+        data-price="{{ case.price }}"
+        data-authenticated="{{ user.is_authenticated }}"
+        data-balance="{{ user_profile.wallet_balance }}"
+        {%
+        if
+        not
+        user.is_authenticated
+        or
+        user_profile.wallet_balance
+        <
+        case.price
+        %}disabled{%
+        endif
+        %}
+    >
+        <p>{% if case.price and case.price > 0 %} ${{ case.price }} {% else %} Free {% endif %}</p>
+    </button>
+    <a href="{% url 'add_item_to_inventory' %}?case_name={{ case.name }}" class="add-skins">Add item</a>
+    <h3 style="padding: 40px 0">Вміст скриньки</h3>
+    <div class="availability">
+        <div class="container2">
+            {% for skin in case_skins.all %}
+            <div class="box skin">
+                <div class="info">
+                    <img
+                        src="https://img.icons8.com/?size=20&id=t4ujSfHW9WSb&format=png&color=ffffff"
+                        width="20px"
+                        alt="info"
+                    />
+                    <p>{{ skin.odds }}%</p>
+                </div>
+                <img
+                    class="under-skin"
+                    style="margin: 0 30%"
+                    src="{% static 'img/bg_skin.svg' %}"
+                    width="40%"
+                    alt="bg"
+                />
+                <img
+                    class="skin-img"
+                    style="margin-top: -100px"
+                    src="{{ skin.image_url }}"
+                    width="60%"
+                    alt="{{ skin.name }}"
+                />
+                <p class="skin-title">{{ skin.name }}</p>
+                <div class="gradient"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/init_skins.js' %}"></script>
+<script src="{% static 'js/spinning.js' %}"></script>
+<script>
+    // Заглушка для spinSlot, якщо вона не визначена у spinning.js
+    if (typeof spinSlot !== "function") {
+        function spinSlot(reel) {
+            console.log("spinSlot викликана для барабана:", reel);
+        }
+    }
+
+    // Функція генерації барабанів
+    function generateReels(count) {
+        const reelsContainer = document.getElementById("reels-container");
+        reelsContainer.innerHTML = ""; // Очищення контейнера
+        const reelTemplate = document.getElementById("reel-template").firstElementChild;
+        for (let i = 0; i < count; i++) {
+            const reelClone = reelTemplate.cloneNode(true);
+            reelsContainer.appendChild(reelClone);
+            spinSlot(reelClone);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Отримання кнопок для вибору кількості спінів
+        const countButtons = document.querySelectorAll(".count-case .bloom-button");
+        let selectedCount = 1; // За замовчуванням 1
+        if (countButtons.length) {
+            countButtons[0].classList.add("active");
+        }
+
+        // Обробка кліку по кнопках вибору спінів
+        countButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                countButtons.forEach((btn) => btn.classList.remove("active"));
+                button.classList.add("active");
+                selectedCount = parseInt(button.textContent.trim());
+                console.log("Обрана кількість спінів:", selectedCount);
+                // Генерація барабанів одразу при зміні кількості
+                generateReels(selectedCount);
+            });
+        });
+
+        // Генеруємо 1 барабан за замовчуванням при завантаженні сторінки
+        generateReels(selectedCount);
+
+        // Обробка кліку по кнопці спіну
+        const spinButton = document.getElementById("spin-button");
+        spinButton.addEventListener("click", () => {
+            // При натисканні генеруємо барабани згідно з обраною кількістю
+            generateReels(selectedCount);
+        });
+    });
+</script>
 {% endblock %}

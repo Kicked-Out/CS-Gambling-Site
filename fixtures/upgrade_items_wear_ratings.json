@@ -1,0 +1,546 @@
+[
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 1,
+        "fields": {
+            "upgrade_item_id": 1,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 2,
+        "fields": {
+            "upgrade_item_id": 1,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 3,
+        "fields": {
+            "upgrade_item_id": 2,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 4,
+        "fields": {
+            "upgrade_item_id": 2,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 5,
+        "fields": {
+            "upgrade_item_id": 2,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 6,
+        "fields": {
+            "upgrade_item_id": 3,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 7,
+        "fields": {
+            "upgrade_item_id": 3,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 8,
+        "fields": {
+            "upgrade_item_id": 3,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 9,
+        "fields": {
+            "upgrade_item_id": 3,
+            "wear_rating_id": 5
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 10,
+        "fields": {
+            "upgrade_item_id": 4,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 11,
+        "fields": {
+            "upgrade_item_id": 4,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 12,
+        "fields": {
+            "upgrade_item_id": 4,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 13,
+        "fields": {
+            "upgrade_item_id": 4,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 14,
+        "fields": {
+            "upgrade_item_id": 5,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 15,
+        "fields": {
+            "upgrade_item_id": 5,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 16,
+        "fields": {
+            "upgrade_item_id": 5,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 17,
+        "fields": {
+            "upgrade_item_id": 6,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 18,
+        "fields": {
+            "upgrade_item_id": 6,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 19,
+        "fields": {
+            "upgrade_item_id": 7,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 20,
+        "fields": {
+            "upgrade_item_id": 7,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 21,
+        "fields": {
+            "upgrade_item_id": 7,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 22,
+        "fields": {
+            "upgrade_item_id": 8,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 23,
+        "fields": {
+            "upgrade_item_id": 8,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 24,
+        "fields": {
+            "upgrade_item_id": 8,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 25,
+        "fields": {
+            "upgrade_item_id": 8,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 26,
+        "fields": {
+            "upgrade_item_id": 9,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 27,
+        "fields": {
+            "upgrade_item_id": 9,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 28,
+        "fields": {
+            "upgrade_item_id": 9,
+            "wear_rating_id": 5
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 29,
+        "fields": {
+            "upgrade_item_id": 10,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 30,
+        "fields": {
+            "upgrade_item_id": 10,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 31,
+        "fields": {
+            "upgrade_item_id": 10,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 32,
+        "fields": {
+            "upgrade_item_id": 11,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 33,
+        "fields": {
+            "upgrade_item_id": 11,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 34,
+        "fields": {
+            "upgrade_item_id": 11,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 35,
+        "fields": {
+            "upgrade_item_id": 12,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 36,
+        "fields": {
+            "upgrade_item_id": 12,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 37,
+        "fields": {
+            "upgrade_item_id": 12,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 38,
+        "fields": {
+            "upgrade_item_id": 13,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 39,
+        "fields": {
+            "upgrade_item_id": 13,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 40,
+        "fields": {
+            "upgrade_item_id": 13,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 41,
+        "fields": {
+            "upgrade_item_id": 14,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 42,
+        "fields": {
+            "upgrade_item_id": 14,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 43,
+        "fields": {
+            "upgrade_item_id": 14,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 44,
+        "fields": {
+            "upgrade_item_id": 15,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 45,
+        "fields": {
+            "upgrade_item_id": 15,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 46,
+        "fields": {
+            "upgrade_item_id": 15,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 47,
+        "fields": {
+            "upgrade_item_id": 15,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 48,
+        "fields": {
+            "upgrade_item_id": 16,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 49,
+        "fields": {
+            "upgrade_item_id": 16,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 50,
+        "fields": {
+            "upgrade_item_id": 16,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 51,
+        "fields": {
+            "upgrade_item_id": 17,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 52,
+        "fields": {
+            "upgrade_item_id": 17,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 53,
+        "fields": {
+            "upgrade_item_id": 17,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 54,
+        "fields": {
+            "upgrade_item_id": 17,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 55,
+        "fields": {
+            "upgrade_item_id": 18,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 56,
+        "fields": {
+            "upgrade_item_id": 18,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 57,
+        "fields": {
+            "upgrade_item_id": 18,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 58,
+        "fields": {
+            "upgrade_item_id": 18,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 59,
+        "fields": {
+            "upgrade_item_id": 19,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 60,
+        "fields": {
+            "upgrade_item_id": 19,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 61,
+        "fields": {
+            "upgrade_item_id": 19,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 62,
+        "fields": {
+            "upgrade_item_id": 19,
+            "wear_rating_id": 4
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 63,
+        "fields": {
+            "upgrade_item_id": 20,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 64,
+        "fields": {
+            "upgrade_item_id": 20,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 65,
+        "fields": {
+            "upgrade_item_id": 20,
+            "wear_rating_id": 3
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 66,
+        "fields": {
+            "upgrade_item_id": 21,
+            "wear_rating_id": 1
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 67,
+        "fields": {
+            "upgrade_item_id": 21,
+            "wear_rating_id": 2
+        }
+    },
+    {
+        "model": "upgrader.upgradeitemswearratings",
+        "pk": 68,
+        "fields": {
+            "upgrade_item_id": 21,
+            "wear_rating_id": 3
+        }
+    }
+]
