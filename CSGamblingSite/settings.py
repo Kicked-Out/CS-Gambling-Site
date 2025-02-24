@@ -39,12 +39,12 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.admin',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.contenttypes',
 
     'allauth',
     'allauth.account',
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'api',
     'cases',
     'upgrader',
-    'channels',
     'exchanger',
     'my_account',
     'admins_panel',
