@@ -125,6 +125,8 @@ button:disabled {
   position: fixed;
   top: 20px;
   left: 50%;
+  text-align: center;
+  vertical-align: middle;
   transform: translateX(-50%) translateY(-20px);
   background-color: #28a745;
   color: white;
