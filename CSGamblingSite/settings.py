@@ -55,8 +55,10 @@ INSTALLED_APPS = [
     'api',
     'cases',
     'upgrader',
+    'channels',
+    'exchanger',
     'my_account',
-    'admins_panel'
+    'admins_panel',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'my_account.context_processors.user_context',
+                'my_account.context_processors.friend_requests_count',
             ],
         },
     },
@@ -172,5 +175,26 @@ LOGGING = {
     'root': {
         'handlers': ['console'],
         'level': 'DEBUG',
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+SESSION_CACHE_ALIAS = 'default'
+
+ASGI_APPLICATION = "CSGamblingSite.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }

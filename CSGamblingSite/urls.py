@@ -26,4 +26,5 @@ urlpatterns = [
     path('upgrade/', include('upgrader.urls')),
     path('api/', include('api.urls')),
     path('admins/', include('admins_panel.urls')),
+    path('exchanger/', include('exchanger.urls')),
 ]
