@@ -6,43 +6,119 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 <div class="container mt-4">
-    <div class="profile_container row justify-content-center">
-        <div class="col-md-8 text-center">
-            <h1>{{ user_name }}</h1>
-            <div class="profile-avatar my-4">
-                <img src="{{ avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
+    <div class="profile_container justify-content-center text-center">       <!--  <div class="text-center"></div> -->
+
+        {% comment %} інформація про користувача {% endcomment %}
+        <div class="profile-info justify-content-center text-center">
+            <div class="user-prof short-info text-center" id="short-info">
+                <h1>{{ user_profile.username }}</h1>
+                <div class="profile-avatar my-4">
+                    <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="150" height="150">
+                </div>
             </div>
-            <div class="profile-info">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h4>Best Drop</h4>
-                        <p id="best-drop">N/A</p>
+
+
+            <div class="user-prof full-info text-center" id="full-info">
+                <div class="card-stat">
+                    <h4>Best Drop</h4>
+                    <div>
+                        <img src="{% if user_profile.best_drop %}{{ user_profile.best_drop_image }}{% endif %}" class="card-img-top" alt="{{ user_profile.best_drop }}">
+                        <p id="best-drop">{{ user_profile.best_drop }}</p>
+                        <p>Value: ${{ user_profile.best_drop_value }}</p>
                     </div>
-                    <div class="col-md-4">
-                        <h4>Most Expensive Case</h4>
-                        <p id="expensive-case">N/A</p>
+                </div>
+
+                <div class="card-stat">
+                    <h4>Most Expensive Case</h4>
+                    <div>
+                        <img src="{% if user_profile.expensive_case_image %}{{ user_profile.expensive_case_image }}{% endif %}" class="card-img-top" alt="{{ user_profile.expensive_case }}">
+                        <p id="expensive-case">{{ user_profile.expensive_case }}</p>
                     </div>
-                    <div class="col-md-4">
-                        <h4>Cases Opened</h4>
-                        <p id="cases-opened">N/A</p>
-                    </div>
+                </div>
+
+                <div class="card-stat">
+                    <h4>Cases Opened</h4>
+                    <p id="cases-opened" style="font-size: 100px; 
+                    font-weight: bold; font-family: monospace; color: black; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4); padding-top: 15px;">{{ user_profile.cases_opened }}</p>
                 </div>
             </div>
         </div>
+        <button class="btn btn-primary btn-full-info" onclick="showInfo()">View Full Information</button>
+
+
+        <div class="text-center" style="width: 100%;">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="d-flex mb-3 align-items-center">
+                    <label style="width: 150px">
+                        <a style="color: black" href="https://steamcommunity.com/profiles/{{user_profile.uid}}/tradeoffers/privacy">Trade URL:</a>
+                    </label>
+                    {% if profile.trade_url %}
+                        <input type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" value="{{ profile.trade_url }}">
+                    {% else %}
+                        <input id="tradeOfferInput" type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" oninput="validateInput()">
+                    {% endif %}
+                    <button id="confirmButton" type="button" class="btn btn-primary btn-saveTURL" disabled onclick="saveLink()">Save</button>
+                    <div id="notification" class="notification"><img src="" alt="">Link Saved</div>
+                </div>
+            </form>
+        </div>
     </div>
+
+
     <div class="row mt-5">
         <div class="col-md-12">
             <h2>Inventory</h2>
-            <div class="profile-skins"> {% comment %} Сортування {% endcomment %}
+            <div class="profile-skins">
+                {% comment %} адд ітем для супер користувача {% endcomment %}
+                {% if user.is_superuser %}
+                <a href="{% url 'add_item_to_inventory' %}?inventory={{ user_profile.uid }}">Add item</a>
+                {% endif %}                                                 
+                {% comment %} список всіх товарів у інвентарі {% endcomment %}
                 <a href="">All inventory (count)</a>
                 <a href="">Available (count)</a>
                 <a href="">Selled (count)</a>
             </div>
-            <div id="inventory-list">
-                {% comment %} сюди додаємо список предметів і їх кількість {% endcomment %}
-                {% comment %} # <a href='/accounts/steam/login/?process=login' class="btn btn-secondary">Login with Steam</a> {% endcomment %}
+            <div id="inventory-list" class="d-flex flex-wrap justify-content-center">
+                {% for item in inventory_items.all %}
+                    <div class="skin card m-1">
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.item_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.item_name }}</h5>
+                            <p class="card-text">Value: ${{ item.item_value }}</p>
+                            <button class="btn btn-danger withdraw-button" data-item-id="{{ item.id }}" data-item-name="{{ item.item_name }}" style="background-color: purple; margin: 5px;">Withdraw</button>
+                            {% if user.is_superuser %}
+                            <a href="{% url 'remove_item_from_inventory' user_profile.uid item.id %}" class="btn btn-danger" style="background-color: red;">Delete item</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
+{% comment %} модальне вікно для виведення товару {% endcomment %}
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawModalLabel">Withdraw Skin</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to withdraw <span id="modalItemName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmWithdrawButton">Withdraw</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7ie1a9F5Jx5s4/j4fQ/5s11J+71Wy2YJbO8" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ko7v4t6Fw+3PLorYf6StDgf2uURb7TepM9ZJ3hlkY5y2nDgn88qcl4uioK4+Pnf4" crossorigin="anonymous"></script>
+<script src="{% static 'js/withdraw.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}

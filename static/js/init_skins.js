@@ -26,6 +26,7 @@ async function getAllSkins() {
     for (const key in json) {
         pushSkin(json[key]);
     }
+    return skinArr;
 }
 
 function pushSkinUkName(skinIndex, UkSkinData) {
@@ -43,25 +44,36 @@ async function getAllSkinUkNames() {
 
 async function getSkinPrice(skin) {
     const apiKey = "4wYD32slQWBHfEphJL2JyqkCL0YX054";
-    const wearRatings = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"]
-    const randomIndex = Math.floor(Math.random() * (wearRatings.length));
+    const wearRatings = ["Factory New", "Minimal Wear", "Field-Tested", "Well-Worn", "Battle-Scarred"];
+    const randomIndex = Math.floor(Math.random() * wearRatings.length);
     const randomWear = wearRatings[randomIndex];
     const url = `https://market.csgo.com/api/v2/search-item-by-hash-name?key=${apiKey}&hash_name=${skin.name} (${randomWear})`;
-    let data = undefined;
 
-    fetch(url)
-        .then(response => response.json().then(data => ({
-            data: data,
-            status: response.status
-        }))
-        .then(res => {
-            data = res.data.data[0];
-            skin.price = data.price / 1000;
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+
+        if (result.data.length > 0) {
+            const data = result.data[0];
+            const price = data.price / 1000;
+            skin.price = price; 
             skin.wearRating = randomWear;
-    }));
+            return price;
+        } else {
+            console.error("Скін не знайдено у відповіді API:", skin.name);
+            return 0;
+        }
+    } catch (error) {
+        console.error("Помилка при отриманні ціни скіна:", error);
+        return 0;
+    }
 }
 
-function getSkinByName(targetSkinName) {
+async function getSkinByName(targetSkinName) {
+    if (skinArr.length === 0) {
+        await initialize();
+    }
+
     for (index in skinArr) {
         sourceSkinName = skinArr[index].name;
         if (sourceSkinName.includes(targetSkinName)) {
@@ -84,6 +96,10 @@ function getSkinByName(targetSkinName) {
             }
         }
     }
+
+    console.log(skinArr);
+
+    return "Cannot find element!!!";
 }
 
 async function initialize() {
@@ -93,14 +109,19 @@ async function initialize() {
 
 async function loadSkins() {
     await initialize();
+
     const skinElements = document.getElementsByClassName("skin");
 
     for (let index = 0; index < skinElements.length; index++) {
         const skinImg = skinElements[index].querySelector(".skin-img");
         const skinNameBlock = skinElements[index].querySelector(".skin-title");
+        const skinGradient = skinElements[index].querySelector(".gradient");
         const skinName = skinNameBlock.textContent;
+        const skin = await getSkinByName(skinImg.alt);
 
-        const skin = getSkinByName(skinImg.alt);
+        if (skinGradient) {
+            skinGradient.style.backgroundImage = `linear-gradient(180deg, transparent 0, ${skin.rarityColor} 200%)`;
+        }
 
         if (skin) {
             skinImg.src = skin.image;

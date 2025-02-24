@@ -31,7 +31,10 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="/accounts/profile/">Profile</a></li>
-                            <li><a class="dropdown-item" href="/accounts/add_funds/">Add Funds</a></li>
+                            <li><a class="dropdown-item" href="/friends/">Friends   {{ friend_requests_count }}</a></li>
+                            {% if user.is_superuser %}
+                            <li><a class="dropdown-item" href="/admins/admin_panel/">Admin</a></li>
+                            {% endif %}
                             <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
                         </ul>
                     </li>    

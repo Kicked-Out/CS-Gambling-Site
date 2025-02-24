@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Case list{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-panel.css' %}">
+<h2>Case list</h2>
+<div class="container">
+    <a href="/admins/admin_panel/">< Back</a>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="my-4 text-center">Case list</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Actions</th>
+                        <th scope="col">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for case in cases %}
+                        <tr>
+                            <td>{{ case.name }}</td>
+                            <td>{{ case.price }}</td>
+                            <td>
+                                <form action="{% url 'update_case_price' %}" method="post" onsubmit="return validateForm()">
+                                    {% csrf_token %}
+                                    <div class="hidden">
+                                        <input type="hidden" name="case_id" value="{{ case.id }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label" style="color: black;">Amount</label>
+                                        <input type="number" step="0.01" class="form-control" id="amount" name="amount" min="0" placeholder="Enter amount" oninput="removeMinusSign()">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="background-color: blue;">Update price</button>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{% url 'remove_case' case.id %}" name="unban" class="btn btn-danger" style="background-color: red;">Remove case</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>    
+{% endblock %}

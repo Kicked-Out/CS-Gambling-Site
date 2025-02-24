@@ -21,6 +21,13 @@
     transition-duration: 0.4s;
     justify-content: center;
 
+    & p {
+        margin: 0 auto;
+        text-align: center;
+        color: white;
+        font-size: 3ch;
+    }
+
     &:hover {
         box-shadow: #5E5DF0 0 0px 30px -0px;
     }
@@ -41,19 +48,6 @@
         background-color: transparent;
         padding: 3px 10px;
         border: none;
-    }
-
-    & a {
-        color: white;
-        text-decoration: none;
-        margin-left: 40px;
-    }
-
-    & p {
-        margin: 0 auto;
-        text-align: center;
-        color: white;
-        font-size: 3ch;
     }
 }
 
@@ -77,11 +71,14 @@
 }
 
 .roulette {
-    border: 2px solid blue;
-    border-radius: 20px;
-    width: 90%;
+    border: 3px solid #5E5DF0 ;
+    border-radius: 13px;
+    width: 94%;
     height: 180px;
     margin: 30px auto;
+    /* NEW Будь-ласка замінити, коли писатимете новий код */
+    background-color: #23293d;
+    overflow: hidden;
 }
 
 .options {
@@ -181,11 +178,9 @@
 }
 
 .under-skin {
-    width: 40%;
-    height: 40%;
+    width: 50%;
+    height: 50%;
 }
-
-
 
 .gradient {
     border-radius: 20px;

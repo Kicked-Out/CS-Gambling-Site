@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Withdraw Skin{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+<div class="container mt-4">
+    <h2>Withdraw Skin</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+            Withdraw
+        </button>
+    </form>
+</div>
+<script>
+    document.getElementById("confirmWithdraw").addEventListener("click", function() {
+        document.querySelector("form").submit();
+    });
+</script>
+{% endblock %}

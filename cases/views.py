@@ -16,6 +16,6 @@ def case_list(request):
 
 def case_detail(request, case_name):
     case = Case.objects.get(name=case_name)
-    case_skins = case.case_skins.reverse()
+    case_skins = case.case_skins.order_by('odds')
 
     return render(request, 'cases/case_detail.html', {'case': case, 'case_skins': case_skins})
