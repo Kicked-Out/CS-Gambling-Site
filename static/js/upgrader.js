@@ -375,23 +375,29 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
     }
 
+    async function removeItemsFromInventory() {
+        const inventoryItems = selected_items["inventory"];
+
+        for (const inventoryItem of inventoryItems) {
+            await removeItemFromInventory(inventoryItem);
+        }
+    }
+
+    async function addItemsToInventory() {
+        const upgradeItems = selected_items["upgrade"];
+
+        for (const upgradeItem of upgradeItems) {
+            await addItemToInventory(upgradeItem);
+        }
+    }
+
     async function getItems() {
         removeGetItemsBtn();
         addUpgradeBtn();
         clearItems();
 
-        const inventoryItems = selected_items["inventory"];
-        const upgradeItems = selected_items["upgrade"];
-
-        console.log(inventoryItems);
-
-        for (const inventoryItem of inventoryItems) {
-            await removeItemFromInventory(inventoryItem);
-        }
-
-        for (const upgradeItem of upgradeItems) {
-            await addItemToInventory(upgradeItem);
-        }
+        await removeItemsFromInventory();
+        await addItemsToInventory();
     }
 
     function addGetItemsBtn() {
@@ -409,6 +415,9 @@ document.addEventListener("DOMContentLoaded", async function() {
             getItemsBtn.addEventListener("click", () => {getItems()});
             upgradeCol.append(getItemsBtn);
         }
+
+        updateInventoryVisually();
+        addItemsToInventoryVisually();
     }
 
     function removeTryAgainBtn() {
@@ -478,11 +487,15 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     function removeItemsFromInventoryVisually() {
         const inventoryItemContainer = document.getElementById("inventory-list");
-        const elementsToRemove = inventoryItemContainer.getElementsByClassName("added");
+        const elementsToRemove = Array.from(inventoryItemContainer.getElementsByClassName("added"));
+
+        console.log(`Elements to remove: ${elementsToRemove}`);
 
         for (const elementToRemove of elementsToRemove) {
             elementToRemove.remove();
         }
+
+        console.log(`Elements to remove: ${elementsToRemove}`);
     }
 
     function addItemsToInventoryVisually() {
@@ -492,14 +505,19 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         for (const elementToAdd of elementsToAdd) {
             if (inventoryItemContainer.childElementCount < MAX_ELEMENTS_PER_PAGE) {
-                inventoryItemContainer.append(elementToAdd);
+                const elementToAddNode = elementToAdd.cloneNode(true);
+
+                inventoryItemContainer.append(elementToAddNode);
+            } else {
+                pages_counter.inventory += 1;
+                break;
             }
         }
     }
 
     function unselectItemsFromItemListVisually(item_type) {
         const itemContainer = document.getElementById(`${item_type}-list`);
-        const selectedItems = itemContainer.getElementsByClassName("added");
+        const selectedItems = Array.from(itemContainer.getElementsByClassName("added"));
 
         for (const selectedItem of selectedItems) {
             selectedItem.classList.remove("added");
@@ -513,7 +531,6 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     function updateInventoryVisually() {
         removeItemsFromInventoryVisually();
-        addItemsToInventoryVisually();
         unselectItemsFromItemListsVisually();
     }
 
@@ -533,7 +550,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         const result = checkSpinResult(rotationValue, indicator);
 
-        indicator.addEventListener("animationend", function() {
+        indicator.addEventListener("animationend", async function() {
             const chanceBlock = document.getElementById("chance");
             const chanceTypeBlock = document.getElementById("chance-type");
             const chanceVisual = document.getElementById("chance-visual");
@@ -550,12 +567,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
                 addGetItemsBtn();
             } else {
-                const firstItem = selected_items["inventory"][0];
-                const itemId = Object.values(firstItem)[0];
-
-                const request = fetch(`/upgrade/fail/${itemId}`)
-                    .then(response => request.json())
-                    .then(data => console.log(data));
+                await removeItemsFromInventory();
 
                 chanceBlock.innerText = "You Lose!!!";
                 chanceBlock.style.color = "#E04F5F";
@@ -567,9 +579,9 @@ document.addEventListener("DOMContentLoaded", async function() {
                 chanceVisual.style.stroke = "#E04F5F";
 
                 addTryAgainBtn();
+                updateInventoryVisually();
             }
 
-            updateInventoryVisually();
         }, {once: true});
 
     }
