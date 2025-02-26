@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/slots.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link href="/static/css/base.css" rel="stylesheet">
-    <link rel="icon" type="jpg" href="#">
+    <link rel="icon" type="jpg" href="{% static 'img/c-man.svg' %}">
 
     <!-- [CLEAN CODE] Now, write styles in any HTML here -->
     {% block styles %}{% endblock %}
@@ -98,8 +98,8 @@
                                 <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
                             </ul>
                         </div>
-                    {% else %}   
-                        <button class="bttn btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
+                    {% else %}
+                        <button class="bttn btn btn-primary btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
                             <img src="https://img.icons8.com/?size=40&id=zNqjI8XKkCv0&format=png&color=000000" alt="Steam">
                             <p>Login</p>
                             <!-- <a href='/accounts/steam/login/?process=login'>Login</a> -->
@@ -143,12 +143,11 @@
                     <div class="stat-block"><span>Cases opened</span> 28071371283</div>
                     <div class="stat-block"><span>Time</span> 144:59:23</div> <!-- Час який користувач провів відкриваючи кейси  ||  або це буде поточний час -->
                 </div>
-                <meter id="fuel" min="0" max="100" value="20">50/100</meter>
 
                 <div class="social">
                     <a href="#"><img src="https://img.icons8.com/?size=40&id=4GQuK3fo74oi&format=png&color=FFD000" alt="Discord"></a>
                     <a href="#"><img src="https://img.icons8.com/?size=40&id=vBPr6H1m4buw&format=png&color=FFD000" alt="Telegram"></a>
-                    <a href="#"><img src="https://img.icons8.com/?size=40&id=KDWXXYcBSEcJ&format=png&color=FF0000" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'img/insta-logo.png' %}" width="40px" alt="Instagram"></a>
                     <a href="#"><img src="https://img.icons8.com/?size=40&id=aKlZySb1lsX8&format=png&color=FFD000" alt="TikTok"></a>
                     <a href="#"><img src="https://img.icons8.com/?size=40&id=QyWWewzGuUfq&format=png&color=FFD000" alt="Our Team"></a>
                     <a href="https://github.com/Kicked-Out/CS-Gambling-Site"><img src="https://img.icons8.com/?size=40&id=zehXPLJSAbBB&format=png&color=FFD000" alt="GitHub"></a>
