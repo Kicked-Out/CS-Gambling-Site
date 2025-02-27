@@ -12,19 +12,17 @@ p {
     color: #000000;
 }
 
-/* .bttn {
-    background-color: #ffd000;
-    border-color: #ffd000;
-} */
-
 .btn-primary {
-    background-color: #FFD000 !important;
-    border-color: #FFD000 !important;
-    color: #000000 !important;
+    background-color: #FFD000;
+    border-color: #FFD000;
+    color: #000000;
     transition: all 0.15s ease-out;
 
     &:hover {
         opacity: 0.92;
+        background-color: #FFD000;
+        border-color: #FFD000;
+        color: #000000;
     }
 
     &:active {
