@@ -19,9 +19,9 @@ function validateInput() {
 }
 
 function saveLink() {
-    const notification = document.getElementById("notification");
-    notification.classList.add("show");
+    const notification_yes = document.getElementById("notification-yes");
+    notification_yes.classList.add("show");
     setTimeout(() => {
-        notification.classList.remove("show");
+        notification_yes.classList.remove("show");
     }, 2000);
 }
