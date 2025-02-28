@@ -1,26 +1,28 @@
-{% extends 'base/base.html' %} {% block content %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/opencase.css' %}" />
-<link rel="stylesheet" href="{% static 'css/slots.css' %}" />
-<style>
-    /* Стиль для активної кнопки */
-    .bloom-button.active {
-        background-color: #ffd700;
-        color: #000;
-    }
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/opencase.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/slots.css' %}" />
+
+    <style>
+        /* Стиль для активної кнопки */
+        .bloom-button.active {
+            background-color: #ffd700;
+            color: #000;
+        }
 </style>
+{% endblock %}
+
+{% block content %}
 <div class="container">
-    <!-- Назва кейсу -->
     <div class="content">
         <h3 id="case_name">{{ case.name }}</h3>
         <a href="/">< Back</a>
         <p>{% if case.price and case.price > 0 %} Price: ${{ case.price }} {% else %} Price: Free {% endif %}</p>
     </div>
 
-    <!-- Контейнер для динамічно згенерованих барабанів -->
-    <div id="reels-container"></div>
-
-    <!-- Шаблон барабана (прихований) -->
-    <div id="reel-template" style="display: none">
+    <div id="reels-container">
         <div class="slot-wrapper">
             <!-- Стрілочка-індикатор -->
             <div class="slot-indicator">▼</div>
@@ -60,20 +62,14 @@
         data-price="{{ case.price }}"
         data-authenticated="{{ user.is_authenticated }}"
         data-balance="{{ user_profile.wallet_balance }}"
-        {%
-        if
-        not
-        user.is_authenticated
-        or
-        user_profile.wallet_balance
-        <
-        case.price
-        %}disabled{%
-        endif
-        %}
-    >
+
+        {% if not user.is_authenticated or user_profile.wallet_balance < case.price %}
+            disabled
+        {% endif %}>
+
         <p>{% if case.price and case.price > 0 %} ${{ case.price }} {% else %} Free {% endif %}</p>
     </button>
+
     <a href="{% url 'add_item_to_inventory' %}?case_name={{ case.name }}" class="add-skins">Add item</a>
     <h3 style="padding: 40px 0">Вміст скриньки</h3>
     <div class="availability">
@@ -109,58 +105,60 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script src="{% static 'js/init_skins.js' %}"></script>
 <script src="{% static 'js/spinning.js' %}"></script>
-<script>
-    // Заглушка для spinSlot, якщо вона не визначена у spinning.js
-    if (typeof spinSlot !== "function") {
-        function spinSlot(reel) {
-            console.log("spinSlot викликана для барабана:", reel);
-        }
-    }
-
-    // Функція генерації барабанів
-    function generateReels(count) {
-        const reelsContainer = document.getElementById("reels-container");
-        reelsContainer.innerHTML = ""; // Очищення контейнера
-        const reelTemplate = document.getElementById("reel-template").firstElementChild;
-        for (let i = 0; i < count; i++) {
-            const reelClone = reelTemplate.cloneNode(true);
-            reelsContainer.appendChild(reelClone);
-            spinSlot(reelClone);
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        // Отримання кнопок для вибору кількості спінів
-        const countButtons = document.querySelectorAll(".count-case .bloom-button");
-        let selectedCount = 1; // За замовчуванням 1
-        if (countButtons.length) {
-            countButtons[0].classList.add("active");
-        }
-
-        // Обробка кліку по кнопках вибору спінів
-        countButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                countButtons.forEach((btn) => btn.classList.remove("active"));
-                button.classList.add("active");
-                selectedCount = parseInt(button.textContent.trim());
-                console.log("Обрана кількість спінів:", selectedCount);
-                // Генерація барабанів одразу при зміні кількості
-                generateReels(selectedCount);
-            });
-        });
-
-        // Генеруємо 1 барабан за замовчуванням при завантаженні сторінки
-        generateReels(selectedCount);
-
-        // Обробка кліку по кнопці спіну
-        const spinButton = document.getElementById("spin-button");
-        spinButton.addEventListener("click", () => {
-            // При натисканні генеруємо барабани згідно з обраною кількістю
-            generateReels(selectedCount);
-        });
-    });
-</script>
+{#<script>#}
+{#    // Заглушка для spinSlot, якщо вона не визначена у spinning.js#}
+{#    if (typeof spinSlot !== "function") {#}
+{#        function spinSlot(reel) {#}
+{#            console.log("spinSlot викликана для барабана:", reel);#}
+{#        }#}
+{#    }#}
+{##}
+{#    // Функція генерації барабанів#}
+{#    function generateReels(count) {#}
+{#        const reelsContainer = document.getElementById("reels-container");#}
+{#        reelsContainer.innerHTML = ""; // Очищення контейнера#}
+{#        const reelTemplate = document.getElementById("reel-template").firstElementChild;#}
+{#        for (let i = 0; i < count; i++) {#}
+{#            const reelClone = reelTemplate.cloneNode(true);#}
+{#            reelsContainer.appendChild(reelClone);#}
+{#            spinSlot(reelClone);#}
+{#        }#}
+{#    }#}
+{##}
+{#    document.addEventListener("DOMContentLoaded", () => {#}
+{#        // Отримання кнопок для вибору кількості спінів#}
+{#        const countButtons = document.querySelectorAll(".count-case .bloom-button");#}
+{#        let selectedCount = 1; // За замовчуванням 1#}
+{#        if (countButtons.length) {#}
+{#            countButtons[0].classList.add("active");#}
+{#        }#}
+{##}
+{#        // Обробка кліку по кнопках вибору спінів#}
+{#        countButtons.forEach((button) => {#}
+{#            button.addEventListener("click", () => {#}
+{#                countButtons.forEach((btn) => btn.classList.remove("active"));#}
+{#                button.classList.add("active");#}
+{#                selectedCount = parseInt(button.textContent.trim());#}
+{#                console.log("Обрана кількість спінів:", selectedCount);#}
+{#                // Генерація барабанів одразу при зміні кількості#}
+{#                generateReels(selectedCount);#}
+{#            });#}
+{#        });#}
+{##}
+{#        // Генеруємо 1 барабан за замовчуванням при завантаженні сторінки#}
+{#        generateReels(selectedCount);#}
+{##}
+{#        // Обробка кліку по кнопці спіну#}
+{#        const spinButton = document.getElementById("spin-button");#}
+{#        spinButton.addEventListener("click", () => {#}
+{#            // При натисканні генеруємо барабани згідно з обраною кількістю#}
+{#            generateReels(selectedCount);#}
+{#        });#}
+{#    });#}
+{#</script>#}
 {% endblock %}

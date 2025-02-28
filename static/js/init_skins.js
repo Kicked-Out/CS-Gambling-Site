@@ -19,7 +19,7 @@ function pushSkin(skinData) {
     skinArr.push(skin);
 }
 
-async function getAllSkins() {
+async function pushAllSkins() {
     const response = await fetch(url);
     const json = await response.json();
 
@@ -27,6 +27,24 @@ async function getAllSkins() {
         pushSkin(json[key]);
     }
     return skinArr;
+}
+
+function pushSkinUkName(skinIndex, UkSkinData) {
+    skinArr[skinIndex].name_uk = UkSkinData.name;
+}
+
+async function pushAllSkinUkNames() {
+    const response = await fetch(url_uk);
+    const json = await response.json();
+
+    for (const key in json) {
+        pushSkinUkName(key, json[key]);
+    }
+}
+
+async function initialize() {
+    await pushAllSkins();
+    await pushAllSkinUkNames();
 }
 
 async function getSkinPrice(skin) {
@@ -86,40 +104,6 @@ async function getSkinPrice(skin) {
     }
 }
 
-async function getSkinPrices(skins) {
-    const prices = [];
-
-    for (let index in skins) {
-        const skin = {
-            name: skins[index]
-        };
-
-        const price = setTimeout(await getSkinPrice(skin), 200)
-
-        prices.push(price);
-    }
-
-    return prices;
-}
-
-function pushSkinUkName(skinIndex, UkSkinData) {
-    skinArr[skinIndex].name_uk = UkSkinData.name;
-}
-
-async function getAllSkinUkNames() {
-    const response = await fetch(url_uk);
-    const json = await response.json();
-
-    for (const key in json) {
-        pushSkinUkName(key, json[key]);
-    }
-}
-
-async function initialize() {
-    await getAllSkins();
-    await getAllSkinUkNames();
-}
-
 async function getSkinByName(targetSkinName) {
     if (skinArr.length === 0) {
         await initialize();
@@ -164,10 +148,13 @@ async function loadSkins() {
 
     for (let index = 0; index < skinElements.length; index++) {
         const skinImg = skinElements[index].querySelector(".skin-img");
+        const currentUrl = location.href;
 
-        if (skinImg.src) {
+        if (skinImg.src && skinImg.src.trim() !== "" && skinImg.src !== currentUrl) {
+            console.log(skinImg);
             continue;
         }
+
 
         const skinGradient = skinElements[index].querySelector(".gradient");
         const skin = await getSkinByName(skinImg.alt);
@@ -183,4 +170,7 @@ async function loadSkins() {
     }
 }
 
-loadSkins();
+document.addEventListener("DOMContentLoaded", async function() {
+    await loadSkins();
+});
+
