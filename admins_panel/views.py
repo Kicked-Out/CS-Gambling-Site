@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from allauth.socialaccount.models import SocialAccount
@@ -6,6 +7,7 @@ from my_account.models import Profile, InventoryItem
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from cases.models import Case, Skin, CaseSkin
+from decimal import Decimal
 import json, random
 import os, sys
 from decimal import Decimal
@@ -30,6 +32,16 @@ def add_funds(request):
             return render(request, 'admins/add_funds.html', {'user_profile': user_profile, 'avatar': avatar_url})
     
     return redirect(f'/accounts/profile/{user_profile.uid}/')
+
+def top_up(request, sum):
+    user = request.user
+    user_profile = Profile.objects.get(username=user.username)
+    user_profile.wallet_balance += Decimal(sum)
+
+    user_profile.save()
+
+    return JsonResponse({'status': 200})
+
 
 @login_required
 def update_balance(request):

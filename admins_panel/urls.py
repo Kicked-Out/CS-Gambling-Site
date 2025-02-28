@@ -15,6 +15,7 @@ urlpatterns = [
     path('admin_panel/', views.admin_panel, name='admin_panel'),
     path('case_list_admin/', views.case_list_admin, name='case_list_admin'),
     path('add_funds/', views.add_funds, name='add_funds'),
+    path('top_up/<sum>', views.top_up, name='top_up'),
     path('add_cases/', views.add_case, name='add_cases'),
     path('remove_case/<int:case_id>/', views.remove_case, name='remove_case'),
 ]

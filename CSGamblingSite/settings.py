@@ -119,7 +119,9 @@ DATABASES = {
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
+    BASE_DIR / "blockchain/build/contracts",
+    BASE_DIR / 'blockchain/src/js',
 ]
 
 # Password validation
