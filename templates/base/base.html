@@ -2,63 +2,130 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}SkinsHub{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/wins.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slots.css' %}">
-    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-    <link href="/static/css/base.css" rel="stylesheet">
-    <link rel="icon" type="jpg" href="{% static 'img/c-man.svg' %}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}SkinsHub{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/wins.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/slots.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+        <link href="/static/css/base.css" rel="stylesheet" />
+        <link rel="icon" type="jpg" href="{% static 'img/c-man.svg' %}" />
 
-    <!-- [CLEAN CODE] Now, write styles in any HTML here -->
-    {% block styles %}{% endblock %}
+        <!-- [CLEAN CODE] Now, write styles in any HTML here -->
+        {% block styles %}{% endblock %}
+    </head>
+    <body>
+        <header class="p-3 bg-dark text-white">
+            <div class="main-header stpo" id="myHeader">
+                <div class="container-fluid">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <a
+                            href="index.html"
+                            class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
+                        >
+                            <a class="navbar-brand" href="/"
+                                ><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"
+                            /></a>
+                        </a>
 
-</head>
-<body>
-    <header class="p-3 bg-dark text-white">
-        <div class="main-header stpo" id="myHeader">
-            <div class="container-fluid">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="index.html" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                        <a class="navbar-brand" href="/"><img class="logo" src="{% static 'img/logo.png' %}" alt="logo"></a>
-                    </a>
+                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                            <li><a href="prize.html" class="nav-link px-2 text-white">Prizes</a></li>
+                            <li><a href="contracts.html" class="nav-link px-2 text-white">Contracts</a></li>
+                            <li><a href="case-battle.html" class="nav-link px-2 text-white">Case Battle</a></li>
+                            <li><a href="/upgrade/" class="nav-link px-2 text-white">Upgrade</a></li>
+                        </ul>
 
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="prize.html" class="nav-link px-2 text-white">Prizes</a></li>
-                    <li><a href="contracts.html" class="nav-link px-2 text-white">Contracts</a></li>
-                    <li><a href="case-battle.html" class="nav-link px-2 text-white">Case Battle</a></li>
-                    <li><a href="/upgrade/" class="nav-link px-2 text-white">Upgrade</a></li>
-                </ul>
-
-                    {% if user.is_authenticated %}
+                        {% if user.is_authenticated %}
                         <button id="openDialog" class="btn btn-primary balance">
-                            <img src="https://img.icons8.com/?size=28&id=bQshuxGETQol&format=png&color=000000" alt="wallet">
-                            <p class="mb-1" style="margin: 2px 5px !important;">{{ user_profile.wallet_balance }}$</p>
-                            <img src="https://img.icons8.com/?size=28&id=OYZAx0hLpfIm&format=png&color=000000" alt="plus">
+                            <img
+                                src="https://img.icons8.com/?size=28&id=bQshuxGETQol&format=png&color=000000"
+                                alt="wallet"
+                            />
+                            <p id="balance" class="mb-1" style="margin: 2px 5px !important">
+                                {{ user_profile.wallet_balance }}$
+                            </p>
+                            <img
+                                src="https://img.icons8.com/?size=28&id=OYZAx0hLpfIm&format=png&color=000000"
+                                alt="plus"
+                            />
                         </button>
 
                         <dialog id="depositDialog">
-                            <button id="closeDialog" style="color: white;">&times;</button>
+                            <button id="closeDialog" style="color: white">&times;</button>
                             <p><strong>Select Payment Method</strong></p>
                             <div class="pay-box">
                                 <div class="pay-methods">
-                                    <button onclick="selectPayment('Visa')"><img src="https://images.steamcdn.io/shared/pay_methods/card_v2.svg?v=1" alt="Card"></button>
-                                    <button onclick="selectPayment('SkinPay')"><img src="https://images.steamcdn.io/shared/pay_methods/skinpay_new.svg" alt="SkinPay"></button>
-                                    <button onclick="selectPayment('SkinsBack')"><img src="https://images.steamcdn.io/shared/pay_methods/skinsback_new.svg" alt="SkinsBack"></button>
-                                    <button onclick="selectPayment('Skinify')"><img src="https://images.steamcdn.io/shared/pay_methods/skinify_new.svg" alt="Skinify"></button>
-                                    <button onclick="selectPayment('Google Pay')"><img src="https://images.steamcdn.io/shared/pay_methods/googlepay.svg?v=1" alt="Google"></button>
-                                    <button onclick="selectPayment('Apple Pay')"><img src="https://images.steamcdn.io/shared/pay_methods/applepay.svg?v=1" alt="Apple"></button>
-                                    <button onclick="selectPayment('Tether TRC20')"><img src="https://images.steamcdn.io/shared/pay_methods/tether_trc20_v3.svg" alt="TRC20"></button>
-                                    <button onclick="selectPayment('Tether ERC20')"><img src="https://images.steamcdn.io/shared/pay_methods/tether_erc20_v3.svg?v=1" alt="ERC20"></button>
-                                    <button onclick="selectPayment('Bitcoin')"><img src="https://images.steamcdn.io/shared/pay_methods/bitcoin.svg" alt="Btc"></button>
-                                    <button onclick="selectPayment('Ethereum')"><img src="https://images.steamcdn.io/shared/pay_methods/ethereum.svg" alt="Eth"></button>
-                                    <button onclick="selectPayment('Tron')"><img src="https://images.steamcdn.io/shared/pay_methods/tron.svg" alt="Trx"></button>
+                                    <button onclick="selectPayment('Visa')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/card_v2.svg?v=1"
+                                            alt="Card"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('SkinPay')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/skinpay_new.svg"
+                                            alt="SkinPay"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('SkinsBack')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/skinsback_new.svg"
+                                            alt="SkinsBack"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Skinify')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/skinify_new.svg"
+                                            alt="Skinify"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Google Pay')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/googlepay.svg?v=1"
+                                            alt="Google"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Apple Pay')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/applepay.svg?v=1"
+                                            alt="Apple"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Tether TRC20')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/tether_trc20_v3.svg"
+                                            alt="TRC20"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Tether ERC20')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/tether_erc20_v3.svg?v=1"
+                                            alt="ERC20"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Bitcoin')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/bitcoin.svg"
+                                            alt="Btc"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Ethereum')">
+                                        <img
+                                            src="https://images.steamcdn.io/shared/pay_methods/ethereum.svg"
+                                            alt="Eth"
+                                        />
+                                    </button>
+                                    <button onclick="selectPayment('Tron')">
+                                        <img src="https://images.steamcdn.io/shared/pay_methods/tron.svg" alt="Trx" />
+                                    </button>
                                 </div>
                                 <div class="ver-hr"></div>
                                 <div class="pay">
@@ -66,25 +133,41 @@
                                         <p>Selected: <span id="selectedPm">Visa</span></p>
                                     </div>
                                     <p id="minPrice">Min deposit: 100₴</p>
-                                    <p style="color: red;">Ex. Alert</p>
-                                    <input type="text" placeholder="Promo Code">
-                                    <input type="number" id="priceInput" placeholder="Enter Sum">
+                                    <p style="color: red">Ex. Alert</p>
+                                    <input type="text" placeholder="Promo Code" />
+                                    <input type="number" id="priceInput" placeholder="Enter Sum" />
                                     <label class="accept">
-                                        <input type="checkbox">
+                                        <input type="checkbox" />
                                         <svg viewBox="0 0 64 64" height="18px" width="18px">
-                                            <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
+                                            <path
+                                                d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16"
+                                                pathLength="575.0541381835938"
+                                                class="path"
+                                            ></path>
                                         </svg>
                                         Accept terms
                                         <a href="#">Ти все одно заб'єш на це.</a>
                                     </label>
-                                    <button class="btn-pay">Pay</button>
+                                    <button id="btnDeposit" class="btn-pay">Pay</button>
                                 </div>
                             </div>
                         </dialog>
 
                         <div class="dropdown text-end">
-                            <a href="#" class="d-block link-dark text-decoration-none"  id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ user_profile.avatar }}" class="rounded-circle" alt="Profile Avatar" width="44" height="44">
+                            <a
+                                href="#"
+                                class="d-block link-dark text-decoration-none"
+                                id="dropdownUser1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <img
+                                    src="{{ user_profile.avatar }}"
+                                    class="rounded-circle"
+                                    alt="Profile Avatar"
+                                    width="44"
+                                    height="44"
+                                />
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
@@ -92,43 +175,51 @@
                                 {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="/admins/admin_panel/">Admin</a></li>
                                 {% endif %}
-                                <li><a class="dropdown-item" href="/friends/">Friends   {{ friend_requests_count }}</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="/friends/">Friends {{ friend_requests_count }}</a>
+                                </li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" href="/accounts/logout/">Logout</a></li>
                             </ul>
                         </div>
-                    {% else %}
-                        <button class="bttn btn btn-primary btn-login" onclick="location.href='/accounts/steam/login/?process=login'" type="button">
-                            <img src="https://img.icons8.com/?size=40&id=zNqjI8XKkCv0&format=png&color=000000" alt="Steam">
+                        {% else %}
+                        <button
+                            class="bttn btn btn-primary btn-login"
+                            onclick="location.href='/accounts/steam/login/?process=login'"
+                            type="button"
+                        >
+                            <img
+                                src="https://img.icons8.com/?size=40&id=zNqjI8XKkCv0&format=png&color=000000"
+                                alt="Steam"
+                            />
                             <p>Login</p>
                             <!-- <a href='/accounts/steam/login/?process=login'>Login</a> -->
                         </button>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <h5>Live Drops</h5>
-        <header style="margin: 0">
-            <div class="container-wins">
-                <!-- <div class="top-win">
+            <h5>Live Drops</h5>
+            <header style="margin: 0">
+                <div class="container-wins">
+                    <!-- <div class="top-win">
                 </div> -->
-                <div class="wins-reel">
+                    <div class="wins-reel"></div>
                 </div>
-            </div>
+            </header>
         </header>
-    </header>
 
-    <div class="wrapper">
-        <!-- Main Content -->
-        {% block content %}
+        <div class="wrapper">
+            <!-- Main Content -->
+            {% block content %}
 
-        <!-- Content will be inserted here -->
+            <!-- Content will be inserted here -->
 
-        {% endblock %}
+            {% endblock %}
 
-        <!-- Footer -->
-        {% block footer %}
+            <!-- Footer -->
+            {% block footer %}
             <footer>
                 <!-- <div class="statistics">
                     <div class="statistic players"></div>
@@ -141,34 +232,81 @@
                     <div class="stat-block"><span>Online</span> 2031</div>
                     <div class="stat-block"><span>Users</span> 321324</div>
                     <div class="stat-block"><span>Cases opened</span> 28071371283</div>
-                    <div class="stat-block"><span>Time</span> 144:59:23</div> <!-- Час який користувач провів відкриваючи кейси  ||  або це буде поточний час -->
+                    <div class="stat-block"><span>Time</span> 144:59:23</div>
+                    <!-- Час який користувач провів відкриваючи кейси  ||  або це буде поточний час -->
                 </div>
 
                 <div class="social">
-                    <a href="#"><img src="https://img.icons8.com/?size=40&id=4GQuK3fo74oi&format=png&color=FFD000" alt="Discord"></a>
-                    <a href="#"><img src="https://img.icons8.com/?size=40&id=vBPr6H1m4buw&format=png&color=FFD000" alt="Telegram"></a>
-                    <a href="#"><img src="{% static 'img/insta-logo.png' %}" width="40px" alt="Instagram"></a>
-                    <a href="#"><img src="https://img.icons8.com/?size=40&id=aKlZySb1lsX8&format=png&color=FFD000" alt="TikTok"></a>
-                    <a href="#"><img src="https://img.icons8.com/?size=40&id=QyWWewzGuUfq&format=png&color=FFD000" alt="Our Team"></a>
-                    <a href="https://github.com/Kicked-Out/CS-Gambling-Site"><img src="https://img.icons8.com/?size=40&id=zehXPLJSAbBB&format=png&color=FFD000" alt="GitHub"></a>
+                    <a href="#"
+                        ><img
+                            src="https://img.icons8.com/?size=40&id=4GQuK3fo74oi&format=png&color=FFD000"
+                            alt="Discord"
+                    /></a>
+                    <a href="#"
+                        ><img
+                            src="https://img.icons8.com/?size=40&id=vBPr6H1m4buw&format=png&color=FFD000"
+                            alt="Telegram"
+                    /></a>
+                    <a href="#"><img src="{% static 'img/insta-logo.png' %}" width="40px" alt="Instagram" /></a>
+                    <a href="#"
+                        ><img
+                            src="https://img.icons8.com/?size=40&id=aKlZySb1lsX8&format=png&color=FFD000"
+                            alt="TikTok"
+                    /></a>
+                    <a href="#"
+                        ><img
+                            src="https://img.icons8.com/?size=40&id=QyWWewzGuUfq&format=png&color=FFD000"
+                            alt="Our Team"
+                    /></a>
+                    <a href="https://github.com/Kicked-Out/CS-Gambling-Site"
+                        ><img
+                            src="https://img.icons8.com/?size=40&id=zehXPLJSAbBB&format=png&color=FFD000"
+                            alt="GitHub"
+                    /></a>
                 </div>
 
                 <div class="copyright">
                     <p>
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Всі права захищено | Цей сайт було створено by <a href="https://github.com/Kicked-Out/CS-Gambling-Site">Code Syndicate</a>
+                        Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        Всі права захищено | Цей сайт було створено by
+                        <a href="https://github.com/Kicked-Out/CS-Gambling-Site">Code Syndicate</a>
                     </p>
                 </div>
             </footer>
-        {% endblock %}
-    </div>
+            {% endblock %}
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/pay_dialog.js' %}"></script>
-    <script src="{% static 'js/wins.js' %}"></script>
-    <script src="{% static 'js/statistics.js' %}"></script>
-    <script src="{% static 'js/base.js' %}"></script>
+        <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 
-    <!-- [CLEAN CODE] Now, write scripts in any HTML here -->
-    {% block scripts %}{% endblock %}
-</body>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"
+            integrity="sha512-yAmmVkOXqtDZRaueLdmLwMB67JtaRtjFzQGiAiJKvLiFlDvq4Tzm5R6uLcOMyvPRQlXpYHdYxc5IbiCwuquhUw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"
+            integrity="sha256-uLnHe7f7ZoAhxxmrLwdkX1V6eB/u4+NTk6i24L1FzPs="
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+
+        <script src="{% static 'app.js' %}"></script>
+        <script src="{% static 'js/pay_dialog.js' %}"></script>
+        <script src="{% static 'js/wins.js' %}"></script>
+        <script src="{% static 'js/statistics.js' %}"></script>
+        <script src="{% static 'js/base.js' %}"></script>
+
+        <!-- [CLEAN CODE] Now, write scripts in any HTML here -->
+        {% block scripts %}{% endblock %}
+    </body>
 </html>
