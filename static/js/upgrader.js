@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", async function() {
         "upgrade": [],
     }
 
+    const MIN_INDICATOR_DEGREES = 1710;
+    const MAX_INDICATOR_DEGREES = 2070;
     const MAX_ELEMENTS_PER_PAGE = 16;
 
     let stopUpdating = false;
@@ -86,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         return result;
     }
 
-    function getFirstPages(item_type) {
+    function getFirstPage(item_type) {
         if (max_pages[item_type] > 0) {
             return 1;
         } else {
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     }
 
-    function removeItem(selectedItemBlock, item_type, item, itemBlock) {
+    function removeItemOnClick(selectedItemBlock, item_type, item, itemBlock) {
         const nameBlock = selectedItemBlock.querySelector(".selected-skin-title");
         const itemName = nameBlock.innerText;
 
@@ -183,7 +185,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         if (itemBlock.addClickListener) {
             itemBlock.addEventListener("click", itemBlock.addClickListener);
-            console.log("Listener Added!!!")
+        }
+
+        if (itemBlock.removeClickListener) {
+            itemBlock.removeEventListener("click", itemBlock.removeClickListener);
         }
 
         selectedItemBlock.remove();
@@ -198,7 +203,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         updateItemsBlockBg(item_type);
     }
 
-    function addItem(item_type, item, itemBlock) {
+    function addItemOnClick(item_type, item, itemBlock) {
         const selectedItemsBlock = document.getElementById(`selected-${item_type}-items`);
         const selectedItem = document.createElement("div");
 
@@ -208,8 +213,8 @@ document.addEventListener("DOMContentLoaded", async function() {
             itemBlock.removeEventListener("click", itemBlock.addClickListener);
         }
 
-        itemBlock.addClickListener = () => addItem(item_type, item, itemBlock);
-        itemBlock.removeEventListener("click", itemBlock.addClickListener);
+        itemBlock.removeClickListener = () => removeItemOnClick(selectedItem, item_type, item, itemBlock);
+        itemBlock.addEventListener("click", itemBlock.removeClickListener);
 
         selectedItem.innerHTML = `
             <img class="selected-skin-img" src="${item.image_url}" alt="${item.name}"/>
@@ -220,7 +225,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         itemPrices[item_type].push(item.price);
         selected_items[item_type].push(item);
 
-        selectedItem.addEventListener("click", () => {removeItem(selectedItem, item_type, item, itemBlock)});
+        selectedItem.addEventListener("click", () => {removeItemOnClick(selectedItem, item_type, item, itemBlock)});
 
         selectedItemsBlock.append(selectedItem);
 
@@ -231,35 +236,39 @@ document.addEventListener("DOMContentLoaded", async function() {
         updateItemsBlockBg(item_type);
     }
 
+    async function fillPageElement(item_type, item, itemsBlock) {
+        if (item.image_url === "") {
+            item.image_url = await getItemImage(item.name);
+        }
+
+        const itemBlock = document.createElement("div");
+        itemBlock.className = `${item_type}-item item-block skin`;
+
+        itemBlock.innerHTML = `
+            <p class="skin-price">${item.price}$</p>
+            <img class="skin-img" src="${item.image_url}" alt="${item.name}"/>
+            <p class="skin-title">${item.name}</p>
+            <p class="skin-wear">${item.wear_rating}</p>
+            
+            <div class="item-hover">
+                <div class="add-item-btn">
+                    <i class="bi bi-plus-lg"></i>
+                </div>
+            </div>
+        `;
+
+        itemBlock.addClickListener = () => addItemOnClick(item_type, item, itemBlock);
+        itemBlock.addEventListener("click", itemBlock.addClickListener)
+
+        itemsBlock.append(itemBlock);
+    }
+
     async function fillPageElements(item_type) {
         const items = await getPageElements(item_type);
         const itemsBlock = document.getElementById(`${item_type}-list`);
 
         for (const item of items) {
-            if (item.image_url === "") {
-                item.image_url = await getItemImage(item.name);
-            }
-
-            const itemBlock = document.createElement("div");
-            itemBlock.className = `${item_type}-item item-block skin`;
-
-            itemBlock.innerHTML = `
-                <p class="skin-price">${item.price}$</p>
-                <img class="skin-img" src="${item.image_url}" alt="${item.name}"/>
-                <p class="skin-title">${item.name}</p>
-                <p class="skin-wear">${item.wear_rating}</p>
-                
-                <div class="item-hover">
-                    <div class="add-item-btn">
-                        <i class="bi bi-plus-lg"></i>
-                    </div>
-                </div>
-            `;
-
-            itemBlock.addClickListener = () => addItem(item_type, item, itemBlock);
-            itemBlock.addEventListener("click", itemBlock.addClickListener)
-
-            itemsBlock.append(itemBlock);
+            await fillPageElement(item_type, item, itemsBlock);
         }
 
         if (item_type === "upgrade") {
@@ -308,45 +317,10 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     }
 
-    function checkSpinResult(rotationValue, indicator) {
-        const chanceBlock = document.getElementById("chance");
-        const chance = Number(chanceBlock.innerText);
-        const chanceDegree = (360 / 100) * chance;
-        const rotationDegree = rotationValue - ((360 * 4) + 270);
-
-        return rotationDegree >= 0 && rotationDegree <= chanceDegree || rotationDegree === 360;
-    }
-
     function deleteUpgradeBtn() {
         const upgradeBtn = document.getElementById("upgrade-btn");
 
         upgradeBtn.remove();
-    }
-
-    function addUpgradeBtn() {
-        const upgradeCol = document.getElementById("upgrade-col");
-        let upgradeBtn = document.getElementById("upgrade-btn");
-
-        if (!upgradeBtn) {
-            upgradeBtn = document.createElement("button");
-            upgradeBtn.id = "upgrade-btn";
-            upgradeBtn.className = "open bloom-button";
-            upgradeBtn.disabled = true;
-            const upgradeText = document.createElement("p");
-            upgradeText.innerText = "Upgrade";
-
-            upgradeBtn.append(upgradeText);
-
-            upgradeBtn.addEventListener("click", () => {startSpin()});
-
-            upgradeCol.append(upgradeBtn);
-        }
-    }
-
-    function removeGetItemsBtn() {
-        const getItemBtn = document.getElementById("get-items-btn");
-
-        getItemBtn.remove();
     }
 
     async function addItemToInventory(item) {
@@ -361,6 +335,14 @@ document.addEventListener("DOMContentLoaded", async function() {
                 upgrade_item_image_url: item.image_url
             })
         });
+    }
+
+    async function addItemsToInventory() {
+        const upgradeItems = selected_items["upgrade"];
+
+        for (const upgradeItem of upgradeItems) {
+            await addItemToInventory(upgradeItem);
+        }
     }
 
     async function removeItemFromInventory(item) {
@@ -383,87 +365,79 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     }
 
-    async function addItemsToInventory() {
-        const upgradeItems = selected_items["upgrade"];
+    function removeItemsFromInventoryVisually() {
+        const inventoryItemContainer = document.getElementById("inventory-list");
+        const elementsToRemove = Array.from(inventoryItemContainer.getElementsByClassName("added"));
 
-        for (const upgradeItem of upgradeItems) {
-            await addItemToInventory(upgradeItem);
+        for (const elementToRemove of elementsToRemove) {
+            elementToRemove.remove();
         }
     }
 
-    async function getItems() {
-        removeGetItemsBtn();
-        addUpgradeBtn();
-        clearItems();
+    function configureIndicator(indicator) {
+        const rotationValue = Math.floor(Math.random() * (MAX_INDICATOR_DEGREES - MIN_INDICATOR_DEGREES + 1)) + MIN_INDICATOR_DEGREES;
 
-        await removeItemsFromInventory();
-        await addItemsToInventory();
+        indicator.rotationValue = rotationValue;
+        indicator.style.setProperty('--rotate-end', `${rotationValue}deg`);
+        indicator.style.animation = 'rotate 8s cubic-bezier(.46,.94,.38,1) 1 forwards, trace 8s cubic-bezier(1,.4,1,.53) 1 forwards';
     }
 
-    function addGetItemsBtn() {
-        const upgradeCol = document.getElementById("upgrade-col");
-        let getItemsBtn = document.getElementById("get-items-btn");
+    function checkSpinResult(indicator) {
+        const rotationValue = indicator.rotationValue;
+        const chanceBlock = document.getElementById("chance");
+        const chance = Number(chanceBlock.innerText);
+        const chanceDegree = (360 / 100) * chance;
+        const rotationDegree = rotationValue - ((360 * 4) + 270);
 
-        if (!getItemsBtn) {
-            getItemsBtn = document.createElement("button");
-            getItemsBtn.id = "get-items-btn";
-            getItemsBtn.className = "open bloom-button";
-            const getItemsText = document.createElement("p");
-            getItemsText.innerText = "Get Item";
-
-            getItemsBtn.append(getItemsText);
-            getItemsBtn.addEventListener("click", () => {getItems()});
-            upgradeCol.append(getItemsBtn);
-        }
-
-        updateInventoryVisually();
-        addItemsToInventoryVisually();
+        return rotationDegree >= 0 && rotationDegree <= chanceDegree || rotationDegree === 360;
     }
 
-    function removeTryAgainBtn() {
-        const tryAgainBtn = document.getElementById("try-again-btn");
-
-        tryAgainBtn.remove();
-    }
-
-    function tryAgainBtnOnClick() {
-        removeTryAgainBtn();
-        addUpgradeBtn();
-        clearItems();
-    }
-
-    function addTryAgainBtn() {
-        const upgradeCol = document.getElementById("upgrade-col");
-        let tryAgainBtn = document.getElementById("try-again-btn");
-
-        if (!tryAgainBtn) {
-            tryAgainBtn = document.createElement("button");
-            tryAgainBtn.id = "try-again-btn";
-            tryAgainBtn.className = "open bloom-button";
-            const tryAgainText = document.createElement("p");
-            tryAgainText.innerText = "Try Again";
-
-            tryAgainBtn.append(tryAgainText);
-            tryAgainBtn.addEventListener("click", () => {tryAgainBtnOnClick()});
-            upgradeCol.append(tryAgainBtn);
-        }
-    }
-
-    function clearItemPrices() {
-        itemPrices["inventory"] = [];
-        itemPrices["upgrade"] = [];
-
-        totalItemPrices["inventory"] = 0;
-        totalItemPrices["upgrade"] = 0;
-    }
-
-    function clearItems() {
+    function updateChanceBlock(title, subtitle, color) {
         const chanceBlock = document.getElementById("chance");
         const chanceTypeBlock = document.getElementById("chance-type");
-        const selectedInventoryItems = document.getElementById("selected-inventory-items");
-        const selectedUpgradeItems = document.getElementById("selected-upgrade-items");
         const chanceVisual = document.getElementById("chance-visual");
+
+        chanceBlock.innerText = title;
+        chanceBlock.style.color = color;
+
+        chanceTypeBlock.innerText = subtitle;
+        chanceTypeBlock.style.color = color;
+
+        chanceVisual.style.strokeDashoffset = 0;
+        chanceVisual.style.stroke = color;
+    }
+
+    function createSpinBtn(btn_id, btn_title, onClickFunc) {
+        const upgradeCol = document.getElementById("upgrade-col");
+        let btn = document.getElementById(btn_id);
+
+        if (!btn) {
+            btn = document.createElement("button");
+            btn.id = btn_id;
+            btn.className = "open bloom-button";
+
+            if (btn_id === "upgrade-btn") {
+                btn.disabled = true;
+            }
+
+            const btnText = document.createElement("p");
+            btnText.innerText = btn_title;
+
+            btn.append(btnText);
+            btn.addEventListener("click", () => {onClickFunc()});
+            upgradeCol.append(btn);
+        }
+    }
+
+    function resetIndicatorAnimation() {
         const indicator = document.getElementById("indicator");
+        indicator.style.animation = "";
+    }
+
+    function resetChanceBlock() {
+        const chanceBlock = document.getElementById("chance");
+        const chanceTypeBlock = document.getElementById("chance-type");
+        const chanceVisual = document.getElementById("chance-visual");
 
         chanceBlock.innerText = "0.00%";
         chanceBlock.style.color = "white";
@@ -471,48 +445,57 @@ document.addEventListener("DOMContentLoaded", async function() {
         chanceTypeBlock.innerText = "Risky Chance";
         chanceTypeBlock.style.color = "lightgray";
 
-        selectedInventoryItems.innerHTML = "";
-        selectedUpgradeItems.innerHTML = "";
-
         chanceVisual.style.strokeDashoffset = 880;
         chanceVisual.style.stroke = "#5E5DF0";
+    }
 
-        indicator.style.animation = "";
+    function resetItemLists() {
+        const selectedInventoryItems = document.getElementById("selected-inventory-items");
+        const selectedUpgradeItems = document.getElementById("selected-upgrade-items");
 
-        clearItemPrices();
+        selectedInventoryItems.innerHTML = "";
+        selectedUpgradeItems.innerHTML = "";
+    }
+
+    function resetItemPrices() {
+        itemPrices["inventory"] = [];
+        itemPrices["upgrade"] = [];
+
+        totalItemPrices["inventory"] = 0;
+        totalItemPrices["upgrade"] = 0;
+    }
+
+    function resetSpin() {
+        resetIndicatorAnimation();
+        resetChanceBlock();
+        resetItemLists();
+        resetItemPrices();
         updateItemsBlockBg("inventory");
         updateItemsBlockBg("upgrade");
-        addUpgradeBtn();
+        createSpinBtn("upgrade-btn", "Upgrade", startSpin);
     }
 
-    function removeItemsFromInventoryVisually() {
-        const inventoryItemContainer = document.getElementById("inventory-list");
-        const elementsToRemove = Array.from(inventoryItemContainer.getElementsByClassName("added"));
+    function removeBtn(btn_id) {
+        const btn = document.getElementById(btn_id);
 
-        console.log(`Elements to remove: ${elementsToRemove}`);
-
-        for (const elementToRemove of elementsToRemove) {
-            elementToRemove.remove();
-        }
-
-        console.log(`Elements to remove: ${elementsToRemove}`);
+        btn.remove();
     }
 
-    function addItemsToInventoryVisually() {
-        const inventoryItemContainer = document.getElementById("inventory-list");
-        const upgradeItemContainer = document.getElementById("upgrade-list");
-        const elementsToAdd = upgradeItemContainer.getElementsByClassName("added");
+    function resetResults(remove_btn_id) {
+        removeBtn(remove_btn_id);
+        createSpinBtn("upgrade-btn", "Upgrade", startSpin);
+        resetSpin();
+    }
 
-        for (const elementToAdd of elementsToAdd) {
-            if (inventoryItemContainer.childElementCount < MAX_ELEMENTS_PER_PAGE) {
-                const elementToAddNode = elementToAdd.cloneNode(true);
+    async function getRewardOnClick() {
+        await addItemsToInventory();
+        await updatePageElements("inventory")
+        updateInventoryVisually();
+        resetResults("get-items-btn");
+    }
 
-                inventoryItemContainer.append(elementToAddNode);
-            } else {
-                pages_counter.inventory += 1;
-                break;
-            }
-        }
+    function tryAgainBtnOnClick() {
+        resetResults("try-again-btn");
     }
 
     function unselectItemsFromItemListVisually(item_type) {
@@ -534,87 +517,101 @@ document.addEventListener("DOMContentLoaded", async function() {
         unselectItemsFromItemListsVisually();
     }
 
-    function startSpin() {
-        deleteUpgradeBtn();
+    async function triggerWinEvent() {
+        updateChanceBlock("You Won!!!", "You're Lucky", "#4FD05E");
+        createSpinBtn("get-items-btn", "Get Reward", getRewardOnClick);
+        await removeItemsFromInventory();
+    }
 
-        const indicator = document.getElementById("indicator");
-        const MIN_ROTATION = 1710;
-        const MAX_ROTATION = 2070;
-        const rotationValue = Math.floor(Math.random() * (MAX_ROTATION - MIN_ROTATION + 1)) + MIN_ROTATION;
+    async function triggerLoseEvent() {
+        updateChanceBlock("You Lose!!!", "Better Luck next time!", "#E04F5F");
+        createSpinBtn("try-again-btn", "Try Again", tryAgainBtnOnClick);
+        await removeItemsFromInventory();
+        updateInventoryVisually();
+    }
 
-        indicator.style.animation = 'none';
-        indicator.offsetHeight;
-
-        indicator.style.setProperty('--rotate-end', `${rotationValue}deg`);
-        indicator.style.animation = 'rotate 8s cubic-bezier(.46,.94,.38,1) 1 forwards, trace 8s cubic-bezier(1,.4,1,.53) 1 forwards';
-
-        const result = checkSpinResult(rotationValue, indicator);
+    function handleSpinResult(indicator) {
+        const result = checkSpinResult(indicator);
 
         indicator.addEventListener("animationend", async function() {
-            const chanceBlock = document.getElementById("chance");
-            const chanceTypeBlock = document.getElementById("chance-type");
-            const chanceVisual = document.getElementById("chance-visual");
-
             if (result) {
-                chanceBlock.innerText = "You Won!!!";
-                chanceBlock.style.color = "#4FD05E";
-
-                chanceTypeBlock.innerText = "You're Lucky!"
-                chanceTypeBlock.style.color = "#4FD05E";
-
-                chanceVisual.style.strokeDashoffset = 0;
-                chanceVisual.style.stroke = "#4FD05E";
-
-                addGetItemsBtn();
+                await triggerWinEvent()
             } else {
-                await removeItemsFromInventory();
-
-                chanceBlock.innerText = "You Lose!!!";
-                chanceBlock.style.color = "#E04F5F";
-
-                chanceTypeBlock.innerText = "Better Luck next time!"
-                chanceTypeBlock.style.color = "#E04F5F";
-
-                chanceVisual.style.strokeDashoffset = 0;
-                chanceVisual.style.stroke = "#E04F5F";
-
-                addTryAgainBtn();
-                updateInventoryVisually();
+                await triggerLoseEvent();
             }
 
         }, {once: true});
-
     }
 
-    const inventory_prev_btn = document.getElementById("inventory-prev-btn");
-    inventory_prev_btn.addEventListener("click", async () => {await prev_page("inventory")});
+    function startSpin() {
+        const indicator = document.getElementById("indicator");
 
-    const inventory_next_btn = document.getElementById("inventory-next-btn");
-    inventory_next_btn.addEventListener("click", async () => {await next_page("inventory")});
+        deleteUpgradeBtn();
+        configureIndicator(indicator);
+        handleSpinResult(indicator);
+    }
 
+    function initPrevBtn(item_type) {
+        const prev_btn = document.getElementById(`${item_type}-prev-btn`);
+        prev_btn.addEventListener("click", async () => {await prev_page(item_type)});
+    }
 
-    const upgrade_prev_btn = document.getElementById("upgrade-prev-btn");
-    upgrade_prev_btn.addEventListener("click", async () => {await prev_page("upgrade")});
+    function initNextBtn(item_type) {
+        const next_btn = document.getElementById(`${item_type}-next-btn`);
+        next_btn.addEventListener("click", async () => {await next_page(item_type)});
+    }
 
-    const upgrade_next_btn = document.getElementById("upgrade-next-btn");
-    upgrade_next_btn.addEventListener("click", async () => {await next_page("upgrade")});
+    function initPaginationBtns(item_type) {
+        initPrevBtn(item_type);
+        initNextBtn(item_type);
+    }
+
+    async function initMaxPages(item_type) {
+        max_pages[item_type] = await getMaxPages(item_type);
+    }
+
+    function updatePageCounter(item_type) {
+        pages_counter[item_type] = getFirstPage(item_type);
+    }
+
+    function initPagination() {
+        initPaginationBtns("inventory");
+        initPaginationBtns("upgrade");
+    }
+
+    function initItemsBlockBgs() {
+        updateItemsBlockBg("inventory");
+        updateItemsBlockBg("upgrade");
+    }
+
+    async function initAllMaxPages() {
+        await initMaxPages("inventory");
+        await initMaxPages("upgrade");
+    }
+
+    function initPageCounters() {
+        updatePageCounter("inventory");
+        updatePageCounter("upgrade");
+    }
+
+    async function initPageElements() {
+        await updatePageElements("inventory");
+        await updatePageElements("upgrade");
+    }
 
     // Виконуємо ініціалізацію
-    updateItemsBlockBg("inventory");
-    updateItemsBlockBg("upgrade");
+    async function init() {
+        initPagination();
+        initItemsBlockBgs();
+        await initAllMaxPages();
+        await initPageCounters();
+        await initPageElements();
 
-    max_pages.inventory = await getMaxPages("inventory");
-    max_pages.upgrade = await getMaxPages("upgrade");
-    pages_counter.inventory = getFirstPages("inventory");
-    pages_counter.upgrade = getFirstPages("upgrade");
+        updateSpinBtnState();
 
-    console.log(max_pages);
+        const upgradeBtn = document.getElementById("upgrade-btn");
+        upgradeBtn.addEventListener("click", () => {startSpin()});
+    }
 
-    await updatePageElements("inventory");
-    await updatePageElements("upgrade");
-
-    const upgradeBtn = document.getElementById("upgrade-btn");
-
-    upgradeBtn.addEventListener("click", () => {startSpin()});
-    updateSpinBtnState();
+    await init();
 });

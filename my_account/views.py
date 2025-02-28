@@ -84,16 +84,16 @@ def open_case(request):
 
         new_item = InventoryItem.objects.create(
             profile=user_profile, 
-            item_name=item_name, 
-            item_value=item_value, 
+            name=item_name,
+            price=item_value,
             image_url=item_image
             )
 
-        best_drop_item = InventoryItem.objects.filter(item_name=user_profile.best_drop).first()
-        if user_profile.best_drop is None or (best_drop_item and new_item.item_value > best_drop_item.item_value):
-            user_profile.best_drop = new_item.item_name
+        best_drop_item = InventoryItem.objects.filter(name=user_profile.best_drop).first()
+        if user_profile.best_drop is None or (best_drop_item and new_item.price > best_drop_item.price):
+            user_profile.best_drop = new_item.name
             user_profile.best_drop_image = new_item.image_url
-            user_profile.best_drop_value = new_item.item_value
+            user_profile.best_drop_value = new_item.price
             user_profile.expensive_case = case_name
             user_profile.expensive_case_image = case_image
             user_profile.save()
