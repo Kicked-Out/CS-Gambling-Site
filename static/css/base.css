@@ -12,11 +12,6 @@ p {
     color: #000000;
 }
 
-/* .bttn {
-    background-color: #ffd000;
-    border-color: #ffd000;
-} */
-
 .btn-primary {
     background-color: #FFD000;
     border-color: #FFD000;
@@ -24,8 +19,9 @@ p {
     transition: all 0.15s ease-out;
 
     &:hover {
-        background-color: #eec306 !important;
-        border-color: #eec306 !important;
+        opacity: 0.92;
+        background-color: #FFD000;
+        border-color: #FFD000;
         color: #000000;
     }
 

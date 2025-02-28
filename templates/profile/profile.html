@@ -59,7 +59,7 @@
                         <input id="tradeOfferInput" type="text" class="form-control" placeholder="Enter your trade URL" name="trade_url" oninput="validateInput()">
                     {% endif %}
                     <button id="confirmButton" type="button" class="btn btn-primary btn-saveTURL" disabled onclick="saveLink()">Save</button>
-                    <div id="notification" class="notification"><img src="" alt="">Link Saved</div>
+                    <div id="notification-yes" class="notification-yes"><img style="vertical-align: middle; margin-right: 5px;" src="https://img.icons8.com/?size=23&id=63262&format=png&color=000000" alt=""><span style="vertical-align: middle;">Link Saved</span></div>
                 </div>
             </form>
         </div>
@@ -73,7 +73,7 @@
                 {% comment %} адд ітем для супер користувача {% endcomment %}
                 {% if user.is_superuser %}
                 <a href="{% url 'add_item_to_inventory' %}?inventory={{ user_profile.uid }}">Add item</a>
-                {% endif %}                                                 
+                {% endif %}
                 {% comment %} список всіх товарів у інвентарі {% endcomment %}
                 <a href="">All inventory (count)</a>
                 <a href="">Available (count)</a>
@@ -82,13 +82,16 @@
             <div id="inventory-list" class="d-flex flex-wrap justify-content-center">
                 {% for item in inventory_items.all %}
                     <div class="skin card m-1">
-                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.item_name }}">
+                        <img src="{{ item.image_url }}" class="card-img" alt="{{ item.name }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ item.item_name }}</h5>
-                            <p class="card-text">Value: ${{ item.item_value }}</p>
-                            <button class="btn btn-danger withdraw-button" data-item-id="{{ item.id }}" data-item-name="{{ item.item_name }}" style="background-color: purple; margin: 5px;">Withdraw</button>
+                            <h6 class="card-title">{{ item.name }}</h6>
+                            <p class="card-price">Price: ${{ item.price }}</p>
+                        </div>
+                        <div class="options">
+                            <button class="btn btn-primary btn-sell">Sell for ${{ item.price }}</button>
+                            <button class="btn btn-primary btn-withdraw" data-item-id="{{ item.id }}" data-item-name="{{ item.name }}">Withdraw</button>
                             {% if user.is_superuser %}
-                            <a href="{% url 'remove_item_from_inventory' user_profile.uid item.id %}" class="btn btn-danger" style="background-color: red;">Delete item</a>
+                            <a href="{% url 'remove_item_from_inventory' user_profile.uid item.id %}" class="btn btn-primary btn-delete">Delete item</a>
                             {% endif %}
                         </div>
                     </div>

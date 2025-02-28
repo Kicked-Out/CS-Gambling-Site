@@ -39,23 +39,25 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.admin',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'my_account',
+    'django.contrib.contenttypes',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.steam',
     'allauth.socialaccount.providers.openid',
+
+    'api',
     'cases',
-    'admins_panel',
     'upgrader',
     'exchanger',
-    'channels',
+    'my_account',
+    'admins_panel',
 ]
 
 MIDDLEWARE = [

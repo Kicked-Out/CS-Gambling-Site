@@ -19,12 +19,12 @@ class Profile(AbstractUser):
 
 class InventoryItem(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='inventory')
-    item_name = models.CharField(max_length=255)
-    item_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image_url = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.item_name
+        return self.name
 
 class WithdrawRequest(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -57,7 +57,6 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.profile.username}: {self.message}"
-
 
 class Message(models.Model):
     from_user = models.ForeignKey(Profile, related_name='sent_messages', on_delete=models.CASCADE)

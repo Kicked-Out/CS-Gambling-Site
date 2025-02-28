@@ -95,7 +95,7 @@ def add_item_to_inventory_view(request):
     price = data['price']
 
     user_profile = Profile.objects.get(uid=inventory)
-    InventoryItem.objects.create(profile=user_profile, item_name=item_name, image_url=image_url, item_value=price)
+    InventoryItem.objects.create(profile=user_profile, name=item_name, image_url=image_url, price=price)
     
     return HttpResponse(200)
 
