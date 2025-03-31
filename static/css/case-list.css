@@ -10,11 +10,13 @@
 }
 
 .part-1 {
-    background-color: #1f2335;
+    background-image: linear-gradient(to right, #1a0135 0%, #11042b 100%);
+    /* background-color: #1f2335; */
 }
 
 .part-2 {
-    background-color: #292f45;
+    background-image: linear-gradient(to right, #1a0135 0%, #11042b 100%);
+    /* background-color: #292f45; */
 }
 
 .container-2 {
@@ -58,7 +60,7 @@
     }
 
     & .case-price {
-        background-color: #f5c900;
+        background-color: #a033ff;
     }
 }
 
@@ -70,8 +72,8 @@
 
     & p {
         color: white;
-        background-image: linear-gradient(to right, rgba(245, 201, 0, 0) 0%, rgba(255, 209, 3, 0.3) 100%);
-        border: 1px solid #f5c900;
+        background-image: linear-gradient(to right, rgba(245, 201, 0, 0) 0%, #a033ffb2 100%);
+        border: 1px solid #a033ff;
         border-radius: 17px;
         width: auto;
         max-width: 100%;
