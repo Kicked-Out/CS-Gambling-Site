@@ -172,6 +172,12 @@
     font-size: 20px;
 }
 
+.item-total-price {
+    color: white;
+    text-align: end;
+    font-size: 20px;
+}
+
 .skin-title {
     font-size: 14px;
     margin-bottom: 2px;
