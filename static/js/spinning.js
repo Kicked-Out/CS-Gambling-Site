@@ -20,14 +20,14 @@ document.addEventListener("DOMContentLoaded", async function () {
       image_url: skin.querySelector("img").getAttribute("src")
     }));
 
-    function getUSerBalance() {
-      fetch('/accounts/get_balance/')
-        .then(response => response.json())
-        .then(data => {
-          userBalance = data.wallet_balance;
-          updateButtonState();
-        });
-    }
+    // function getUserBalance() {
+    //   fetch('/accounts/get_balance/')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       userBalance = data.wallet_balance;
+    //       updateButtonState();
+    //     });
+    // }
 
     function updateButtonState() {
       if (!isAuthenticated || userBalance < casePrice) {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     }
 
-    getUSerBalance();
+    // getUserBalance();
 
     // ----------------------- Функції для роботи з окремим барабаном -----------------------
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         'Consumer': '/static/img/gray.png',
         'Industrial': '/static/img/blue-g.png',
         'Mil': '/static/img/gray.png',
-        'Restricted': '/static/img/volet.png',
+        'Restricted': '/static/img/violet.png',
         'Classified': '/static/img/pink.png',
         'Covert': '/static/img/red.png',
         'Contraband': '/static/img/orange.png',
@@ -211,18 +211,18 @@ document.addEventListener("DOMContentLoaded", async function () {
       const reels = document.querySelectorAll('#reels-container .slot-wrapper');
       await Promise.all(Array.from(reels).map(reel => spinReel(reel)));
 
-      fetch('/account/update_balance/', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({amount: -casePrice})
-      }).then(res => res.json())
-        .then(data => {
-          userBalance = data.wallet_balance;
-          updateButtonState();
-        });
+      // fetch('/account/update_balance/', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify({amount: -casePrice})
+      // }).then(res => res.json())
+      //   .then(data => {
+      //     userBalance = data.wallet_balance;
+      //     updateButtonState();
+      //   });
 
       isSpinning = false;
-      getUSerBalance();
+      // getUserBalance();
     }
 
     // ----------------------- Обробка події -----------------------
