@@ -20,6 +20,7 @@ function createSkinElement(skin) {
     const skinItem = document.createElement('div');
     skinItem.classList.add('skin-item');
     skinItem.style.backgroundImage = `linear-gradient(to bottom, #121325 0%, ${skin.rarity.color} 300%)`;
+    skinItem.style.borderColor = skin.rarity.color;
 
     // --------- Пропозиція (концепт) нового стилю ---------
     // Список гексів. Є не всі PNG. ПАНЕ DIZI ЗРОБІТЬ ІЩЕ, АЛЕ ВЖЕ НЕ В .ПЕЕСДЕ, а в .ПЕЕНҐЕ)

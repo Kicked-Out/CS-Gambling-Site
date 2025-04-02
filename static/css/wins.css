@@ -8,17 +8,18 @@
     display: flex;
     flex-wrap: nowrap; /* Забороняє перенесення на новий ряд */
     width: 100%;
-    /* gap: 10px; */
-    /* border: solid 2px #002fff; */
+    margin-top: 10px;
+    gap: 8px;
     border-radius: 10px;
     overflow: hidden;
 }
 
 .skin-item {
     flex: 0 0 auto; /* Фіксований розмір, не змінюється */
-    width: 160px;
-    height: 100px;
-    /* border-radius: 10px; */
+    width: 135px;
+    height: 90px;
+    border: solid 1px;
+    border-radius: 10px;
     /* background-image: linear-gradient(to right, #121325 0%, #211b4c 100%); */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden; /* Обрізає зайве */

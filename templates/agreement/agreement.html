@@ -1,0 +1,154 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/upgrader.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container pt-5">
+        <div class="content">
+            <div class="row">
+                <div class="col">
+                    <div id="selected-inventory-items" class="upgrade-item-block">
+                    </div>
+                    <p id="empty-inventory-list-title"  class="item-text">
+                        Select an item you want to upgrade
+                    </p>
+
+                    <p class="item-total-price hidden">
+                        Total: <span id="total-inventory-price">0.00</span>$
+                    </p>
+
+                    <button class="open bloom-button">
+                        <p>Clear All</p>
+                    </button>
+                </div>
+
+                <div id="upgrade-col" class="col">
+                    <div class="upgrade-block">
+                        <div class="circle-block">
+                            <div class="circle">
+                                <svg>
+                                    <circle cx="140" cy="140" r="140" stroke-linecap="round"></circle>
+                                    <circle id="chance-visual" cx="140" cy="140" r="140" stroke-linecap="round"></circle>
+                                </svg>
+
+                                <div class="loader">
+                                    <span id="indicator"></span>
+                                </div>
+
+                                <div class="chance-block">
+                                    <h1 id="chance" class="chance">0.00%</h1>
+                                    <p id="chance-type" class="chance-type">Risky Chance</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="upgrade-btn" class="open bloom-button">
+                        <p>Upgrade</p>
+                    </button>
+                </div>
+
+                <div class="col">
+                    <div id="selected-upgrade-items" class="upgrade-item-block">
+                    </div>
+                    <p id="empty-upgrade-list-title" class="item-text">
+                        Select an item you want to obtain
+                    </p>
+
+                    <p class="item-total-price hidden">
+                        Total: <span id="total-upgrade-price">0.00</span>$
+                    </p>
+
+                    <!-- Це умовно, для розробки -->
+                    <div class="options" style="margin-top: 0px">
+                        <div class="count-odds">
+                            <button class="bloom-button">
+                                <p>1.5x</p></button>
+                            <button class="bloom-button">
+                                <p>2x</p></button>
+                            <button class="bloom-button">
+                                <p>5x</p>
+                            </button>
+                            <button class="bloom-button">
+                                <p>10x</p>
+                            </button>
+                            <button class="bloom-button">
+                                <p>20x</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="block-title">
+                        Inventory
+                    </div>
+
+                    <div class="items-block">
+                        {% if user.is_authenticated %}
+                            {% if inventory_items is none or inventory_items|length == 0 %}
+                                {% include 'upgrade/empty_inventory.html' %}
+                            {% else %}
+                                <div id="inventory-list" class="item-container"></div>
+                            {% endif %}
+                        {% else %}
+                            {% include 'upgrade/authorization_required.html' %}
+                        {% endif %}
+                    </div>
+
+                    <div class="col pag-col">
+                        <button id="inventory-prev-btn" class="open bloom-button">
+                            <p id="pag-inventory-prev"><i class="bi bi-chevron-double-left"></i></p>
+                        </button>
+
+                        <p id="inventory-cur-page" class="pag-cur-page">0</p>
+
+                        <button id="inventory-next-btn" class="open bloom-button">
+                            <p id="pag-inventory-next"><i class="bi bi-chevron-double-right"></i></p>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="block-title">
+                        Upgrade Items
+                    </div>
+
+                    <div class="items-block">
+                        {% if user.is_authenticated %}
+                            {% if upgrade_items is none or upgrade_items.count == 0 %}
+                                {% include 'upgrade/empty_upgrades.html' %}
+                            {% else %}
+                                <div id="upgrade-list" class="item-container"></div>
+                            {% endif %}
+                        {% else %}
+                            {% include 'upgrade/authorization_required.html' %}
+                        {% endif %}
+                    </div>
+
+                    <div class="col pag-col">
+                        <button id="upgrade-prev-btn" class="open bloom-button">
+                            <p id="pag-upgrade-prev"><i class="bi bi-chevron-double-left"></i></p>
+                        </button>
+
+                        <p id="upgrade-cur-page" class="pag-cur-page">0</p>
+
+                        <button id="upgrade-next-btn" class="open bloom-button">
+                            <p id="pag-upgrade-next"><i class="bi bi-chevron-double-right"></i></p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/init_skins.js' %}"></script>
+    <script src="{% static 'js/upgrader.js' %}"></script>
+{% endblock %}

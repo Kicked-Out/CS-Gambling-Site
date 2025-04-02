@@ -6,7 +6,8 @@
             "image": "https://media.csgo-skins.com/container/toxic-case.png",
             "name": "Anomaly Case",
             "name_uk": "Кейс Аномалія",
-            "price": 30.50
+            "price": 30.50,
+            "category": "Custom Cases"
         }
     },
     {
@@ -16,7 +17,8 @@
             "image": "https://media.csgo-skins.com/container/1.png",
             "name": "Simple Case",
             "name_uk": "Звичайний",
-            "price": 0.00
+            "price": 0.00,
+            "category": "Free Cases"
         }
     },
     {
@@ -26,7 +28,228 @@
             "image": "https://media.csgo-skins.com/container/purple-plague-case.png",
             "name": "Mysterio Case",
             "name_uk": "Загадковий Кейс",
-            "price": 300.00
+            "price": 300.00,
+            "category": "Custom Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 4,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-fracture-case.png",
+            "name": "Fracture Case",
+            "name_uk": "Фрактурний Кейс",
+            "price": 50.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 5,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-recoil-case.png",
+            "name": "Recoil Case",
+            "name_uk": "Віддача Кейс",
+            "price": 25.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 6,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-revolution-case.png",
+            "name": "Revolution Case",
+            "name_uk": "Революційний Кейс",
+            "price": 500.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 7,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-danger-zone-case.png",
+            "name": "Danger Zone Case",
+            "name_uk": "Кейс Зона Небезпеки",
+            "price": 10.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 8,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-kilowatt-case.png",
+            "name": "Kilowatt Case",
+            "name_uk": "Кейс Кіловат",
+            "price": 75.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 9,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-dreams-case.png",
+            "name": "Dreams & Nightmares Case",
+            "name_uk": "Кейс Мрії та Кошмари",
+            "price": 5.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 10,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-broken-fang-case.png",
+            "name": "Broken Fang Case",
+            "name_uk": "Кейс Поламані Кігті",
+            "price": 1000.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 11,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-riptide-case.png",
+            "name": "Riptide Case",
+            "name_uk": "Кейс Приплив",
+            "price": 20.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 12,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-bravo-case.png",
+            "name": "Bravo Case",
+            "name_uk": "Браво Кейс",
+            "price": 60.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 13,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cs-weapon-case1-case.png",
+            "name": "Weapon Case",
+            "name_uk": "Кейс Зброя",
+            "price": 200.00,
+            "category": "CS 2 Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 14,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/m4-5050-case.png",
+            "name": "M4 50x50 Case",
+            "name_uk": "Кейс М4 50x50",
+            "price": 15.00,
+            "category": "Fifty-Fifty Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 15,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/usp-5050-case.png",
+            "name": "USP 50x50 Case",
+            "name_uk": "Кейс USP 50x50",
+            "price": 10.00,
+            "category": "Fifty-Fifty Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 16,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/awp-5050-case.png",
+            "name": "AWP 50x50 Case",
+            "name_uk": "Кейс AWP 50x50",
+            "price": 40.00,
+            "category": "Fifty-Fifty Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 17,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/ak-5050-case.png",
+            "name": "AK-47 50x50 Case",
+            "name_uk": "Кейс АК-47 50x50",
+            "price": 50.00,
+            "category": "Fifty-Fifty Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 18,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/50-50-knife.png",
+            "name": "Knife 50x50 Case",
+            "name_uk": "Кейс Ніж 50x50",
+            "price": 500.00,
+            "category": "Fifty-Fifty Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 19,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/luxurious-case.png",
+            "name": "Luxurious Case",
+            "name_uk": "Розкішний Кейс",
+            "price": 350.00,
+            "category": "Event Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 20,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/porcelain-case.png",
+            "name": "Porcelain Case",
+            "name_uk": "Кейс Порцеляна",
+            "price": 120.00,
+            "category": "Event Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 21,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/cyber-scifi-case.png",
+            "name": "DIZI Case",
+            "name_uk": "Кейс ДІЗІ",
+            "price": 150.00,
+            "category": "Developer Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 22,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/neon-case.png",
+            "name": "MRLazYT Case",
+            "name_uk": "Кейс МРЛазит",
+            "price": 150.00,
+            "category": "Developer Cases"
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 23,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/howl-case.png",
+            "name": "F@tum Case",
+            "name_uk": "Кейс Ф@тум",
+            "price": 150.00,
+            "category": "Developer Cases"
         }
     }
 ]
