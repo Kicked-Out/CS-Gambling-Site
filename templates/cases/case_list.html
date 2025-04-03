@@ -3,12 +3,21 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/case-list.css' %}">
-    <div class="part-1">
-        <h2 style="margin-bottom: 0px; padding-left: 5%;"><img src="{% static 'img/c-man.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">CS2 Cases</h2>
-        <div class="container-2">
-            {% for case in cases %}
-                {% include 'cases/case_block.html' %}
-            {% endfor %}
+
+{% for category, cases in categories.items %}
+    {% if cases.exists %} <!-- Check if the category has cases -->
+        <div class="part-1">
+            <h2 style="margin-bottom: 0px; padding-left: 5%;">
+                <img src="{% static 'img/c-man.svg' %}" style="margin-right: 5px;" width="3%" alt="ct">
+                {{ category }}
+            </h2>
+            <div class="container-2">
+                {% for case in cases %}
+                    {% include 'cases/case_block.html' %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endif %}
+{% endfor %}
+
 {% endblock %}

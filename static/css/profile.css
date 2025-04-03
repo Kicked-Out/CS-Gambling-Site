@@ -17,26 +17,6 @@
   display:grid;
 }
 
-.btn-primary {
-  background-color: #FFD000;
-  border-color: #FFD000;
-  color: #000000;
-  transition: all 0.15s ease-out;
-
-  &:hover {
-    opacity: 0.92;
-    background-color: #FFD000;
-    border-color: #FFD000;
-    color: #000000;
-  }
-
-  &:active {
-    transform: scale(0.95);
-    color: #000000 !important;
-  }
-}
-
-
 .profile-info {
   display: inline-flex;
   margin-left: 280px;
@@ -70,11 +50,17 @@
 
 .card-stat {
   border-radius: 10px;
-  background-color: #FFD000;
   text-align: center;
   box-shadow: 0 0 10px black;
   width: 70%;
   margin: 20px;
+
+
+  padding: 0.5rem 1rem;
+  background-image: linear-gradient(120deg, #a845ff 0%, #00cdf1 150%);
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  color: #000000 !important;
 }
 
 .moved {
@@ -106,8 +92,9 @@
 }
 
 button:disabled {
-  background-color: #d4c065 !important;
-  border-color: #d4c065 !important;
+  /* background-color: #d4c065 !important;
+  border-color: #d4c065 !important; */
+  border-color: transparent !important;
   color: #242424 !important;
 }
 
@@ -135,7 +122,8 @@ button:disabled {
 
 
 #inventory-list {
-  background-color: #1f2335;
+  /* background-color: #1f2335; */
+  background-color: #1d0a42;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 30px;
