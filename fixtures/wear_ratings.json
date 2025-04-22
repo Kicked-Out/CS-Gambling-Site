@@ -1,0 +1,37 @@
+[
+    {
+        "model": "upgrader.wearrating",
+        "pk": 1,
+        "fields": {
+            "name": "Factory New"
+        }
+    },
+    {
+        "model": "upgrader.wearrating",
+        "pk": 2,
+        "fields": {
+            "name": "Minimal Wear"
+        }
+    },
+    {
+        "model": "upgrader.wearrating",
+        "pk": 3,
+        "fields": {
+            "name": "Field-Tested"
+        }
+    },
+    {
+        "model": "upgrader.wearrating",
+        "pk": 4,
+        "fields": {
+            "name": "Well-Worn"
+        }
+    },
+    {
+        "model": "upgrader.wearrating",
+        "pk": 5,
+        "fields": {
+            "name": "Battle-Scarred"
+        }
+    }
+]

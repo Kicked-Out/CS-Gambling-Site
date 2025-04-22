@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Chat with {{ friend_profile.username }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<div class="container mt-4">
+    <h2 class="text-center">Chat with {{ friend_profile.username }}</h2>
+    <div class="chat-container">
+        <div class="chat-box">
+            {% for message in messages %}
+                {% if message.from_user == user_profile %}
+                    <div class="chat-message chat-message-right">
+                        <div class="content">
+                            <p>{{ message.content }}</p>
+                            <small>{{ message.timestamp }}</small>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="chat-message chat-message-left">
+                        <div class="content">
+                            <p>{{ message.content }}</p>
+                            <small>{{ message.timestamp }}</small>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

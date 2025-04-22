@@ -1,0 +1,32 @@
+[
+    {
+        "model": "cases.case",
+        "pk": 1,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/toxic-case.png",
+            "name": "Anomaly Case",
+            "name_uk": "Кейс Аномалія",
+            "price": 30.50
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 2,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/1.png",
+            "name": "Simple Case",
+            "name_uk": "Звичайний",
+            "price": 0.00
+        }
+    },
+    {
+        "model": "cases.case",
+        "pk": 3,
+        "fields": {
+            "image": "https://media.csgo-skins.com/container/purple-plague-case.png",
+            "name": "Mysterio Case",
+            "name_uk": "Загадковий Кейс",
+            "price": 300.00
+        }
+    }
+]

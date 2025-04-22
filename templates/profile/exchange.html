@@ -1,0 +1,305 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Exchange items</h2>
+    
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-6" style="border: 5px solid; border-image: linear-gradient(to right, yellow, orange) 1; box-shadow: 0 0 10px black; border-radius: 5px;">
+            <h4 style="color: white"><img src="{{ from_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40"> {{ from_user.username }} items</h4>
+            <div class="list-group" id="from-user-items">
+                {% for item in from_user_inventory %}
+                <div class="list-group-item trade-item" data-id="{{ item.id }}" style="background: linear-gradient(to right, yellow, orange); border-radius: 5px; margin: 5px;">
+                    <img src="{{ item.image_url }}" alt="{{ item.item_name }}" class="item-img">
+                    <h3 class="text-center" style="color: blue">{{ item.item_name }}</h3>
+                    <h3 class="text-center" style="color: blue">Value: ${{ item.item_value }}</h3>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-6" style="border: 5px solid; border-image: linear-gradient(to right, yellow, orange) 1; box-shadow: 0 0 10px black; border-radius: 5px;">
+            <h4 style="color: white"><img src="{{ to_user.avatar }}" class="rounded-circle" alt="Profile Avatar" width="40" height="40"> {{ to_user.username }} items</h4>
+            <div class="list-group" id="to-user-items">
+                {% for item in to_user_inventory %}
+                <div class="list-group-item trade-item" data-id="{{ item.id }}" style="background: linear-gradient(to right, yellow, orange); border-radius: 5px; margin: 5px;">
+                    <img src="{{ item.image_url }}" alt="{{ item.item_name }}" class="item-img">
+                    <h3 class="text-center" style="color: blue">{{ item.item_name }}</h3>
+                    <h3 class="text-center" style="color: blue">Value: ${{ item.item_value }}</h3>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4" style="border: 5px solid; border-image: linear-gradient(to right, yellow, orange) 1; box-shadow: 0 0 10px black; border-radius: 5px;">
+        <div class="col-md-5">
+            <h4 style="color: white">Selected items ({{ from_user.username }}) {% if from_user_items_confirmed %}<span style="color: green;">(Confirmed)</span>{% endif %}</h4>
+            <div class="list-group" id="from-user-selected-items">
+                {% for selection in from_user_selections %}
+                <div class="list-group-item trade-item" data-id="{{ selection.item.id }}" style="background: linear-gradient(to right, yellow, orange); border-radius: 5px; margin: 5px;">
+                    <img src="{{ selection.item.image_url }}" alt="{{ selection.item.item_name }}" class="item-img">
+                    <h3 class="text-center" style="color: blue">{{ selection.item.item_name }}</h3>
+                    <h3 class="text-center" style="color: blue">Value: ${{ selection.item.item_value }}</h3>
+                    <button class="btn btn-sm btn-danger remove-item" data-id="{{ selection.item.id }}" 
+                        {% if from_user_items_confirmed and request.user.profile.id == from_user.id %}disabled{% endif %}>Remove</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-2 text-center">
+            <button class="btn btn-primary mb-2" id="move-to-to-user" 
+                {% if from_user_items_confirmed and request.user.profile.id == from_user.id or to_user_items_confirmed and request.user.profile.id == to_user.id %}disabled{% endif %}>→</button>
+            <button class="btn btn-primary mt-2" id="move-to-from-user" 
+                {% if from_user_items_confirmed and request.user.profile.id == from_user.id or to_user_items_confirmed and request.user.profile.id == to_user.id %}disabled{% endif %}>←</button>
+        </div>
+        <div class="col-md-5">
+            <h4 style="color: white">Selected items ({{ to_user.username }}) {% if to_user_items_confirmed %}<span style="color: green;">(Confirmed)</span>{% endif %}</h4>
+            <div class="list-group" id="to-user-selected-items">
+                {% for selection in to_user_selections %}
+                <div class="list-group-item trade-item" data-id="{{ selection.item.id }}" style="background: linear-gradient(to right, yellow, orange); border-radius: 5px; margin: 5px;">
+                    <img src="{{ selection.item.image_url }}" alt="{{ selection.item.item_name }}" class="item-img">
+                    <h3 class="text-center" style="color: blue">{{ selection.item.item_name }}</h3>
+                    <h3 class="text-center" style="color: blue">Value: ${{ selection.item.item_value }}</h3>
+                    <button class="btn btn-sm btn-danger remove-item" data-id="{{ selection.item.id }}" 
+                        {% if to_user_items_confirmed and request.user.profile.id == to_user.id %}disabled{% endif %}>Remove</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button class="btn btn-primary" id="confirm-items" style="margin: 10px;"
+            {% if from_user_items_confirmed and request.user.profile.id == from_user.id or to_user_items_confirmed and request.user.profile.id == to_user.id %}disabled{% endif %}>
+            Confirm Items
+        </button>
+        <button class="btn btn-success" id="confirm-trade" style="background-color: blue; margin: 25px;"
+            {% if not from_user_items_confirmed or not to_user_items_confirmed %}disabled{% endif %}>
+            Confirm Trade
+        </button>
+        {% comment %} <button class="btn btn-danger" id="cancel-trade" style="margin: 10px;">Cancel Trade</button> {% endcomment %}
+        <p style="color: white;">
+            {% if from_user_items_confirmed and to_user_items_confirmed %}
+                Both users have confirmed items. Confirm the trade to complete!
+            {% elif from_user_items_confirmed %}
+                Waiting for {{ to_user.username }} to confirm items...
+            {% elif to_user_items_confirmed %}
+                Waiting for {{ from_user.username }} to confirm items...
+            {% else %}
+                Both users need to confirm their items before trading.
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let selectedFromUserItems = new Set([{% for s in from_user_selections %}'{{ s.item.id }}',{% endfor %}]);
+    let selectedToUserItems = new Set([{% for s in to_user_selections %}'{{ s.item.id }}',{% endfor %}]);
+    
+    function updateSelections() {
+        const form = new FormData();
+        form.append('from_items', Array.from(selectedFromUserItems).join(","));
+        form.append('to_items', Array.from(selectedToUserItems).join(","));
+
+        fetch("{% url 'exchanger' to_user.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: form
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Selections updated");
+            } else {
+                console.error("Error updating selections:", data.message);
+            }
+        }).catch(error => {
+            console.error("Fetch error:", error);
+        });
+    }
+
+    function addItem(item, selectedItems, targetContainer) {
+        const itemId = item.dataset.id;
+        if (!selectedItems.has(itemId)) {
+            selectedItems.add(itemId);
+            const clone = item.cloneNode(true);
+            clone.classList.remove('selected');
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'btn btn-sm btn-danger remove-item';
+            removeBtn.dataset.id = itemId;
+            removeBtn.textContent = 'Remove';
+            clone.appendChild(removeBtn);
+            document.querySelector(targetContainer).appendChild(clone);
+            updateSelections();
+        }
+    }
+
+    function removeItem(itemId, selectedItems, containerSelector) {
+        selectedItems.delete(itemId);
+        const item = document.querySelector(`${containerSelector} .trade-item[data-id='${itemId}']`);
+        if (item) {
+            item.remove();
+            updateSelections();
+        }
+    }
+
+    document.querySelectorAll("#from-user-items .trade-item").forEach(item => {
+        item.addEventListener("click", function(e) {
+            if (!e.target.classList.contains('remove-item')) {
+                addItem(this, selectedFromUserItems, "#from-user-selected-items");
+            }
+        });
+    });
+
+    document.querySelectorAll("#to-user-items .trade-item").forEach(item => {
+        item.addEventListener("click", function(e) {
+            if (!e.target.classList.contains('remove-item')) {
+                addItem(this, selectedToUserItems, "#to-user-selected-items");
+            }
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-item')) {
+            const itemId = e.target.dataset.id;
+            const container = e.target.closest('#from-user-selected-items') ? 
+                '#from-user-selected-items' : '#to-user-selected-items';
+            const selectedItems = container === '#from-user-selected-items' ? 
+                selectedFromUserItems : selectedToUserItems;
+            removeItem(itemId, selectedItems, container);
+        }
+    });
+
+    document.getElementById("move-to-to-user").addEventListener("click", function() {
+        selectedFromUserItems.forEach(itemId => {
+            const item = document.querySelector(`#from-user-selected-items .trade-item[data-id='${itemId}']`);
+            if (item) {
+                selectedFromUserItems.delete(itemId);
+                addItem(item, selectedToUserItems, "#to-user-selected-items");
+                item.remove();
+            }
+        });
+    });
+
+    document.getElementById("move-to-from-user").addEventListener("click", function() {
+        selectedToUserItems.forEach(itemId => {
+            const item = document.querySelector(`#to-user-selected-items .trade-item[data-id='${itemId}']`);
+            if (item) {
+                selectedToUserItems.delete(itemId);
+                addItem(item, selectedFromUserItems, "#from-user-selected-items");
+                item.remove();
+            }
+        });
+    });
+
+    document.getElementById("confirm-items").addEventListener("click", function() {
+        if (selectedFromUserItems.size === 0 && selectedToUserItems.size === 0) {
+            alert("Please select at least one item to confirm!");
+            return;
+        }
+
+        const form = new FormData();
+        form.append('from_items', Array.from(selectedFromUserItems).join(","));
+        form.append('to_items', Array.from(selectedToUserItems).join(","));
+        form.append('confirm_items', 'true');
+
+        fetch("{% url 'exchanger' to_user.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: form
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Items confirmed!");
+                location.reload();
+            } else {
+                alert("Error: " + (data.message || "Confirmation failed"));
+            }
+        }).catch(error => {
+            console.error("Confirm items error:", error);
+            alert("An error occurred while confirming items");
+        });
+    });
+
+    document.getElementById("confirm-trade").addEventListener("click", function() {
+        const form = new FormData();
+        form.append('from_items', Array.from(selectedFromUserItems).join(","));
+        form.append('to_items', Array.from(selectedToUserItems).join(","));
+        form.append('confirm_trade', 'true');
+
+        fetch("{% url 'exchanger' to_user.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: form
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Exchange completed successfully!");
+                location.reload();
+            } else {
+                alert("Error: " + (data.message || "Trade failed"));
+            }
+        }).catch(error => {
+            console.error("Trade error:", error);
+            alert("An error occurred during the trade");
+        });
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            let cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}
+
+{% comment %} document.getElementById("cancel-trade").addEventListener("click", function() {
+    if (confirm("Are you sure you want to cancel the trade?")) {
+        const form = new FormData();
+        form.append('cancel_trade', 'true');
+
+        fetch("{% url 'exchanger' to_user.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: form
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Trade cancelled!");
+                location.reload();
+            } else {
+                alert("Error: " + (data.message || "Cancellation failed"));
+            }
+        }).catch(error => {
+            console.error("Cancel trade error:", error);
+            alert("An error occurred while cancelling the trade");
+        });
+    }
+}); {% endcomment %}

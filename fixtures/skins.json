@@ -1,0 +1,551 @@
+[
+    {
+        "model": "cases.caseskin",
+        "pk": 1,
+        "fields": {
+            "name": "AWP | Chromatic Aberration",
+            "odds": 20.000,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 2,
+        "fields": {
+            "name": "SSG 08 | Dragonfire",
+            "odds": 15.000,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 3,
+        "fields": {
+            "name": "AWP | Neo-Noir",
+            "odds": 4.532,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 4,
+        "fields": {
+            "name": "USP-S | Monster Mashup",
+            "odds": 3.399,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 5,
+        "fields": {
+            "name": "Five-SeveN | Hyper Beast",
+            "odds": 3.3554,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 6,
+        "fields": {
+            "name": "AK-47 | Nightwish",
+            "odds": 20.876,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 7,
+        "fields": {
+            "name": "Glock-18 | Gamma Doppler Phase 1",
+            "odds": 3.142,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 8,
+        "fields": {
+            "name": "AWP | Hyper Beast",
+            "odds": 2.109,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 9,
+        "fields": {
+            "name": "M4A1-S | Player Two",
+            "odds": 3.158,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 10,
+        "fields": {
+            "name": "AK-47 | Jaguar",
+            "odds": 1.464,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 11,
+        "fields": {
+            "name": "M4A1-S | Hyper Beast",
+            "odds": 2.025,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 12,
+        "fields": {
+            "name": "USP-S | Kill Confirmed",
+            "odds": 3.646,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 13,
+        "fields": {
+            "name": "AWP | Containment Breach",
+            "odds": 1.882,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 14,
+        "fields": {
+            "name": "Paracord Knife | Crimson Web",
+            "odds": 0.066,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 15,
+        "fields": {
+            "name": "M4A1-S | Printstream",
+            "odds": 0.044,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 16,
+        "fields": {
+            "name": "Survival Knife | Slaughter",
+            "odds": 0.018,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 17,
+        "fields": {
+            "name": "Huntsman Knife | Autotronic",
+            "odds": 0.027,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 18,
+        "fields": {
+            "name": "M4A1-S | Welcome to the Jungle",
+            "odds": 0.045,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 19,
+        "fields": {
+            "name": "AWP | Medusa",
+            "odds": 0.010,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 20,
+        "fields": {
+            "name": "AWP | Dragon Lore",
+            "odds": 0.003,
+            "case_id": 1
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 21,
+        "fields": {
+            "name": "G3SG1 | Desert Storm",
+            "odds": 26.666,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 22,
+        "fields": {
+            "name": "Nova | Sand Dune",
+            "odds": 26.666,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 23,
+        "fields": {
+            "name": "Five-SeveN | Coolant",
+            "odds": 26.668,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 24,
+        "fields": {
+            "name": "Galil AR | Cold Fusion",
+            "odds": 2.001,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 25,
+        "fields": {
+            "name": "PP-Bizon | Runic",
+            "odds": 6.027,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 26,
+        "fields": {
+            "name": "SCAR-20 | Poultrygeist",
+            "odds": 1.489,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 27,
+        "fields": {
+            "name": "MP5-SD | Necro Jr.",
+            "odds": 1.489,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 28,
+        "fields": {
+            "name": "P90 | Freight",
+            "odds": 2.109,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 29,
+        "fields": {
+            "name": "SG 553 | Aloha",
+            "odds": 6.700,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 30,
+        "fields": {
+            "name": "Glock-18 | Weasel",
+            "odds": 0.034,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 31,
+        "fields": {
+            "name": "Five-SeveN | Violent Daimyo",
+            "odds": 0.134,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 32,
+        "fields": {
+            "name": "Glock-18 | Water Elemental",
+            "odds": 0.006,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 33,
+        "fields": {
+            "name": "M4A1-S | Leaded Glass",
+            "odds": 0.004,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 34,
+        "fields": {
+            "name": "AK-47 | Point Disarray",
+            "odds": 0.002,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 35,
+        "fields": {
+            "name": "M4A1-S | Cyrex",
+            "odds": 0.002,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 36,
+        "fields": {
+            "name": "M4A1-S | Hyper Beast",
+            "odds": 0.001,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 37,
+        "fields": {
+            "name": "AWP | Hyper Beast",
+            "odds": 0.001,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 38,
+        "fields": {
+            "name": "AK-47 | Aquamarine Revenge",
+            "odds": 0.001,
+            "case_id": 2
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 39,
+        "fields": {
+            "name": "Desert Eagle | Printstream",
+            "odds": 9.455,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 40,
+        "fields": {
+            "name": "AK-47 | Inheritance",
+            "odds": 9.455,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 41,
+        "fields": {
+            "name": "Bowie Knife | Freehand",
+            "odds": 9.455,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 42,
+        "fields": {
+            "name": "Gut Knife | Case Hardened",
+            "odds": 9.455,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 43,
+        "fields": {
+            "name": "Ursus Knife | Blue Steel",
+            "odds": 9.455,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 44,
+        "fields": {
+            "name": "Huntsman Knife | Damascus Steel",
+            "odds": 9.488,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 45,
+        "fields": {
+            "name": "AK-47 | Vulcan",
+            "odds": 7.941,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 46,
+        "fields": {
+            "name": "AWP | Silk Tiger",
+            "odds": 7.941,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 47,
+        "fields": {
+            "name": "Kukri Knife | Case Hardened",
+            "odds": 4.536,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 48,
+        "fields": {
+            "name": "AWP | CMYK",
+            "odds": 4.252,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 49,
+        "fields": {
+            "name": "Nomad Knife | Stained",
+            "odds": 3.402,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 50,
+        "fields": {
+            "name": "Huntsman Knife | Doppler Phase 4",
+            "odds": 9.145,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 51,
+        "fields": {
+            "name": "M4A1-S | Icarus Fell",
+            "odds": 0.194,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 52,
+        "fields": {
+            "name": "Talon Knife | Blue Steel",
+            "odds": 0.463,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 53,
+        "fields": {
+            "name": "Gut Knife | Doppler Sapphire",
+            "odds": 0.090,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 54,
+        "fields": {
+            "name": "M4A1-S | Blue Phosphor",
+            "odds": 0.166,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 55,
+        "fields": {
+            "name": "Hand Wraps | Cobalt Skulls",
+            "odds": 3.486,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 56,
+        "fields": {
+            "name": "Karambit | Case Hardened",
+            "odds": 0.208,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 57,
+        "fields": {
+            "name": "Butterfly Knife | Doppler Phase 4",
+            "odds": 0.045,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 58,
+        "fields": {
+            "name": "Sport Gloves | Amphibious",
+            "odds": 1.333,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 59,
+        "fields": {
+            "name": "Karambit | Doppler Sapphire",
+            "odds": 0.005,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 60,
+        "fields": {
+            "name": "AWP | Gungnir",
+            "odds": 0.022,
+            "case_id": 3
+        }
+    },
+    {
+        "model": "cases.caseskin",
+        "pk": 61,
+        "fields": {
+            "name": "M9 Bayonet | Doppler Sapphire",
+            "odds": 0.008,
+            "case_id": 3
+        }
+    }
+]
